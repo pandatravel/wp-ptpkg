@@ -13,9 +13,9 @@
  * @package           Ptpkg
  *
  * @wordpress-plugin
- * Plugin Name:       Pt Tour Packages
+ * Plugin Name:       PT Tour Packages
  * Plugin URI:        https://www.pandaonline.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin connects to panda's tour packages api
  * Version:           1.0.0
  * Author:            Ammon Casey
  * Author URI:        https://www.pandaonline.com
@@ -27,7 +27,7 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+	die( 'No script kiddies please!' );
 }
 
 /**
@@ -36,6 +36,12 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'PTPKG_VERSION', '1.0.0' );
+define( 'PTPKG_TEXTDOMAIN', 'ptpkg' );
+define( 'PTPKG_NAME', 'PT Tour Packages' );
+define( 'PTPKG_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
+define( 'PM_PLUGIN_ABSOLUTE',  __FILE__  );
+
+require_once(PTPKG_PLUGIN_ROOT . 'vendor/autoload.php');
 
 /**
  * The code that runs during plugin activation.
