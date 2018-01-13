@@ -27,7 +27,6 @@ class Ptpkg_Post_Types
             'editor',
             'thumbnail',
             'revisions',
-            // 'custom-fields',
         ];
         $taxonomies = [
             'category',
