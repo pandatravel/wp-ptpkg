@@ -20,84 +20,132 @@
  * @subpackage Ptpkg/public
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Public {
+class Ptpkg_Public
+{
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
+    /**
+     * The ID of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $plugin_name    The ID of this plugin.
+     */
+    private $plugin_name;
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
+    /**
+     * The version of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $version    The current version of this plugin.
+     */
+    private $version;
 
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $plugin_name, $version ) {
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @since    1.0.0
+     * @param      string    $plugin_name       The name of the plugin.
+     * @param      string    $version    The version of this plugin.
+     */
+    public function __construct($plugin_name, $version)
+    {
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
+    }
 
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+    public function locate_template($template, $settings, $page_type)
+    {
+        $theme_files = [
+            $page_type . '-' . $settings['custom_post_type'] . '.php',
+            $this->plugin_name . DIRECTORY_SEPARATOR . $page_type . '-' . $settings['custom_post_type'] . '.php',
+        ];
 
-	}
+        $exists_in_theme = locate_template($theme_files, false);
 
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
+        if ($exists_in_theme != '') {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Ptpkg_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Ptpkg_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+            // Try to locate in theme first
+            return $template;
+        } else {
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ptpkg-public.css', array(), $this->version, 'all' );
+            // Try to locate in plugin base folder,
+            // try to locate in plugin $settings['templates'] folder,
+            // return $template if non of above exist
+            $locations = [
+                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, '' ]),
+                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, $settings['templates_dir'], '' ]), //plugin $settings['templates'] folder
+            ];
 
-	}
+            foreach ($locations as $location) {
+                if (file_exists($location . $theme_files[0])) {
+                    return $location . $theme_files[0];
+                }
+            }
 
-	/**
-	 * Register the JavaScript for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
+            return $template;
+        }
+    }
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Ptpkg_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Ptpkg_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+    public function get_custom_post_type_templates($template)
+    {
+        global $post;
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ptpkg-public.js', array( 'jquery' ), $this->version, false );
+        $settings = [
+            'custom_post_type' => 'exopite-portfolio',
+            'templates_dir' => 'templates',
+        ];
 
-	}
+        if ($settings['custom_post_type'] == get_post_type() && is_single()) {
+            return $this->locate_template($template, $settings, 'single');
+        }
 
+        return $template;
+    }
+
+    /**
+     * Register the stylesheets for the public-facing side of the site.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_styles()
+    {
+
+        /**
+         * This function is provided for demonstration purposes only.
+         *
+         * An instance of this class should be passed to the run() function
+         * defined in Ptpkg_Loader as all of the hooks are defined
+         * in that particular class.
+         *
+         * The Ptpkg_Loader will then create the relationship
+         * between the defined hooks and the functions defined in this
+         * class.
+         */
+
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/ptpkg-public.css', [], $this->version, 'all');
+    }
+
+    /**
+     * Register the JavaScript for the public-facing side of the site.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_scripts()
+    {
+
+        /**
+         * This function is provided for demonstration purposes only.
+         *
+         * An instance of this class should be passed to the run() function
+         * defined in Ptpkg_Loader as all of the hooks are defined
+         * in that particular class.
+         *
+         * The Ptpkg_Loader will then create the relationship
+         * between the defined hooks and the functions defined in this
+         * class.
+         */
+
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/ptpkg-public.js', [ 'jquery' ], $this->version, false);
+    }
 }

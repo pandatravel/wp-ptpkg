@@ -27,192 +27,256 @@
  * @subpackage Ptpkg/includes
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg {
+class Ptpkg
+{
 
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Ptpkg_Loader    $loader    Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
+    /**
+     * The loader that's responsible for maintaining and registering all hooks that power
+     * the plugin.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      Ptpkg_Loader    $loader    Maintains and registers all hooks for the plugin.
+     */
+    protected $loader;
 
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-	 */
-	protected $plugin_name;
+    /**
+     * The unique identifier of this plugin.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+     */
+    protected $plugin_name;
 
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
-	protected $version;
+    /**
+     * The current version of the plugin.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      string    $version    The current version of the plugin.
+     */
+    protected $version;
 
-	/**
-	 * Define the core functionality of the plugin.
-	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function __construct() {
-		if ( defined( 'PTPKG_VERSION' ) ) {
-			$this->version = PTPKG_VERSION;
-		} else {
-			$this->version = '1.0.0';
-		}
-		$this->plugin_name = 'ptpkg';
+    /**
+     * Define the core functionality of the plugin.
+     *
+     * Set the plugin name and the plugin version that can be used throughout the plugin.
+     * Load the dependencies, define the locale, and set the hooks for the admin area and
+     * the public-facing side of the site.
+     *
+     * @since    1.0.0
+     */
+    public function __construct()
+    {
+        if (defined('PTPKG_VERSION')) {
+            $this->version = PTPKG_VERSION;
+        } else {
+            $this->version = '1.0.0';
+        }
+        $this->plugin_name = 'ptpkg';
 
-		$this->load_dependencies();
-		$this->set_locale();
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
+        $this->load_dependencies();
+        $this->set_locale();
+        $this->define_admin_hooks();
+        $this->define_public_hooks();
+    }
 
-	}
+    /**
+     * Load the required dependencies for this plugin.
+     *
+     * Include the following files that make up the plugin:
+     *
+     * - Ptpkg_Loader. Orchestrates the hooks of the plugin.
+     * - Ptpkg_i18n. Defines internationalization functionality.
+     * - Ptpkg_Admin. Defines all hooks for the admin area.
+     * - Ptpkg_Public. Defines all hooks for the public side of the site.
+     *
+     * Create an instance of the loader which will be used to register the hooks
+     * with WordPress.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function load_dependencies()
+    {
+        /**
+         * Load vendor libraries
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'vendor/autoload.php';
 
-	/**
-	 * Load the required dependencies for this plugin.
-	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Ptpkg_Loader. Orchestrates the hooks of the plugin.
-	 * - Ptpkg_i18n. Defines internationalization functionality.
-	 * - Ptpkg_Admin. Defines all hooks for the admin area.
-	 * - Ptpkg_Public. Defines all hooks for the public side of the site.
-	 *
-	 * Create an instance of the loader which will be used to register the hooks
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function load_dependencies() {
+        /**
+         * The class responsible for orchestrating the actions and filters of the
+         * core plugin.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-loader.php';
 
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ptpkg-loader.php';
+        /**
+         * The class responsible for defining internationalization functionality
+         * of the plugin.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-i18n.php';
 
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ptpkg-i18n.php';
+        /**
+         * The class responsible for defining all actions that occur in the admin area.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-ptpkg-admin.php';
 
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-ptpkg-admin.php';
+        /**
+         * The class responsible for defining all Settings.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-ptpkg-settings.php';
 
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-ptpkg-public.php';
+        /**
+         * The class responsible for defining all actions that occur in the public-facing
+         * side of the site.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-ptpkg-public.php';
 
-		$this->loader = new Ptpkg_Loader();
+        /**
+         * Custom Post Types
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-post_types.php';
 
-	}
+        /**
+         * Initialize custom templater
+         */
+        if (! class_exists('Custom_Template_Loader')) {
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/libraries/class-custom-template-loader.php';
+        }
 
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Ptpkg_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
+        $this->loader = new Ptpkg_Loader();
+    }
 
-		$plugin_i18n = new Ptpkg_i18n();
+    /**
+     * Define the locale for this plugin for internationalization.
+     *
+     * Uses the Ptpkg_i18n class in order to set the domain and to register the hook
+     * with WordPress.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function set_locale()
+    {
+        $plugin_i18n = new Ptpkg_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+        $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+    }
 
-	}
+    /**
+     * Register all of the hooks related to the admin area functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_admin_hooks()
+    {
+        $plugin_admin = new Ptpkg_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_settings = new Ptpkg_Settings($this->get_plugin_name());
+        $plugin_post_types = new Ptpkg_Post_Types();
 
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_admin_hooks() {
+        /**
+         * register our ptpkg_settings_init to the admin_init action hook
+         */
+        $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
+        $this->loader->add_action('admin_init', $plugin_settings, 'ptpkg_settings_init');
 
-		$plugin_admin = new Ptpkg_Admin( $this->get_plugin_name(), $this->get_version() );
+        /**
+         * Add metabox and register custom fields
+         *
+         * @link https://code.tutsplus.com/articles/rock-solid-wordpress-30-themes-using-custom-post-types--net-12093
+         */
+        $this->loader->add_action('admin_init', $plugin_admin, 'package_add_meta_boxes');
+        $this->loader->add_action('save_post', $plugin_admin, 'package_save_meta');
+        $this->loader->add_action('rest_api_init', $plugin_admin, 'package_rest_meta_fields');
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+        /**
+         * Change list columns in customers list
+         *
+         * manage_<custom post type>_<type>_columns (posts, pages <- type of {custom} post type)
+         */
+        $this->loader->add_filter('manage_packages_posts_columns', $plugin_admin, 'packages_list_edit_columns');
+        // manage_<type>_custom_column, type: pages or posts
+        $this->loader->add_action('manage_pages_custom_column', $plugin_admin, 'packages_list_custom_columns', 10, 2);
 
-	}
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_public_hooks() {
+        /**
+         * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,
+         * so hooking into init from the activation hook won't do anything.
+         * You don't need to register the CPT within the activation function unless you need rewrite rules to be added
+         * via flush_rewrite_rules() on activation. In that case, you'll want to register the CPT normally, via the
+         * loader on the init hook, and also re-register it within the activation function and
+         * call flush_rewrite_rules() to add the CPT rewrite rules.
+         *
+         * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
+         */
+        $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
+    }
 
-		$plugin_public = new Ptpkg_Public( $this->get_plugin_name(), $this->get_version() );
+    /**
+     * Register all of the hooks related to the public-facing functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_public_hooks()
+    {
+        $plugin_public = new Ptpkg_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+        // Override archive template location for custom post type
+        // $this->loader->add_filter('archive_template', $plugin_public, 'get_custom_post_type_archive_template');
+        $this->loader->add_filter('template_include', $plugin_public, 'get_custom_post_type_templates');
 
-	}
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+    }
 
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	public function run() {
-		$this->loader->run();
-	}
+    /**
+     * Run the loader to execute all of the hooks with WordPress.
+     *
+     * @since    1.0.0
+     */
+    public function run()
+    {
+        $this->loader->run();
+    }
 
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
+    /**
+     * The name of the plugin used to uniquely identify it within the context of
+     * WordPress and to define internationalization functionality.
+     *
+     * @since     1.0.0
+     * @return    string    The name of the plugin.
+     */
+    public function get_plugin_name()
+    {
+        return $this->plugin_name;
+    }
 
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    Ptpkg_Loader    Orchestrates the hooks of the plugin.
-	 */
-	public function get_loader() {
-		return $this->loader;
-	}
+    /**
+     * The reference to the class that orchestrates the hooks with the plugin.
+     *
+     * @since     1.0.0
+     * @return    Ptpkg_Loader    Orchestrates the hooks of the plugin.
+     */
+    public function get_loader()
+    {
+        return $this->loader;
+    }
 
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
+    /**
+     * Retrieve the version number of the plugin.
+     *
+     * @since     1.0.0
+     * @return    string    The version number of the plugin.
+     */
+    public function get_version()
+    {
+        return $this->version;
+    }
 }

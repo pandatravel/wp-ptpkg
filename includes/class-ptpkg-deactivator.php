@@ -20,17 +20,18 @@
  * @subpackage Ptpkg/includes
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Deactivator {
+class Ptpkg_Deactivator
+{
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function deactivate() {
-
-	}
-
+    /**
+     * Short Description. (use period)
+     *
+     * Long Description.
+     *
+     * @since    1.0.0
+     */
+    public static function deactivate()
+    {
+        flush_rewrite_rules();
+    }
 }

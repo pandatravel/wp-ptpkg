@@ -1,5 +1,6 @@
 {
     "require": {
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "gamajo/template-loader": "^1.3"
     }
 }
