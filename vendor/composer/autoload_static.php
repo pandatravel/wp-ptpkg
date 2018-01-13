@@ -44,11 +44,16 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         ),
     );
 
+    public static $classMap = array (
+        'Gamajo_Template_Loader' => __DIR__ . '/..' . '/gamajo/template-loader/class-gamajo-template-loader.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$classMap;
 
         }, null, ClassLoader::class);
     }
