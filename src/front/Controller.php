@@ -7,8 +7,10 @@
  * @since      1.0.0
  *
  * @package    Ptpkg
- * @subpackage Ptpkg/public
+ * @subpackage Ptpkg/font
  */
+
+namespace Ptpkg\front;
 
 /**
  * The public-facing functionality of the plugin.
@@ -20,7 +22,7 @@
  * @subpackage Ptpkg/public
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Public
+class Controller
 {
 
     /**
@@ -123,7 +125,7 @@ class Ptpkg_Public
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/ptpkg-public.css', [], $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/public/css/ptpkg-public.css', [], $this->version, 'all');
     }
 
     /**
@@ -146,6 +148,6 @@ class Ptpkg_Public
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/ptpkg-public.js', [ 'jquery' ], $this->version, false);
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/public/js/ptpkg-public.js', [ 'jquery' ], $this->version, false);
     }
 }

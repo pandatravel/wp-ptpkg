@@ -10,6 +10,8 @@
  * @subpackage Ptpkg/includes
  */
 
+namespace Ptpkg\lib;
+
 /**
  * Fired during plugin activation.
  *
@@ -20,7 +22,7 @@
  * @subpackage Ptpkg/includes
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Activator
+class Activator
 {
 
     /**
@@ -35,8 +37,7 @@ class Ptpkg_Activator
         /**
          * Custom Post Types
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-post_types.php';
-        $plugin_post_types = new Ptpkg_Post_Types();
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name());
 
         /**
          * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,

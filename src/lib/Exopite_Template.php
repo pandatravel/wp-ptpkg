@@ -33,24 +33,28 @@
  *
  * Created by Joe Szalai
  */
-if ( ! class_exists( 'Exopite_Template' ) ) {
-    class Exopite_Template {
 
+namespace Ptpkg\lib;
+
+if (! class_exists('Exopite_Template')) {
+    class Exopite_Template
+    {
         public static $variables_array;
         public static $filename;
         public static $display_errors = false;
         public static $remove_HTML_comments = false;
 
-        public static function URL_exists( $url ) {
+        public static function URL_exists($url)
+        {
             // Source: http://stackoverflow.com/questions/981954/how-can-one-check-to-see-if-a-remote-file-exists-using-php/982045#982045
-            if ( $ch = curl_init( $url ) ) {
-                curl_setopt( $ch, CURLOPT_NOBODY, true );
-                curl_exec( $ch );
-                $retcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+            if ($ch = curl_init($url)) {
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+                curl_exec($ch);
+                $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 // $retcode >= 404 -> not found, $retcode = 200, found.
-                curl_close( $ch );
+                curl_close($ch);
 
-                if ( $retcode === 200 ) {
+                if ($retcode === 200) {
                     return true;
                 } else {
                     return false;
@@ -64,14 +68,14 @@ if ( ! class_exists( 'Exopite_Template' ) ) {
          * @return array [array.subarray.subarray] => 'value'
          * @link source: http://stackoverflow.com/questions/9546181/flatten-multidimensional-array-concatenating-keys/9546215#9546215
          */
-        public static function flat_concatenat_array( $array, $prefix = '' ) {
+        public static function flat_concatenat_array($array, $prefix = '')
+        {
             //
-            $result = array();
-            foreach( $array as $key => $value ) {
-                if( is_array( $value ) ) {
-                    $result = $result + self::flat_concatenat_array( $value, $prefix . $key . '.' );
-                }
-                else {
+            $result = [];
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $result = $result + self::flat_concatenat_array($value, $prefix . $key . '.');
+                } else {
                     $result[$prefix . $key] = $value;
                 }
             }
@@ -81,26 +85,28 @@ if ( ! class_exists( 'Exopite_Template' ) ) {
         /*
          * Loop through variable names array and change them to variable value
          */
-        public static function replace_variables_in_template( $template, $variables_array ) {
-            foreach ( $variables_array as $name => $value ) {
+        public static function replace_variables_in_template($template, $variables_array)
+        {
+            foreach ($variables_array as $name => $value) {
                 $template = str_replace(
-                    array( '[#' . $name . ']', '%%' . strtoupper( $name ) . '%%', '{$' . $name . '}', '{{' . $name . '}}' ),
-                    array( $value, $value, $value, $value ),
+                    [ '[#' . $name . ']', '%%' . strtoupper($name) . '%%', '{$' . $name . '}', '{{' . $name . '}}' ],
+                    [ $value, $value, $value, $value ],
                     $template
                 );
             }
 
             // Rid of other empty tags or in $variables_array not existing HTML variables
             $template = preg_replace(
-                array( '/\[#([^]]*)\]/', '/\%\%([^\%\%][A-Z0-9]+)\%\%/', '/{$([^]]*)}/', '/{{([^]]*)}}/' ),
-                array( "", "", "", "" ),
+                [ '/\[#([^]]*)\]/', '/\%\%([^\%\%][A-Z0-9]+)\%\%/', '/{$([^]]*)}/', '/{{([^]]*)}}/' ],
+                [ "", "", "", "" ],
                 $template
             );
 
             return $template;
         }
 
-        public static function remove_HTML_comments( $template ) {
+        public static function remove_HTML_comments($template)
+        {
             $template = preg_replace(
                 '/<!--(.*?)-->/s',
                 '',
@@ -110,16 +116,17 @@ if ( ! class_exists( 'Exopite_Template' ) ) {
             return $template;
         }
 
-        public static function get_template() {
+        public static function get_template()
+        {
 
             // Check is file or url exist
-            if ( ! ( file_exists( self::$filename ) || self::URL_exists( self::$filename ) ) ) {
+            if (! (file_exists(self::$filename) || self::URL_exists(self::$filename))) {
                 /*
                  * This function assume you are using under Wordpress.
                  * Otherwise error message style will be not displayed correctly!
                  */
                 $retVal = '';
-                if ( self::$display_errors ) {
+                if (self::$display_errors) {
                     $retVal = '<div class="alert alert-danger">
                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                <strong>Error!</strong> File does not exist: ' . self::$filename .
@@ -130,28 +137,25 @@ if ( ! class_exists( 'Exopite_Template' ) ) {
             }
 
             // Read file content
-            $template = file_get_contents( self::$filename );
+            $template = file_get_contents(self::$filename);
 
             // Check input array, if empty return file content.
-            if ( ! is_array( self::$variables_array ) || empty( self::$variables_array ) ) {
+            if (! is_array(self::$variables_array) || empty(self::$variables_array)) {
                 return $template;
             }
 
             // Flat and concatenat array.
-            $_variables_array = self::flat_concatenat_array( self::$variables_array );
+            $_variables_array = self::flat_concatenat_array(self::$variables_array);
 
             // Replace variables in tmeplate.
-            $template = self::replace_variables_in_template( $template, $_variables_array );
+            $template = self::replace_variables_in_template($template, $_variables_array);
 
             //remove HTML comments even munltiline ones.
-            if ( self::$remove_HTML_comments ) {
-                $template = self::remove_HTML_comments( $template );
+            if (self::$remove_HTML_comments) {
+                $template = self::remove_HTML_comments($template);
             }
 
             return $template;
         }
-
     }
 }
-
-?>

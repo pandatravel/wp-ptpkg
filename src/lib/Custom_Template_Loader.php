@@ -6,6 +6,19 @@
  * Only need to specify class properties here.
  *
  */
+
+namespace Ptpkg\lib;
+
+/**
+ * The Custom Template Loader.
+ *
+ * Defines the plugin name, version, and two examples hooks for how to
+ * enqueue the admin-specific stylesheet and JavaScript.
+ *
+ * @package    Ptpkg
+ * @subpackage Ptpkg/lib
+ * @author     Ammon Casey <acasey@panda-group.com>
+ */
 class Custom_Template_Loader extends \Gamajo_Template_Loader
 {
 
