@@ -13,6 +13,8 @@
  * @subpackage Ptpkg/includes
  */
 
+namespace Ptpkg;
+
 /**
  * The core plugin class.
  *
@@ -27,7 +29,7 @@
  * @subpackage Ptpkg/includes
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg
+class Main
 {
 
     /**
@@ -69,83 +71,17 @@ class Ptpkg
      */
     public function __construct()
     {
+        $this->plugin_name = PTPKG_NAME;
         if (defined('PTPKG_VERSION')) {
             $this->version = PTPKG_VERSION;
         } else {
             $this->version = '1.0.0';
         }
-        $this->plugin_name = 'ptpkg';
+        $this->loader = new lib\Loader();
 
-        $this->load_dependencies();
         $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
-    }
-
-    /**
-     * Load the required dependencies for this plugin.
-     *
-     * Include the following files that make up the plugin:
-     *
-     * - Ptpkg_Loader. Orchestrates the hooks of the plugin.
-     * - Ptpkg_i18n. Defines internationalization functionality.
-     * - Ptpkg_Admin. Defines all hooks for the admin area.
-     * - Ptpkg_Public. Defines all hooks for the public side of the site.
-     *
-     * Create an instance of the loader which will be used to register the hooks
-     * with WordPress.
-     *
-     * @since    1.0.0
-     * @access   private
-     */
-    private function load_dependencies()
-    {
-        /**
-         * Load vendor libraries
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'vendor/autoload.php';
-
-        /**
-         * The class responsible for orchestrating the actions and filters of the
-         * core plugin.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-loader.php';
-
-        /**
-         * The class responsible for defining internationalization functionality
-         * of the plugin.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-i18n.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the admin area.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-ptpkg-admin.php';
-
-        /**
-         * The class responsible for defining all Settings.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-ptpkg-settings.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the public-facing
-         * side of the site.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-ptpkg-public.php';
-
-        /**
-         * Custom Post Types
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-ptpkg-post_types.php';
-
-        /**
-         * Initialize custom templater
-         */
-        if (! class_exists('Custom_Template_Loader')) {
-            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/libraries/class-custom-template-loader.php';
-        }
-
-        $this->loader = new Ptpkg_Loader();
     }
 
     /**
@@ -159,7 +95,8 @@ class Ptpkg
      */
     private function set_locale()
     {
-        $plugin_i18n = new Ptpkg_i18n();
+        $plugin_i18n = new lib\Internationalization();
+        $plugin_i18n->set_domain($this->get_plugin_name());
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
     }
@@ -173,13 +110,11 @@ class Ptpkg
      */
     private function define_admin_hooks()
     {
-        $plugin_admin = new Ptpkg_Admin($this->get_plugin_name(), $this->get_version());
-        $plugin_settings = new Ptpkg_Settings($this->get_plugin_name());
-        $plugin_post_types = new Ptpkg_Post_Types();
 
         /**
          * register our ptpkg_settings_init to the admin_init action hook
          */
+        $plugin_settings = new admin\Settings($this->get_plugin_name());
         $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
         $this->loader->add_action('admin_init', $plugin_settings, 'ptpkg_settings_init');
 
@@ -188,9 +123,11 @@ class Ptpkg
          *
          * @link https://code.tutsplus.com/articles/rock-solid-wordpress-30-themes-using-custom-post-types--net-12093
          */
+        $plugin_admin = new admin\Controller($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('admin_init', $plugin_admin, 'package_add_meta_boxes');
         $this->loader->add_action('save_post', $plugin_admin, 'package_save_meta');
         $this->loader->add_action('rest_api_init', $plugin_admin, 'package_rest_meta_fields');
+        // $this->loader->add_filter('is_protected_meta', $plugin_admin, 'pacakge_seo_protected_meta', 10, 2);
 
         /**
          * Change list columns in customers list
@@ -214,6 +151,7 @@ class Ptpkg
          *
          * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
          */
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name());
         $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
     }
 
@@ -226,7 +164,7 @@ class Ptpkg
      */
     private function define_public_hooks()
     {
-        $plugin_public = new Ptpkg_Public($this->get_plugin_name(), $this->get_version());
+        $plugin_public = new front\Controller($this->get_plugin_name(), $this->get_version());
 
         // Override archive template location for custom post type
         // $this->loader->add_filter('archive_template', $plugin_public, 'get_custom_post_type_archive_template');

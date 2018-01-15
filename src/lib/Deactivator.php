@@ -10,6 +10,8 @@
  * @subpackage Ptpkg/includes
  */
 
+namespace Ptpkg\lib;
+
 /**
  * Fired during plugin deactivation.
  *
@@ -20,7 +22,7 @@
  * @subpackage Ptpkg/includes
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Deactivator
+class Deactivator
 {
 
     /**

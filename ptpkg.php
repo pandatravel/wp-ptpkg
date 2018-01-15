@@ -25,6 +25,8 @@
  * Domain Path:       /languages
  */
 
+namespace Ptpkg;
+
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
     die('No script kiddies please!');
@@ -37,9 +39,13 @@ if (! defined('WPINC')) {
  */
 define('PTPKG_VERSION', '1.0.0');
 define('PTPKG_TEXTDOMAIN', 'ptpkg');
-define('PTPKG_NAME', 'PT Packages');
+define('PTPKG_NAME', 'ptpkg');
 define('PTPKG_PLUGIN_ROOT', plugin_dir_path(__FILE__));
 define('PTPKG_BASE_DIR', plugin_dir_path(__FILE__));
+define('PTPKG_TPL_DIR', PTPKG_BASE_DIR . 'src/templates/');
+
+// We load Composer's autoload file
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
 /**
  * The code that runs during plugin activation.
@@ -47,8 +53,7 @@ define('PTPKG_BASE_DIR', plugin_dir_path(__FILE__));
  */
 function activate_ptpkg()
 {
-    require_once PTPKG_BASE_DIR . 'includes/class-ptpkg-activator.php';
-    Ptpkg_Activator::activate();
+    lib\Activator::activate();
 }
 
 /**
@@ -57,25 +62,11 @@ function activate_ptpkg()
  */
 function deactivate_ptpkg()
 {
-    require_once PTPKG_BASE_DIR . 'includes/class-ptpkg-deactivator.php';
-    Ptpkg_Deactivator::deactivate();
+    lib\Deactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_ptpkg');
 register_deactivation_hook(__FILE__, 'deactivate_ptpkg');
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require PTPKG_BASE_DIR . 'includes/class-ptpkg.php';
-
-/**
- * Use Exopite_Template
- *
- * Initialize custom templater
- */
-require PTPKG_BASE_DIR . 'includes/libraries/class-exopite-template.php';
 
 /**
  * Begins execution of the plugin.
@@ -88,7 +79,7 @@ require PTPKG_BASE_DIR . 'includes/libraries/class-exopite-template.php';
  */
 function run_ptpkg()
 {
-    $plugin = new Ptpkg();
+    $plugin = new Main();
     $plugin->run();
 }
 run_ptpkg();

@@ -10,6 +10,8 @@
  * @subpackage Ptpkg/admin
  */
 
+namespace Ptpkg\admin;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -20,7 +22,7 @@
  * @subpackage Ptpkg/admin
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Ptpkg_Admin
+class Controller
 {
 
     /**
@@ -270,7 +272,7 @@ class Ptpkg_Admin
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/ptpkg-admin.css', [], $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/admin/css/ptpkg-admin.css', [], $this->version, 'all');
     }
 
     /**
@@ -293,7 +295,7 @@ class Ptpkg_Admin
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/ptpkg-admin.js', [ 'jquery' ], $this->version, false);
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/admin/js/ptpkg-admin.js', [ 'jquery' ], $this->version, false);
     }
 
     /**

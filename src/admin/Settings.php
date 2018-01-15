@@ -3,10 +3,28 @@
 /**
  * Controls settings of plugin
  *
+ * @link       https://www.pandaonline.com
+ * @since      1.0.0
+ *
  * @package    Ptpkg
  * @subpackage Ptpkg/admin
  */
-class Ptpkg_Settings
+
+namespace Ptpkg\admin;
+
+use Ptpkg\lib\Exopite_Template;
+
+/**
+ * The admin-settings functionality of the plugin.
+ *
+ * Defines the plugin name, version, and two examples hooks for how to
+ * enqueue the admin-specific stylesheet and JavaScript.
+ *
+ * @package    Ptpkg
+ * @subpackage Ptpkg/admin
+ * @author     Ammon Casey <acasey@panda-group.com>
+ */
+class Settings
 {
 
     /**
@@ -149,9 +167,10 @@ class Ptpkg_Settings
             'value'	=> get_option($field),
         ];
 
-        Exopite_Template::$variables_array = $placeholders;
-        Exopite_Template::$filename = PTPKG_BASE_DIR . 'templates/settings/input-field.html';
-        echo Exopite_Template::get_template();
+        $template = new Exopite_Template;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
+        echo $template::get_template();
     }
 
     /**
@@ -170,9 +189,10 @@ class Ptpkg_Settings
             'value'	=> get_option($field),
         ];
 
-        Exopite_Template::$variables_array = $placeholders;
-        Exopite_Template::$filename = PTPKG_BASE_DIR . 'templates/settings/input-field.html';
-        echo Exopite_Template::get_template();
+        $template = new Exopite_Template;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
+        echo $template::get_template();
     }
 
     /**
