@@ -109,6 +109,7 @@ class Settings
 
         // register_setting( $option_group, $option_name, $settings_sanitize_callback );
         register_setting($this->plugin_name, $this->option_name . '_client_id', [$this, 'validate']);
+        register_setting($this->plugin_name, $this->option_name . '_client_secret', [$this, 'validate']);
         register_setting($this->plugin_name, $this->option_name . '_token', [$this, 'validate']);
 
         // add_settings_section( $id, $title, $callback, $menu_slug );
@@ -127,6 +128,16 @@ class Settings
             $this->plugin_name,
             $this->option_name . '_settings_general',
             ['label_for' => $this->option_name . '_client_id']
+        );
+
+        // add_settings_field( $id, $title, $callback, $menu_slug, $section, $args );
+        add_settings_field(
+            $this->option_name . '_client_secret',
+            __('Api Client Secret', $this->plugin_name),
+            [$this, $this->option_name . '_client_secret_render'],
+            $this->plugin_name,
+            $this->option_name . '_settings_general',
+            ['label_for' => $this->option_name . '_client_secret']
         );
 
         // add_settings_field( $id, $title, $callback, $menu_slug, $section, $args );
@@ -160,6 +171,28 @@ class Settings
     public function ptpkg_client_id_render()
     {
         $field = $this->option_name . '_client_id';
+        $placeholders = [
+            'id'    => $field,
+            'name'  => $field,
+            'type'  => 'text',
+            'value' => get_option($field),
+        ];
+
+        $template = new Exopite_Template;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
+        echo $template::get_template();
+    }
+
+    /**
+     * Render the text input field for client_id option
+     *
+     * @since  1.0.0
+     * @access   public
+     */
+    public function ptpkg_client_secret_render()
+    {
+        $field = $this->option_name . '_client_secret';
         $placeholders = [
             'id' 	=> $field,
             'name'	=> $field,
