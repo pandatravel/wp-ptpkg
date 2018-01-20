@@ -104,7 +104,7 @@ class CustomPostTypes
             /* Add $this->plugin_name as translatable in the permalink structure,
                to avoid conflicts with other plugins which may use package as well. */
             'rewrite' => [
-                'slug' => esc_attr__($this->plugin_name, $this->plugin_name) . '/' . esc_attr__('package', $this->plugin_name),
+                'slug' => esc_attr__('package', $this->plugin_name),
                 'with_front' => false
             ],
         ];
