@@ -144,10 +144,10 @@ class Settings
         add_settings_field(
             $this->option_name . '_token',
             __('Api Token', $this->plugin_name),
-            [ $this, $this->option_name . '_token_render' ],
+            [$this, $this->option_name . '_token_render'],
             $this->plugin_name,
             $this->option_name . '_settings_general',
-            [ 'label_for' => $this->option_name . '_token' ]
+            ['label_for' => $this->option_name . '_token']
         );
     }
 
