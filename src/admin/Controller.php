@@ -92,11 +92,15 @@ class Controller
         $teaser = get_post_meta($post->ID, 'package_teaser', true);
         $price = get_post_meta($post->ID, 'package_price', true);
         $location = get_post_meta($post->ID, 'package_location', true);
+        $seoAd = get_post_meta($post->ID, 'package_seo_ad', true);
+        $seoContent = get_post_meta($post->ID, 'package_seo_content', true);
 
         echo '<div class="inside">';
         echo '<p><h3>' . _e('Teaser:', $this->plugin_name) . '</h3><input type="text" name="teaser" value="' . esc_textarea($teaser) . '" class="widefat"></p>';
         echo '<p><h3>' . _e('Price:', $this->plugin_name) . '</h3><input type="text" name="price" value="' . esc_textarea($price) . '" class="widefat"></p>';
         echo '<p><h3>' . _e('Location:', $this->plugin_name) . '</h3><input type="text" name="location" value="' . esc_textarea($location) . '" class="widefat"></p>';
+        echo '<p><h3>' . _e('SEO Ad:', $this->plugin_name) . '</h3><input type="text" name="seo_ad" value="' . esc_textarea($seoAd) . '" class="widefat"></p>';
+        echo '<p><h3>' . _e('SEO Content:', $this->plugin_name) . '</h3><input type="text" name="seo_content" value="' . esc_textarea($seoContent) . '" class="widefat"></p>';
         echo '</div>';
     }
 
@@ -130,6 +134,12 @@ class Controller
         if (isset($_REQUEST['location'])) {
             update_post_meta($post_id, "package_location", sanitize_text_field($_POST["location"]));
         }
+        if (isset($_REQUEST['seo_ad'])) {
+            update_post_meta($post_id, "package_seo_ad", sanitize_text_field($_POST["seo_ad"]));
+        }
+        if (isset($_REQUEST['seo_content'])) {
+            update_post_meta($post_id, "package_seo_content", sanitize_text_field($_POST["seo_content"]));
+        }
     }
 
     /*
@@ -158,6 +168,8 @@ class Controller
         register_rest_field('package', 'package_teaser', $register_rest_field_args);
         register_rest_field('package', 'package_price', $register_rest_field_args);
         register_rest_field('package', 'package_location', $register_rest_field_args);
+        register_rest_field('package', 'package_seo_ad', $register_rest_field_args);
+        register_rest_field('package', 'package_seo_content', $register_rest_field_args);
     }
 
     /**

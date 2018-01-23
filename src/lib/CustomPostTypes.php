@@ -12,6 +12,8 @@
 
 namespace Ptpkg\lib;
 
+use Doctrine\Common\Inflector\Inflector;
+
 /**
  * The Custom Post Type functionality of the plugin.
  *
@@ -34,14 +36,24 @@ class CustomPostTypes
     private $plugin_name;
 
     /**
+     * The custom post type
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $cpt    The Type
+     */
+    private $cpt;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
      * @param      string    $plugin_name       The name of the plugin.
      */
-    public function __construct($plugin_name)
+    public function __construct($plugin_name, $cpt)
     {
         $this->plugin_name = $plugin_name;
+        $this->cpt = $cpt;
     }
 
     /**
@@ -51,8 +63,10 @@ class CustomPostTypes
      */
     public function create_custom_post_type()
     {
+        $cpt_plural = Inflector::pluralize($this->cpt);
+
         // custom post type
-        $slug = 'package';
+        $slug = $this->cpt;
         $has_archive = true;
         $hierarchical = false;
         $supports = [
@@ -67,31 +81,31 @@ class CustomPostTypes
         ];
 
         $labels = [
-            'name'               => esc_html__('Packages', $this->plugin_name),
-            'singular_name'      => esc_html__('Package', $this->plugin_name),
-            'menu_name'          => esc_html__('Packages', $this->plugin_name),
-            'parent_item_colon'  => esc_html__('Parent Package', $this->plugin_name),
-            'all_items'          => esc_html__('All Packages', $this->plugin_name),
+            'name'               => esc_html__(ucfirst($cpt_plural), $this->plugin_name),
+            'singular_name'      => esc_html__(ucfirst($this->cpt), $this->plugin_name),
+            'menu_name'          => esc_html__(ucfirst($cpt_plural), $this->plugin_name),
+            'parent_item_colon'  => esc_html__('Parent ' . ucfirst($this->cpt), $this->plugin_name),
+            'all_items'          => esc_html__('All ' . ucfirst($cpt_plural), $this->plugin_name),
             'add_new'            => esc_html__('Add New', $this->plugin_name),
-            'add_new_item'       => esc_html__('Add New Package', $this->plugin_name),
-            'edit_item'          => esc_html__('Edit Package', $this->plugin_name),
-            'new_item'           => esc_html__('New Package', $this->plugin_name),
-            'view_item'          => esc_html__('View Package ', $this->plugin_name),
-            'search_items'       => esc_html__('Search Package', $this->plugin_name),
+            'add_new_item'       => esc_html__('Add New ' . ucfirst($this->cpt), $this->plugin_name),
+            'edit_item'          => esc_html__('Edit ' . ucfirst($this->cpt), $this->plugin_name),
+            'new_item'           => esc_html__('New ' . ucfirst($this->cpt), $this->plugin_name),
+            'view_item'          => esc_html__('View '  . ucfirst($this->cpt), $this->plugin_name),
+            'search_items'       => esc_html__('Search ' . ucfirst($this->cpt), $this->plugin_name),
             'not_found'          => esc_html__('Not Found', $this->plugin_name),
             'not_found_in_trash' => esc_html__('Not found in Trash', $this->plugin_name),
         ];
 
         $args = [
             'labels'             => $labels,
-            'description'        => esc_html__('Packages', $this->plugin_name),
+            'description'        => esc_html__(ucfirst($cpt_plural), $this->plugin_name),
             'public'             => true,
             'publicly_queryable' => true,
             'exclude_from_search'=> false,
             'show_ui'            => true,
             'show_in_menu'       => true,
             'show_in_rest'       => true,
-            'rest_base'          => 'packages',
+            'rest_base'          => $cpt_plural,
             'query_var'          => true,
             'show_in_admin_bar'  => true,
             'capability_type'    => 'post',
@@ -104,11 +118,64 @@ class CustomPostTypes
             /* Add $this->plugin_name as translatable in the permalink structure,
                to avoid conflicts with other plugins which may use package as well. */
             'rewrite' => [
-                'slug' => esc_attr__('package', $this->plugin_name),
+                'slug' => esc_attr__($this->cpt, $this->plugin_name),
                 'with_front' => false
             ],
         ];
 
         register_post_type($slug, $args);
+    }
+
+    public function locate_template($template, $settings, $page_type)
+    {
+        $theme_files = [
+            $page_type . '-' . $settings['custom_post_type'] . '.php',
+            $this->plugin_name . DIRECTORY_SEPARATOR . $page_type . '-' . $settings['custom_post_type'] . '.php',
+        ];
+
+        $theme_template = locate_template($theme_files, false);
+
+        if ($theme_template != '') {
+            // Try to locate in theme first
+            return $theme_template;
+        } else {
+
+            // Try to locate in plugin base folder,
+            // try to locate in plugin $settings['templates'] folder,
+            // return $template if none of above exist
+            $locations = [
+                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, '' ]),
+                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, $settings['templates_dir'], '' ]), //plugin $settings['templates'] folder
+            ];
+
+            foreach ($locations as $location) {
+                if (file_exists($location . $theme_files[0])) {
+                    return apply_filters('ptpkg_locate_template', $location . $theme_files[0]);
+                }
+            }
+
+            return $template;
+        }
+    }
+
+    public function get_custom_post_type_templates($template)
+    {
+        global $post;
+        $settings = [
+            'custom_post_type' => $this->cpt,
+            'templates_dir' => 'templates',
+        ];
+
+        if ($settings['custom_post_type'] == get_post_type() && is_single()) {
+            return $this->locate_template($template, $settings, 'single');
+        }
+
+        return $template;
+    }
+
+    public function custom_post_type_template_loader($template)
+    {
+        $loader = new CustomTemplateLoader;
+        return $loader->get_template_part('single', $this->cpt);
     }
 }

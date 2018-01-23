@@ -138,9 +138,6 @@ class Main
         // manage_<type>_custom_column, type: pages or posts
         $this->loader->add_action('manage_pages_custom_column', $plugin_admin, 'packages_list_custom_columns', 10, 2);
 
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-
         /**
          * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,
          * so hooking into init from the activation hook won't do anything.
@@ -151,8 +148,11 @@ class Main
          *
          * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
          */
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name());
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package');
         $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
+
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
     }
 
     /**
@@ -165,10 +165,9 @@ class Main
     private function define_public_hooks()
     {
         $plugin_public = new front\Controller($this->get_plugin_name(), $this->get_version());
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package');
 
-        // Override archive template location for custom post type
-        // $this->loader->add_filter('archive_template', $plugin_public, 'get_custom_post_type_archive_template');
-        $this->loader->add_filter('template_include', $plugin_public, 'get_custom_post_type_templates');
+        $this->loader->add_filter('template_include', $plugin_post_types, 'get_custom_post_type_templates');
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
