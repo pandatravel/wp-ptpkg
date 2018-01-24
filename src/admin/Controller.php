@@ -76,6 +76,8 @@ class Controller
     public function package_add_meta_boxes($post)
     {
         add_meta_box('package-meta', __('Package Details', $this->plugin_name), [$this, "package_build_meta_box"], "package", "normal", "high");
+        add_meta_box('package-seo-ad-meta', __('Package SEO Ad', $this->plugin_name), [$this, "package_seo_ad_build_meta_box"], "package", "normal", "high");
+        add_meta_box('package-seo-content-meta', __('Package SEO Content', $this->plugin_name), [$this, "package_seo_content_build_meta_box"], "package", "normal", "high");
     }
 
     /**
@@ -88,24 +90,42 @@ class Controller
         // Nonce field to validate form request came from current site
         wp_nonce_field(basename(__FILE__), 'package_meta_box_nonce');
 
-        $custom = get_post_custom($post->ID);
+        $metafields = '<div>';
+        $metafields .= $this->banner_image_upload_field(get_post_meta($post->ID, 'package-banner', true));
+        $metafields .= $this->metabox_input_field('teaser', get_post_meta($post->ID, 'package-teaser', true));
+        $metafields .= $this->metabox_input_field('price', get_post_meta($post->ID, 'package-price', true));
+        $metafields .= $this->metabox_input_field('location', get_post_meta($post->ID, 'package-location', true));
+        $metafields .= '</div>';
 
-        // Get the data if it's already been entered
-        $teaser = get_post_meta($post->ID, 'package-teaser', true);
-        $banner = get_post_meta($post->ID, 'package-banner', true);
-        $price = get_post_meta($post->ID, 'package-price', true);
-        $location = get_post_meta($post->ID, 'package-location', true);
-        $seoAd = get_post_meta($post->ID, 'package-seo-ad', true);
-        $seoContent = get_post_meta($post->ID, 'package-seo-content', true);
+        echo $metafields;
+    }
 
-        echo '<div>';
-        echo $this->banner_image_upload_field(get_post_meta($post->ID, 'package-banner', true));
-        echo '<p><h3>' . _e('Teaser:', $this->plugin_name) . '</h3><input type="text" name="teaser" value="' . esc_textarea($teaser) . '" class="widefat"></p>';
-        echo '<p><h3>' . _e('Price:', $this->plugin_name) . '</h3><input type="text" name="price" value="' . esc_textarea($price) . '" class="widefat"></p>';
-        echo '<p><h3>' . _e('Location:', $this->plugin_name) . '</h3><input type="text" name="location" value="' . esc_textarea($location) . '" class="widefat"></p>';
-        echo '<p><h3>' . _e('SEO Ad:', $this->plugin_name) . '</h3><input type="text" name="seo_ad" value="' . esc_textarea($seoAd) . '" class="widefat"></p>';
-        echo '<p><h3>' . _e('SEO Content:', $this->plugin_name) . '</h3><input type="text" name="seo_content" value="' . esc_textarea($seoContent) . '" class="widefat"></p>';
-        echo '</div>';
+    /**
+     * Build custom field meta box
+     *
+     * @param post $post The post object
+     */
+    public function package_seo_ad_build_meta_box($post)
+    {
+        $metafields = '<div>';
+        $metafields .= $this->metabox_wysiwyg_field('seo_ad', get_post_meta($post->ID, 'package-seo-ad', true), 'SEO Ad');
+        $metafields .= '</div>';
+
+        echo $metafields;
+    }
+
+    /**
+     * Build custom field meta box
+     *
+     * @param post $post The post object
+     */
+    public function package_seo_content_build_meta_box($post)
+    {
+        $metafields = '<div>';
+        $metafields .= $this->metabox_wysiwyg_field('seo_content', get_post_meta($post->ID, 'package-seo-content', true), 'SEO Content');
+        $metafields .= '</div>';
+
+        echo $metafields;
     }
 
     /**
@@ -130,7 +150,6 @@ class Controller
         }
 
         if (isset($_REQUEST['banner_image'])) {
-            // $banner_id = (int) $_POST["banner_image"];
             update_post_meta($post_id, "package-banner", (int) $_POST["banner_image"]);
         }
         if (isset($_REQUEST['teaser'])) {
@@ -168,9 +187,9 @@ class Controller
     public function package_rest_meta_fields()
     {
         $register_rest_field_args = [
-            'get_callback' => [$this, 'get_package_rest_meta_field'],
+            'get_callback'    => [$this, 'get_package_rest_meta_field'],
             'update_callback' => [$this, 'update_package_rest_meta_field'],
-            'schema' => null,
+            'schema'          => null,
         ];
 
         register_rest_field('package', 'package-banner', $register_rest_field_args);
@@ -212,25 +231,70 @@ class Controller
      * @param string $value Optional Attachment ID
      * @return string HTML of the Upload Button
      */
-    public function metabox_field($name, $value = '', $type = 'text')
+    public function metabox_input_field($name, $value = '', $label = null, $type = 'text', $class = 'widefat')
     {
+        $id = $this->plugin_name . '-' . $name;
         $placeholders = [
-            'label' => _e(ucfirst($name), $this->plugin_name),
-            'id'    => $name,
+            'id'    => $id,
             'name'  => $name,
             'type'  => $type,
+            'class' => $class,
             'value' => esc_textarea($value),
+            'label' => ucfirst(($label?:$name)),
         ];
 
         $template = new Exopite_Template;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'metabox/input-field.html';
-        echo $template::get_template();
+        return $template::get_template();
     }
 
     /*
-     * @param string $name Name of option or name of post custom field.
-     * @param string $value Optional Attachment ID
+     * @param string $name
+     * @param string $label
+     * @param string $value Optional
+     *
+     * @return string HTML of the Upload Button
+     */
+    public function metabox_textarea_field($name, $value = '', $label = null, $class = 'widefat')
+    {
+        $id = $this->plugin_name . '-' . $name;
+        $placeholders = [
+            'id'    => $id,
+            'name'  => $name,
+            'class' => $class,
+            'value' => esc_textarea($value),
+            'label' => ucfirst(($label?:$name)),
+        ];
+
+        $template = new Exopite_Template;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'metabox/textarea-field.html';
+        return $template::get_template();
+    }
+
+    /*
+     * @param string $name
+     * @param string $label
+     * @param string $value Optional
+     *
+     * @return string HTML of the Upload Button
+     */
+    public function metabox_wysiwyg_field($name, $value = '')
+    {
+        $id = $this->plugin_name . '-' . $name;
+        return wp_editor(esc_textarea($value), $id, [
+                        'wpautop'       =>  true,
+                        'media_buttons' =>  false,
+                        'textarea_name' =>  $name,
+                        'textarea_rows' =>  5,
+                        'teeny'         =>  true
+                ]);
+    }
+
+    /*
+     * @param string $banner Optional Attachment ID
+     *
      * @return string HTML of the Upload Button
      */
     public function banner_image_upload_field($banner = '')
@@ -242,9 +306,9 @@ class Controller
 
         if ($banner && get_post($banner)) {
             if (! isset($_wp_additional_image_sizes['post-thumbnail'])) {
-                $thumbnail_html = wp_get_attachment_image($banner, [ $content_width, $content_hight ]);
+                $thumbnail_html = wp_get_attachment_image($banner, [ $content_width, $content_hight ], false, ['style' => 'width:100%;height:auto;']);
             } else {
-                $thumbnail_html = wp_get_attachment_image($banner, 'post-thumbnail');
+                $thumbnail_html = wp_get_attachment_image($banner, 'post-thumbnail', false, ['style' => 'width:100%;height:auto;']);
             }
             if (! empty($thumbnail_html)) {
                 $content = $thumbnail_html;
@@ -258,35 +322,6 @@ class Controller
             $content .= '<input type="hidden" id="upload_banner_image" name="banner_image" value="" />';
         }
         return $content;
-    }
-
-    /*
-     * @param string $name Name of option or name of post custom field.
-     * @param string $value Optional Attachment ID
-     * @return string HTML of the Upload Button
-     */
-    public function banner_image_uploader_field($name, $value = '')
-    {
-        $image = ' button">Upload image';
-        $image_size = 'full'; // it would be better to use thumbnail size here (150x150 or so)
-        $display = 'none'; // display state ot the "Remove image" button
-
-        if ($image_attributes = wp_get_attachment_image_src($value, $image_size)) {
-
-            // $image_attributes[0] - image URL
-            // $image_attributes[1] - image width
-            // $image_attributes[2] - image height
-
-            $image = '"><img src="' . $image_attributes[0] . '" style="max-width:95%;display:block;" />';
-            $display = 'inline-block';
-        }
-
-        return '
-        <div>
-            <a href="#" class="ptpkg_upload_image_button' . $image . '</a>
-            <input type="hidden" name="' . $name . '" id="' . $name . '" value="' . $value . '" />
-            <a href="#" class="ptpkg_remove_image_button" style="display:inline-block;display:' . $display . '">Remove image</a>
-        </div>';
     }
 
     /*
