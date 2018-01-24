@@ -168,8 +168,8 @@ class Controller
     public function package_rest_meta_fields()
     {
         $register_rest_field_args = [
-            'get_callback' => [$this, 'get_package_meta_api'],
-            'update_callback' => [$this, 'update_package_meta_api'],
+            'get_callback' => [$this, 'get_package_rest_meta_field'],
+            'update_callback' => [$this, 'update_package_rest_meta_field'],
             'schema' => null,
         ];
 
@@ -189,7 +189,7 @@ class Controller
      * @param $request
      * @link https://torquemag.io/2015/07/working-with-post-meta-data-using-the-wordpress-rest-api/
      */
-    public function get_package_meta_api($post, $field_name, $request)
+    public function get_package_rest_meta_field($post, $field_name, $request)
     {
         return get_post_meta($post['id'], $field_name, $request);
     }
@@ -202,7 +202,7 @@ class Controller
      * @param string $field_name
      * @link https://torquemag.io/2015/07/working-with-post-meta-data-using-the-wordpress-rest-api/
      */
-    public function update_package_meta_api($value, $post, $field_name)
+    public function update_package_rest_meta_field($value, $post, $field_name)
     {
         return update_post_meta($post->ID, $field_name, sanitize_text_field($value));
     }
