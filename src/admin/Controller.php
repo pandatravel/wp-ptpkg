@@ -12,6 +12,8 @@
 
 namespace Ptpkg\admin;
 
+use Ptpkg\lib\Exopite_Template;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -89,13 +91,15 @@ class Controller
         $custom = get_post_custom($post->ID);
 
         // Get the data if it's already been entered
-        $teaser = get_post_meta($post->ID, 'package_teaser', true);
-        $price = get_post_meta($post->ID, 'package_price', true);
-        $location = get_post_meta($post->ID, 'package_location', true);
-        $seoAd = get_post_meta($post->ID, 'package_seo_ad', true);
-        $seoContent = get_post_meta($post->ID, 'package_seo_content', true);
+        $teaser = get_post_meta($post->ID, 'package-teaser', true);
+        $banner = get_post_meta($post->ID, 'package-banner', true);
+        $price = get_post_meta($post->ID, 'package-price', true);
+        $location = get_post_meta($post->ID, 'package-location', true);
+        $seoAd = get_post_meta($post->ID, 'package-seo-ad', true);
+        $seoContent = get_post_meta($post->ID, 'package-seo-content', true);
 
-        echo '<div class="inside">';
+        echo '<div>';
+        echo $this->banner_image_upload_field(get_post_meta($post->ID, 'package-banner', true));
         echo '<p><h3>' . _e('Teaser:', $this->plugin_name) . '</h3><input type="text" name="teaser" value="' . esc_textarea($teaser) . '" class="widefat"></p>';
         echo '<p><h3>' . _e('Price:', $this->plugin_name) . '</h3><input type="text" name="price" value="' . esc_textarea($price) . '" class="widefat"></p>';
         echo '<p><h3>' . _e('Location:', $this->plugin_name) . '</h3><input type="text" name="location" value="' . esc_textarea($location) . '" class="widefat"></p>';
@@ -125,20 +129,24 @@ class Controller
             return;
         }
 
+        if (isset($_REQUEST['banner_image'])) {
+            // $banner_id = (int) $_POST["banner_image"];
+            update_post_meta($post_id, "package-banner", (int) $_POST["banner_image"]);
+        }
         if (isset($_REQUEST['teaser'])) {
-            update_post_meta($post_id, "package_teaser", sanitize_text_field($_POST["teaser"]));
+            update_post_meta($post_id, "package-teaser", sanitize_text_field($_POST["teaser"]));
         }
         if (isset($_REQUEST['price'])) {
-            update_post_meta($post_id, "package_price", sanitize_text_field($_POST["price"]));
+            update_post_meta($post_id, "package-price", sanitize_text_field($_POST["price"]));
         }
         if (isset($_REQUEST['location'])) {
-            update_post_meta($post_id, "package_location", sanitize_text_field($_POST["location"]));
+            update_post_meta($post_id, "package-location", sanitize_text_field($_POST["location"]));
         }
         if (isset($_REQUEST['seo_ad'])) {
-            update_post_meta($post_id, "package_seo_ad", sanitize_text_field($_POST["seo_ad"]));
+            update_post_meta($post_id, "package-seo-ad", sanitize_text_field($_POST["seo_ad"]));
         }
         if (isset($_REQUEST['seo_content'])) {
-            update_post_meta($post_id, "package_seo_content", sanitize_text_field($_POST["seo_content"]));
+            update_post_meta($post_id, "package-seo-content", sanitize_text_field($_POST["seo_content"]));
         }
     }
 
@@ -165,11 +173,12 @@ class Controller
             'schema' => null,
         ];
 
-        register_rest_field('package', 'package_teaser', $register_rest_field_args);
-        register_rest_field('package', 'package_price', $register_rest_field_args);
-        register_rest_field('package', 'package_location', $register_rest_field_args);
-        register_rest_field('package', 'package_seo_ad', $register_rest_field_args);
-        register_rest_field('package', 'package_seo_content', $register_rest_field_args);
+        register_rest_field('package', 'package-banner', $register_rest_field_args);
+        register_rest_field('package', 'package-teaser', $register_rest_field_args);
+        register_rest_field('package', 'package-price', $register_rest_field_args);
+        register_rest_field('package', 'package-location', $register_rest_field_args);
+        register_rest_field('package', 'package-seo-ad', $register_rest_field_args);
+        register_rest_field('package', 'package-seo-content', $register_rest_field_args);
     }
 
     /**
@@ -196,6 +205,88 @@ class Controller
     public function update_package_meta_api($value, $post, $field_name)
     {
         return update_post_meta($post->ID, $field_name, sanitize_text_field($value));
+    }
+
+    /*
+     * @param string $name Name of option or name of post custom field.
+     * @param string $value Optional Attachment ID
+     * @return string HTML of the Upload Button
+     */
+    public function metabox_field($name, $value = '', $type = 'text')
+    {
+        $placeholders = [
+            'label' => _e(ucfirst($name), $this->plugin_name),
+            'id'    => $name,
+            'name'  => $name,
+            'type'  => $type,
+            'value' => esc_textarea($value),
+        ];
+
+        $template = new Exopite_Template;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'metabox/input-field.html';
+        echo $template::get_template();
+    }
+
+    /*
+     * @param string $name Name of option or name of post custom field.
+     * @param string $value Optional Attachment ID
+     * @return string HTML of the Upload Button
+     */
+    public function banner_image_upload_field($banner = '')
+    {
+        global $content_width, $_wp_additional_image_sizes;
+        $old_content_width = $content_width;
+        $content_width = 300;
+        $content_hight = 96;
+
+        if ($banner && get_post($banner)) {
+            if (! isset($_wp_additional_image_sizes['post-thumbnail'])) {
+                $thumbnail_html = wp_get_attachment_image($banner, [ $content_width, $content_hight ]);
+            } else {
+                $thumbnail_html = wp_get_attachment_image($banner, 'post-thumbnail');
+            }
+            if (! empty($thumbnail_html)) {
+                $content = $thumbnail_html;
+                $content .= '<p class="hide-if-no-js"><a href="javascript:;" id="remove_banner_image_button" >' . esc_html__('Remove banner image', 'text-domain') . '</a></p>';
+                $content .= '<input type="hidden" id="upload_banner_image" name="banner_image" value="' . esc_attr($banner) . '" />';
+            }
+            $content_width = $old_content_width;
+        } else {
+            $content = '<img src="" style="width:' . esc_attr($content_width) . 'px;height:auto;border:0;display:none;" />';
+            $content .= '<p class="hide-if-no-js"><a title="' . esc_attr__('Set banner image', 'text-domain') . '" href="javascript:;" id="upload_banner_image_button" id="set-banner-image" data-uploader_title="' . esc_attr__('Choose an image', 'text-domain') . '" data-uploader_button_text="' . esc_attr__('Set banner image', 'text-domain') . '">' . esc_html__('Set banner image', 'text-domain') . '</a></p>';
+            $content .= '<input type="hidden" id="upload_banner_image" name="banner_image" value="" />';
+        }
+        return $content;
+    }
+
+    /*
+     * @param string $name Name of option or name of post custom field.
+     * @param string $value Optional Attachment ID
+     * @return string HTML of the Upload Button
+     */
+    public function banner_image_uploader_field($name, $value = '')
+    {
+        $image = ' button">Upload image';
+        $image_size = 'full'; // it would be better to use thumbnail size here (150x150 or so)
+        $display = 'none'; // display state ot the "Remove image" button
+
+        if ($image_attributes = wp_get_attachment_image_src($value, $image_size)) {
+
+            // $image_attributes[0] - image URL
+            // $image_attributes[1] - image width
+            // $image_attributes[2] - image height
+
+            $image = '"><img src="' . $image_attributes[0] . '" style="max-width:95%;display:block;" />';
+            $display = 'inline-block';
+        }
+
+        return '
+        <div>
+            <a href="#" class="ptpkg_upload_image_button' . $image . '</a>
+            <input type="hidden" name="' . $name . '" id="' . $name . '" value="' . $value . '" />
+            <a href="#" class="ptpkg_remove_image_button" style="display:inline-block;display:' . $display . '">Remove image</a>
+        </div>';
     }
 
     /*
@@ -284,7 +375,7 @@ class Controller
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/admin/css/ptpkg-admin.css', [], $this->version, 'all');
+        wp_enqueue_style($this->plugin_name . '-styles', plugins_url('/../../assets/admin/css/ptpkg-admin.css', __FILE__), [], $this->version, 'all');
     }
 
     /**
@@ -294,7 +385,6 @@ class Controller
      */
     public function enqueue_scripts()
     {
-
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -307,7 +397,7 @@ class Controller
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/admin/js/ptpkg-admin.js', [ 'jquery' ], $this->version, false);
+        wp_enqueue_script($this->plugin_name . '-scripts', plugins_url('/../../assets/admin/js/ptpkg-admin.js', __FILE__), [ 'jquery' ], $this->version, false);
     }
 
     /**

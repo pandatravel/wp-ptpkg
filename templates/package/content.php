@@ -14,19 +14,18 @@
  * Custom meta fields
  */
 $currentID = get_the_ID();
-$packageTeaser = get_post_meta($currentID, 'package_teaser', true);
-$packageBanner = get_post_meta($currentID, 'package_banner', true);
-$packagePrice = get_post_meta($currentID, 'package_price', true);
-$packageLocation = get_post_meta($currentID, 'package_location', true);
-$packageSEOAd = get_post_meta($currentID, 'package_seo_ad', true);
-$packageSEOContent = get_post_meta($currentID, 'package_seo_content', true);
+$packageBannerUrl = wp_get_attachment_image_url(get_post_meta($currentID, 'package-banner', true), 'full');
+$packageTeaser = get_post_meta($currentID, 'package-teaser', true);
+$packagePrice = get_post_meta($currentID, 'package-price', true);
+$packageLocation = get_post_meta($currentID, 'package-location', true);
+$packageSEOAd = get_post_meta($currentID, 'package-seo-ad', true);
+$packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
 ?>
-
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <div class="row">
-        <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBanner['url']; ?>') top center no-repeat;">
+        <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBannerUrl; ?>') top center no-repeat;">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-4">
                     <h1 class="package-title"><?php the_title(); ?></h1>
@@ -104,7 +103,7 @@ $packageSEOContent = get_post_meta($currentID, 'package_seo_content', true);
                                 <div class="sp-package-title">
                                     <?php the_title(); ?>
                                 </div>
-                                <?php echo get_post_meta($pId, "package_teaser", true); ?>
+                                <?php echo get_post_meta($pId, "package-teaser", true); ?>
                             </div>
                         </div>
                     </div>

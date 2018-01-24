@@ -16,8 +16,8 @@ $templates = new Ptpkg\lib\CustomTemplateLoader;
 /**
  * Custom meta fields
  */
-$packagePrice = get_post_meta(get_the_ID(), 'package_price', true);
-$packageLocation = get_post_meta(get_the_ID(), 'package_location', true);
+$packagePrice = get_post_meta(get_the_ID(), 'package-price', true);
+$packageLocation = get_post_meta(get_the_ID(), 'package-location', true);
 
 setPostViews(get_the_ID());
 
