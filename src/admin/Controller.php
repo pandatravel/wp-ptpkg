@@ -162,10 +162,10 @@ class Controller
             update_post_meta($post_id, "package-location", sanitize_text_field($_POST["location"]));
         }
         if (isset($_REQUEST['seo_ad'])) {
-            update_post_meta($post_id, "package-seo-ad", sanitize_text_field($_POST["seo_ad"]));
+            update_post_meta($post_id, "package-seo-ad", $_POST["seo_ad"]);
         }
         if (isset($_REQUEST['seo_content'])) {
-            update_post_meta($post_id, "package-seo-content", sanitize_text_field($_POST["seo_content"]));
+            update_post_meta($post_id, "package-seo-content", $_POST["seo_content"]);
         }
     }
 
@@ -283,7 +283,7 @@ class Controller
     public function metabox_wysiwyg_field($name, $value = '')
     {
         $id = $this->plugin_name . '-' . $name;
-        return wp_editor(esc_textarea($value), $id, [
+        return wp_editor($value, $id, [
                         'wpautop'       =>  true,
                         'media_buttons' =>  false,
                         'textarea_name' =>  $name,
