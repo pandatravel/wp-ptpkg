@@ -254,7 +254,7 @@ class Controller
             $content_width = $old_content_width;
         } else {
             $content = '<img src="" style="width:' . esc_attr($content_width) . 'px;height:auto;border:0;display:none;" />';
-            $content .= '<p class="hide-if-no-js"><a title="' . esc_attr__('Set banner image', 'text-domain') . '" href="javascript:;" id="upload_banner_image_button" id="set-banner-image" data-uploader_title="' . esc_attr__('Choose an image', 'text-domain') . '" data-uploader_button_text="' . esc_attr__('Set banner image', 'text-domain') . '">' . esc_html__('Set banner image', 'text-domain') . '</a></p>';
+            $content .= '<p class="hide-if-no-js"><a title="' . esc_attr__('Set banner image', 'text-domain') . '" href="javascript:;" id="upload_banner_image_button" id="set-banner-image" class="btn btn-primary" data-uploader_title="' . esc_attr__('Choose an image', 'text-domain') . '" data-uploader_button_text="' . esc_attr__('Set banner image', 'text-domain') . '">' . esc_html__('Set banner image', 'text-domain') . '</a></p>';
             $content .= '<input type="hidden" id="upload_banner_image" name="banner_image" value="" />';
         }
         return $content;

@@ -76,7 +76,7 @@ class Controller
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name . '-front', plugins_url('/../../assets/public/css/ptpkg-public.css', __FILE__), [], $this->version, 'all');
+        wp_enqueue_style($this->plugin_name . '-public', plugins_url('/../../assets/public/css/ptpkg-public.css', __FILE__), [], $this->version, 'all');
     }
 
     /**
@@ -99,6 +99,6 @@ class Controller
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name . '-front', plugins_url('/../../assets/public/js/ptpkg-public.js', __FILE__), [ 'jquery' ], $this->version, true);
+        wp_enqueue_script($this->plugin_name . '-public', plugins_url('/../../assets/public/js/ptpkg-public.js', __FILE__), [ 'jquery' ], $this->version, true);
     }
 }
