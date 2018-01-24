@@ -144,8 +144,8 @@ class CustomPostTypes
             // try to locate in plugin $settings['templates'] folder,
             // return $template if none of above exist
             $locations = [
-                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, '' ]),
-                join(DIRECTORY_SEPARATOR, [ WP_PLUGIN_DIR, $this->plugin_name, $settings['templates_dir'], '' ]), //plugin $settings['templates'] folder
+                join(DIRECTORY_SEPARATOR, [ PTPKG_BASE_DIR, '' ]),
+                join(DIRECTORY_SEPARATOR, [ PTPKG_BASE_DIR, $settings['templates_dir'], '' ]), //plugin $settings['templates'] folder
             ];
 
             foreach ($locations as $location) {
