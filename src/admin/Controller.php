@@ -317,8 +317,8 @@ class Controller
             }
             $content_width = $old_content_width;
         } else {
-            $content = '<img src="" style="width:' . esc_attr($content_width) . 'px;height:auto;border:0;display:none;" />';
-            $content .= '<p class="hide-if-no-js"><a title="' . esc_attr__('Set banner image', 'text-domain') . '" href="javascript:;" id="upload_banner_image_button" id="set-banner-image" class="btn btn-primary" data-uploader_title="' . esc_attr__('Choose an image', 'text-domain') . '" data-uploader_button_text="' . esc_attr__('Set banner image', 'text-domain') . '">' . esc_html__('Set banner image', 'text-domain') . '</a></p>';
+            $content = '<img src="" style="width:100%;height:auto;border:0;display:none;" />';
+            $content .= '<p class="hide-if-no-js"><a title="' . esc_attr__('Set banner image', 'text-domain') . '" href="javascript:;" id="upload_banner_image_button" id="set-banner-image" class="btn btn-primary btn-link" data-uploader_title="' . esc_attr__('Choose an image', 'text-domain') . '" data-uploader_button_text="' . esc_attr__('Set banner image', 'text-domain') . '">' . esc_html__('Set banner image', 'text-domain') . '</a></p>';
             $content .= '<input type="hidden" id="upload_banner_image" name="banner_image" value="" />';
         }
         return $content;
@@ -395,9 +395,9 @@ class Controller
      *
      * @since    1.0.0
      */
-    public function enqueue_styles()
+    public function enqueue_styles($hook)
     {
-
+        global $post;
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -410,7 +410,11 @@ class Controller
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name . '-styles', plugins_url('/../../assets/admin/css/ptpkg-admin.css', __FILE__), [], $this->version, 'all');
+        if ($hook == 'post-new.php' || $hook == 'post.php') {
+            if ($post->post_type == 'package') {
+                wp_enqueue_style($this->plugin_name . '-styles', plugins_url('/../../assets/admin/css/ptpkg-admin.css', __FILE__), [], $this->version, 'all');
+            }
+        }
     }
 
     /**
@@ -418,8 +422,9 @@ class Controller
      *
      * @since    1.0.0
      */
-    public function enqueue_scripts()
+    public function enqueue_scripts($hook)
     {
+        global $post;
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -432,7 +437,11 @@ class Controller
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name . '-scripts', plugins_url('/../../assets/admin/js/ptpkg-admin.js', __FILE__), [ 'jquery' ], $this->version, false);
+        if ($hook == 'post-new.php' || $hook == 'post.php') {
+            if ($post->post_type == 'package') {
+                wp_enqueue_script($this->plugin_name . '-scripts', plugins_url('/../../assets/admin/js/ptpkg-admin.js', __FILE__), [ 'jquery' ], $this->version, false);
+            }
+        }
     }
 
     /**

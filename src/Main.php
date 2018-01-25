@@ -151,8 +151,8 @@ class Main
         $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package');
         $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
 
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 10, 1);
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts', 10, 1);
     }
 
     /**
