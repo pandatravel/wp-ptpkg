@@ -231,7 +231,7 @@ class Controller
      * @param string $value Optional Attachment ID
      * @return string HTML of the Upload Button
      */
-    public function metabox_input_field($name, $value = '', $label = null, $type = 'text', $class = 'widefat')
+    public function metabox_input_field($name, $value = '', $label = null, $type = 'text', $class = 'form-control')
     {
         $id = $this->plugin_name . '-' . $name;
         $placeholders = [
@@ -256,7 +256,7 @@ class Controller
      *
      * @return string HTML of the Upload Button
      */
-    public function metabox_textarea_field($name, $value = '', $label = null, $class = 'widefat')
+    public function metabox_textarea_field($name, $value = '', $label = null, $class = 'form-control')
     {
         $id = $this->plugin_name . '-' . $name;
         $placeholders = [
@@ -265,6 +265,7 @@ class Controller
             'class' => $class,
             'value' => esc_textarea($value),
             'label' => ucfirst(($label?:$name)),
+            'rows'  => 5,
         ];
 
         $template = new Exopite_Template;
