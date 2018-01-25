@@ -25,6 +25,10 @@ nbproject
 *.sublime-workspace
 node_modules
 package-lock.json
+npm-debug.log
+yarn-error.log
+yarn.lock
+mix-manifest.json
 
 # Folders to ignore
 .hg
