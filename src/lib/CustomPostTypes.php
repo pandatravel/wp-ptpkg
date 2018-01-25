@@ -178,4 +178,43 @@ class CustomPostTypes
         $loader = new CustomTemplateLoader;
         return $loader->get_template_part('single', $this->cpt);
     }
+
+    /**
+     * Override acrive template location for custom post type
+     *
+     * If the archive template file not exist in the theme folder, then use  the plugin template.
+     * In this case, file can be overridden inside the [child] theme.
+     *
+     * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/archive_template
+     * @link http://wordpress.stackexchange.com/a/116025/90212
+     */
+    public function get_custom_post_type_archive_template()
+    {
+        global $post;
+        $templates_dir = 'templates';
+
+        if (is_post_type_archive($this->cpt)) {
+            $theme_files = [
+                'archive-' . $this->cpt . '.php',
+                $this->plugin_name . '/archive-' . $this->cpt . '.php'
+            ];
+            $archive_template = locate_template($theme_files, false);
+            if ($archive_template != '') {
+                // Try to locate in theme first
+                return $archive_template;
+            } else {
+                // Try to locate in plugin templates folder
+                if (file_exists(PTPKG_BASE_DIR . '/' . $templates_dir . '/archive-' . $this->cpt . '.php')) {
+                    return PTPKG_BASE_DIR . '/' . $templates_dir . '/archive-' . $this->cpt . '.php';
+                } elseif (file_exists(PTPKG_BASE_DIR . '/archive-' . $this->cpt . '.php')) {
+                    // Try to locate in plugin base folder
+                    return PTPKG_BASE_DIR . '/archive-' . $this->cpt . '.php';
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        return $archive_template;
+    }
 }
