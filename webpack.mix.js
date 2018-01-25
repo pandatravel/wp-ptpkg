@@ -11,7 +11,7 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('assets/admin/js/admin.js', './assets/admin/js/ptpkg-admin.js')
-   .sass('assets/admin/sass/admin.scss', './assets/admin/css/ptpkg-admin.css')
-   .js('assets/public/js/public.js', './assets/public/js/ptpkg-public.js')
-   .sass('assets/public/sass/public.scss', './assets/public/css/ptpkg-public.css');
+mix.js('assets/src/admin/js/admin.js', './assets/admin/js/ptpkg-admin.js')
+   .sass('assets/src/admin/sass/admin.scss', './assets/admin/css/ptpkg-admin.css')
+   .js('assets/src/public/js/public.js', './assets/public/js/ptpkg-public.js')
+   .sass('assets/src/public/sass/public.scss', './assets/public/css/ptpkg-public.css');
