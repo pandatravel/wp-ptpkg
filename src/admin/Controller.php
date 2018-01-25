@@ -92,7 +92,7 @@ class Controller
 
         $metafields = '<div>';
         $metafields .= $this->banner_image_upload_field(get_post_meta($post->ID, 'package-banner', true));
-        $metafields .= $this->metabox_input_field('teaser', get_post_meta($post->ID, 'package-teaser', true));
+        $metafields .= $this->metabox_textarea_field('teaser', get_post_meta($post->ID, 'package-teaser', true));
         $metafields .= $this->metabox_input_field('price', get_post_meta($post->ID, 'package-price', true));
         $metafields .= $this->metabox_input_field('location', get_post_meta($post->ID, 'package-location', true));
         $metafields .= '</div>';
@@ -265,7 +265,7 @@ class Controller
             'class' => $class,
             'value' => esc_textarea($value),
             'label' => ucfirst(($label?:$name)),
-            'rows'  => 5,
+            'rows'  => 3,
         ];
 
         $template = new Exopite_Template;
