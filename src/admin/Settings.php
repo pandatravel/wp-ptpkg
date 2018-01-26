@@ -12,7 +12,7 @@
 
 namespace Ptpkg\admin;
 
-use Ptpkg\lib\Exopite_Template;
+use Ptpkg\lib\ExopiteTemplate;
 
 /**
  * The admin-settings functionality of the plugin.
@@ -178,7 +178,7 @@ class Settings
             'value' => get_option($field),
         ];
 
-        $template = new Exopite_Template;
+        $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
         echo $template::get_template();
@@ -200,7 +200,7 @@ class Settings
             'value'	=> get_option($field),
         ];
 
-        $template = new Exopite_Template;
+        $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
         echo $template::get_template();
@@ -222,7 +222,7 @@ class Settings
             'value'	=> get_option($field),
         ];
 
-        $template = new Exopite_Template;
+        $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
         echo $template::get_template();

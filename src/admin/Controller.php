@@ -12,7 +12,7 @@
 
 namespace Ptpkg\admin;
 
-use Ptpkg\lib\Exopite_Template;
+use Ptpkg\lib\ExopiteTemplate;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -243,7 +243,7 @@ class Controller
             'label' => ucfirst(($label?:$name)),
         ];
 
-        $template = new Exopite_Template;
+        $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'metabox/input-field.html';
         return $template::get_template();
@@ -268,7 +268,7 @@ class Controller
             'rows'  => 3,
         ];
 
-        $template = new Exopite_Template;
+        $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'metabox/textarea-field.html';
         return $template::get_template();

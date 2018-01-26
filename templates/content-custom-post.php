@@ -8,7 +8,7 @@
  */
 
 /*
- * Exopite_Template template engine uses includes/libraries/class-exopite-template.php
+ * ExopiteTemplate template engine uses includes/libraries/class-exopite-template.php
  *
  * See tutorial file:
  * add_templater_engine_to_plugin.php
@@ -20,6 +20,6 @@ $placeholders = [
     'footer' => 'This is the footer.',
 ];
 
-Exopite_Template::$variables_array = $placeholders;
-Exopite_Template::$filename = 'templates/content-custom-post.html';
-echo Exopite_Template::get_template();
+ExopiteTemplate::$variables_array = $placeholders;
+ExopiteTemplate::$filename = 'templates/content-custom-post.html';
+echo ExopiteTemplate::get_template();
