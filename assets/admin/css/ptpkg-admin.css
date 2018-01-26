@@ -8386,6 +8386,11 @@ a.text-dark:focus {
   visibility: hidden !important;
 }
 
+/*!
+ * Ptpkg v0.1.0 (https://www.pandaonline.com)
+ * Copyright 2011-2018 The Ptpkg Authors
+ */
+
 body {
   line-height: 1.4em;
 }

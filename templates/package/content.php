@@ -22,11 +22,16 @@ $packageSEOAd = get_post_meta($currentID, 'package-seo-ad', true);
 $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('package-details'); ?>>
 
     <div class="row">
         <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBannerUrl; ?>') top center no-repeat;">
             <div class="row">
+                <div class="col-sm-4 col-sm-offset-4 text-center">
+                    <div class="package-cta-book">
+                        <a class="btn btn-primary btn-outlinex btn-lg btn-block" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
+                    </div>
+                </div>
                 <div class="col-sm-8 col-sm-offset-4">
                     <h1 class="package-title"><?php the_title(); ?></h1>
                     <div class="package-teaser">

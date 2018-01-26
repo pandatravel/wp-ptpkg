@@ -1,6 +1,6 @@
 <?php
 /**
-* Template Name: Single Package
+* Template Name: Single Package Booking
 * Template Post Type: package
 *
 * The Template for displaying all package single posts.
