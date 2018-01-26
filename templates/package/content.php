@@ -64,11 +64,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                     <?php endif; ?>
 
                 </div>
-                <?php the_post(); ?>
                 <div class="package-thumbnail-wrapper">
-                    <?php the_post_thumbnail('medium'); ?>
+                    <?php the_post_thumbnail('medium', ['class' => 'img-thumbnail']); ?>
                 </div>
                 <?php the_content(); ?>
+                <a class="btn btn-primary" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
             </div>
         </div>
         <div class="col-sm-4">

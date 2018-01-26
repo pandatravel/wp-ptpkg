@@ -148,7 +148,7 @@ class Main
          *
          * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
          */
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package');
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
         $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 10, 1);
@@ -165,8 +165,11 @@ class Main
     private function define_public_hooks()
     {
         $plugin_public = new front\Controller($this->get_plugin_name(), $this->get_version());
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package');
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
 
+        $this->loader->add_action('init', $plugin_post_types, 'add_custom_endpoint');
+        $this->loader->add_action('wp_head', $plugin_post_types, 'set_custom_permalink_filter');
+        $this->loader->add_filter('query_vars', $plugin_post_types, 'add_custom_query_vars_filter');
         $this->loader->add_filter('template_include', $plugin_post_types, 'get_custom_post_type_templates');
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');

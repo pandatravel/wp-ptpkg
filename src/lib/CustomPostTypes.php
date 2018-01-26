@@ -45,15 +45,25 @@ class CustomPostTypes
     private $cpt;
 
     /**
+     * The custom post type Endpoint
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $endpoint    The Endpoint
+     */
+    private $endpoint;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
      * @param      string    $plugin_name       The name of the plugin.
      */
-    public function __construct($plugin_name, $cpt)
+    public function __construct($plugin_name, $cpt, $endpoint)
     {
         $this->plugin_name = $plugin_name;
         $this->cpt = $cpt;
+        $this->endpoint = $endpoint;
     }
 
     /**
@@ -126,31 +136,92 @@ class CustomPostTypes
         register_post_type($slug, $args);
     }
 
-    public function locate_template($template, $settings, $page_type)
+    /**
+     * add a book endpoint
+     * package/{slug}/book
+     *
+     * @since    1.0.0
+     */
+    public function add_custom_endpoint()
     {
+        add_rewrite_endpoint($this->endpoint, EP_PERMALINK);
+    }
+
+    /**
+     * add custom query var for endpoint
+     *
+     * @since    1.0.0
+     * @param    string    $vars       The vars
+     */
+    public function add_custom_query_vars_filter($vars)
+    {
+        $vars[] = $this->endpoint;
+        return $vars;
+    }
+
+    /**
+     * set custom permalink filter
+     *
+     * @since    1.0.0
+     */
+    public function set_custom_permalink_filter()
+    {
+        $template_file = apply_filters('ptpkg_cpt_single_templates', 'single-' . $this->cpt . '.php');
+
+        if ($this->is_single_template($template_file)) {
+            add_filter('post_type_link', [$this, 'custom_endpoint_permalink'], 10, 3);
+            return;
+        }
+    }
+
+    /**
+     * custom permalink filter
+     *
+     * @since    1.0.0
+     * @param    string    $permalink  The permalink
+     * @param    string    $post       The vars
+     * @param    string    $leavename
+     */
+    public function custom_endpoint_permalink($permalink, $post, $leavename)
+    {
+        if ($post->post_type != $this->cpt && ! is_single()) {
+            return $permalink;
+        }
+
+        return user_trailingslashit($permalink) . DIRECTORY_SEPARATOR . $this->endpoint . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * locate_template
+     *
+     * @since    1.0.0
+     * @param    template  $template       The template
+     * @param    string    $templates_dir  The plugin template dir
+     * @param    string    $page_type      The page_type
+     * @param    string    $endpoint       The endpoint
+     */
+    public function locate_template($template, $templates_dir = 'templates', $page_type = 'single', $endpoint = false)
+    {
+        $template_file = $page_type . '-' . $this->cpt . ($endpoint ? '-' . $this->endpoint : '') . '.php';
+
         $theme_files = [
-            $page_type . '-' . $settings['custom_post_type'] . '.php',
-            $this->plugin_name . DIRECTORY_SEPARATOR . $page_type . '-' . $settings['custom_post_type'] . '.php',
+            $template_file,
+            $this->plugin_name . DIRECTORY_SEPARATOR . $template_file,
         ];
 
         $theme_template = locate_template($theme_files, false);
 
-        if ($theme_template != '') {
-            // Try to locate in theme first
+        if (! empty($theme_template)) {
             return $theme_template;
         } else {
-
-            // Try to locate in plugin base folder,
-            // try to locate in plugin $settings['templates'] folder,
-            // return $template if none of above exist
             $locations = [
-                join(DIRECTORY_SEPARATOR, [ PTPKG_BASE_DIR, '' ]),
-                join(DIRECTORY_SEPARATOR, [ PTPKG_BASE_DIR, $settings['templates_dir'], '' ]), //plugin $settings['templates'] folder
+                join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), '' ]),
+                join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), $templates_dir, '' ]), //plugin $templates_dir folder
             ];
 
             foreach ($locations as $location) {
-                if (file_exists($location . $theme_files[0])) {
-                    return apply_filters('ptpkg_locate_template', $location . $theme_files[0]);
+                if (file_exists($location . $template_file)) {
+                    return apply_filters('ptpkg_locate_template', $location . $template_file);
                 }
             }
 
@@ -158,16 +229,20 @@ class CustomPostTypes
         }
     }
 
+    /**
+     * get the post type template from the plugin
+     *
+     * @since    1.0.0
+     * @param    string    $template       The name of the plugin.
+     */
     public function get_custom_post_type_templates($template)
     {
-        global $post;
-        $settings = [
-            'custom_post_type' => $this->cpt,
-            'templates_dir' => 'templates',
-        ];
+        global $post, $wp_query;
+        $templates_dir = 'templates';
 
-        if ($settings['custom_post_type'] == get_post_type() && is_single()) {
-            return $this->locate_template($template, $settings, 'single');
+        if ($this->cpt == get_post_type() && is_single()) {
+            $endpoint = isset($wp_query->query[$this->endpoint]);
+            return $this->locate_template($template, $templates_dir, 'single', $endpoint);
         }
 
         return $template;
@@ -216,5 +291,36 @@ class CustomPostTypes
         }
 
         return $archive_template;
+    }
+
+    /**
+     * check if the file is the current single template
+     *
+     * @since    1.0.0
+     */
+    public function is_single_template($template_file = null)
+    {
+        global $template;
+
+        if (is_null($template_file)) {
+            $template_file = 'single-' . $this->cpt . '.php';
+        }
+
+        if ($template_file != basename($template)) {
+            return false;
+        }
+
+        $locations = [
+            join(DIRECTORY_SEPARATOR, [ get_stylesheet_directory(), '' ]),
+            join(DIRECTORY_SEPARATOR, [ get_stylesheet_directory(), $this->plugin_name, '' ]),
+            join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), '' ]),
+            join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), 'templates', '' ]),
+        ];
+
+        foreach ($locations as $location) {
+            if (file_exists($location . $template_file)) {
+                return ($location . $template_file == $template);
+            }
+        }
     }
 }

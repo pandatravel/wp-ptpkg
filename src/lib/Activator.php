@@ -7,7 +7,7 @@
  * @since      1.0.0
  *
  * @package    Ptpkg
- * @subpackage Ptpkg/includes
+ * @subpackage Ptpkg/lib
  */
 
 namespace Ptpkg\lib;
@@ -37,7 +37,7 @@ class Activator
         /**
          * Custom Post Types
          */
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name());
+        $plugin_post_types = new CustomPostTypes($this->get_plugin_name(), 'package', 'book');
 
         /**
          * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,
@@ -50,6 +50,7 @@ class Activator
          * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
          */
         $plugin_post_types->create_custom_post_type();
+        $plugin_post_types->add_custom_endpoint();
 
         flush_rewrite_rules();
     }
