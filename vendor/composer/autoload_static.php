@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
 {
     public static $files = array (
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
@@ -34,6 +34,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         'Ptpkg\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+            1 => __DIR__ . '/..' . '/ammonkc/ptpkg-api/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (

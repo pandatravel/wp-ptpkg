@@ -1,5 +1,58 @@
 [
     {
+        "name": "ammonkc/ptpkg-api",
+        "version": "0.1.0-dev",
+        "version_normalized": "0.1.0.0-dev",
+        "dist": {
+            "type": "path",
+            "url": "/Users/ammonkc/Develop/src/ptpkg-api",
+            "reference": "e68a1922e8bdd887c3bc07fed6f179485ebe05e2",
+            "shasum": null
+        },
+        "require": {
+            "ext-curl": "*",
+            "guzzlehttp/guzzle": "^6.3",
+            "php": "^5.6 || ^7.0"
+        },
+        "require-dev": {
+            "guzzlehttp/psr7": "^1.2",
+            "phpunit/phpunit": "^6.2",
+            "symfony/var-dumper": "^3.4"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Ptpkg\\": "src"
+            }
+        },
+        "autoload-dev": {
+            "psr-4": {
+                "Ptpkg\\Tests\\": "tests"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ammon Casey",
+                "email": "ammon@caseyohana.com",
+                "role": "Lead Developer"
+            }
+        ],
+        "description": "Ptpkg API v1 Client",
+        "homepage": "https://github.com/ammonkc/ptpkg-api",
+        "keywords": [
+            "api",
+            "panda",
+            "ptpkg"
+        ],
+        "transport-options": {
+            "symlink": true
+        }
+    },
+    {
         "name": "doctrine/inflector",
         "version": "v1.3.0",
         "version_normalized": "1.3.0.0",
