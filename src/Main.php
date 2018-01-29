@@ -10,7 +10,7 @@
  * @since      1.0.0
  *
  * @package    Ptpkg
- * @subpackage Ptpkg/includes
+ * @subpackage Ptpkg/src
  */
 
 namespace Ptpkg;
@@ -26,7 +26,7 @@ namespace Ptpkg;
  *
  * @since      1.0.0
  * @package    Ptpkg
- * @subpackage Ptpkg/includes
+ * @subpackage Ptpkg/src
  * @author     Ammon Casey <acasey@panda-group.com>
  */
 class Main
