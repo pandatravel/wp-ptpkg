@@ -114,9 +114,11 @@ class Main
         /**
          * register our ptpkg_settings_init to the admin_init action hook
          */
-        $plugin_settings = new admin\Settings($this->get_plugin_name());
-        $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
+        $plugin_settings = new admin\Settings($this->get_plugin_name(), $this->get_version());
+        // $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
+        $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_settings_page');
         $this->loader->add_action('admin_init', $plugin_settings, 'ptpkg_settings_init');
+        $this->loader->add_action('admin_post_ptpkg_authorize_client', $plugin_settings, 'ptpkg_handle_authorize_client');
 
         /**
          * Add metabox and register custom fields
@@ -153,6 +155,8 @@ class Main
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 10, 1);
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts', 10, 1);
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_settings, 'enqueue_styles', 10, 1);
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_settings, 'enqueue_scripts', 10, 1);
     }
 
     /**

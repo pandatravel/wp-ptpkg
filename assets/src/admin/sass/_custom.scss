@@ -13,3 +13,13 @@
 body {
   line-height: $body-line-height-base;
 }
+
+#ptpkg-api-settings {
+    .card {
+        padding: 0 !important;
+        max-width: none !important;
+        .card-header {
+            padding: 1.25rem;
+        }
+    }
+}

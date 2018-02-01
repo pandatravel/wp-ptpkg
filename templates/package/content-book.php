@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template part for displaying packages
  *
@@ -9,6 +10,11 @@
  * @version 1.2
  * @author Ammon Casey
  */
+
+use Ptpkg\lib\Api;
+
+// Get an instance of the ptpkg api
+$api = new Api();
 
 /**
  * Custom meta fields
@@ -41,6 +47,16 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
         <div class="col-sm-12">
             <div class="package-post-wrapper">
                 <h2>Tour Package Booking Page</h2>
+
+                <?php
+
+                $response = $api->get_client()->tours()->show(1);
+
+                ?>
+
+                <pre><?php print_r($response); ?></pre>
+
+
             </div>
         </div>
     </div>

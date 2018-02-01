@@ -3,7 +3,8 @@
 $body-bg: #f1f1f1;
 
 // Brands
-$primary: #3097D1;
+$brightblue: #15a0f5;
+$primary: $brightblue; //#3097D1;
 $info: #8eb4cb;
 $success: #2ab27b;
 $warning: #cbb956;
