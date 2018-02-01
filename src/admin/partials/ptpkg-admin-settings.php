@@ -52,7 +52,7 @@ $token = get_option(PTPKG_NAME . '_token');
                     <div class="card-footer">
                         <form action="admin-post.php" method="post">
                             <input type="hidden" name="action" value="ptpkg_authorize_client" />
-                            <input type="submit" class="btn btn-success btn-sm float-right" name="ptpkg_authorize_client" value="Authorize API Client">
+                            <input type="submit" class="btn btn-success btn-sm float-right" name="ptpkg_authorize_client" value="Authenticate API Client">
                         </form>
                         <?php if (get_option(PTPKG_NAME . '_auth_state') == true): ?>
                         <span class="form-text text-muted"><span class="badge badge-<?php echo($token->hasExpired() ? 'danger' : 'secondary') ?> text-uppercase"><?php echo($token->hasExpired() ? 'Expired' : 'Authenticated') ?></span> Token Expires: <?php echo Carbon::createFromTimestampUTC($token->getExpires())->diffForHumans(); ?></span>
