@@ -17,8 +17,9 @@ if (! defined('WPINC')) {
 }
 
 use Carbon\Carbon;
+use Ptpkg\admin\Settings;
 
-$settings = new Ptpkg\admin\Settings(PTPKG_NAME, PTPKG_VERSION);
+$settings = new Settings(PTPKG_NAME, PTPKG_VERSION);
 $token = get_option(PTPKG_NAME . '_token');
 ?>
 
@@ -37,9 +38,8 @@ $token = get_option(PTPKG_NAME . '_token');
                     <form action="options.php" method="post">
                         <div class="card-body">
                             <?php
-                                settings_fields($this->plugin_name);
-                                // do_settings_sections($this->plugin_name);
-                                $settings->do_bs_settings_fields($this->plugin_name, 'ptpkg_api_settings');
+                            settings_fields($this->plugin_name);
+                            $settings->do_bs_settings_fields($this->plugin_name, 'ptpkg_api_settings');
                             ?>
                             <div class="form-group row">
                                 <div class="col-sm-12">
