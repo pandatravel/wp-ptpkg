@@ -50,7 +50,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                 <?php
 
-                $response = $api->get_client()->tours()->show(1);
+                $response = $api->get_client()->tours()->show_wp($currentID);
 
                 ?>
 

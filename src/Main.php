@@ -110,11 +110,13 @@ class Main
      */
     private function define_admin_hooks()
     {
+        $plugin_admin = new admin\Controller($this->get_plugin_name(), $this->get_version());
+        $plugin_settings = new admin\Settings($this->get_plugin_name(), $this->get_version());
+        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
 
         /**
          * register our ptpkg_settings_init to the admin_init action hook
          */
-        $plugin_settings = new admin\Settings($this->get_plugin_name(), $this->get_version());
         // $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
         $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_settings_page');
         $this->loader->add_action('admin_init', $plugin_settings, 'ptpkg_settings_init');
@@ -125,7 +127,6 @@ class Main
          *
          * @link https://code.tutsplus.com/articles/rock-solid-wordpress-30-themes-using-custom-post-types--net-12093
          */
-        $plugin_admin = new admin\Controller($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('admin_init', $plugin_admin, 'package_add_meta_boxes');
         $this->loader->add_action('save_post', $plugin_admin, 'package_save_meta');
         $this->loader->add_action('rest_api_init', $plugin_admin, 'package_rest_meta_fields');
@@ -150,7 +151,6 @@ class Main
          *
          * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
          */
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
         $this->loader->add_action('init', $plugin_post_types, 'create_custom_post_type');
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 10, 1);
@@ -170,11 +170,17 @@ class Main
     {
         $plugin_public = new front\Controller($this->get_plugin_name(), $this->get_version());
         $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
+        $plugin_jwt_auth = new lib\JwtAuth($this->get_plugin_name(), $this->get_version());
 
         $this->loader->add_action('init', $plugin_post_types, 'add_custom_endpoint');
         $this->loader->add_action('wp_head', $plugin_post_types, 'set_custom_permalink_filter');
         $this->loader->add_filter('query_vars', $plugin_post_types, 'add_custom_query_vars_filter');
         $this->loader->add_filter('template_include', $plugin_post_types, 'get_custom_post_type_templates');
+
+        $this->loader->add_action('rest_api_init', $plugin_jwt_auth, 'add_api_routes');
+        $this->loader->add_filter('rest_api_init', $plugin_jwt_auth, 'add_cors_support');
+        $this->loader->add_filter('determine_current_user', $plugin_jwt_auth, 'determine_current_user', 10);
+        $this->loader->add_filter('rest_pre_dispatch', $plugin_jwt_auth, 'rest_pre_dispatch', 10, 2);
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');

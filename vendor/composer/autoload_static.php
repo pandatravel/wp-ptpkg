@@ -13,6 +13,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '7ba3c774c30c8399e359b5ff7f3b943e' => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate/Support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -31,11 +32,19 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             'League\\OAuth2\\Client\\' => 21,
         ),
+        'I' => 
+        array (
+            'Illuminate\\' => 11,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+        ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
         ),
         'D' => 
         array (
@@ -77,6 +86,10 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
         ),
+        'Illuminate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -88,6 +101,10 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Doctrine\\Common\\Inflector\\' => 
         array (
