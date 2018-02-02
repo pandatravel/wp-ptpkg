@@ -276,10 +276,11 @@ class Settings
     {
         $field = $this->option_name . '_token';
         $placeholders = [
-            'id'    => $field,
-            'name'  => $field,
-            'rows'  => '5',
-            'class' => 'form-control regular-text',
+            'id'       => $field,
+            'name'     => $field,
+            'rows'     => '5',
+            'class'    => 'form-control regular-text',
+            'property' => 'readonly',
             'value' => get_option($field),
         ];
 
