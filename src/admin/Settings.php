@@ -217,7 +217,7 @@ class Settings
      */
     public function ptpkg_api_settings_cb()
     {
-        echo '<p>' . __('Please enter your api credentials from ' . PTPKG_URL . '/settings/tokens', 'ptpkg') . '</p>';
+        echo '<p>' . __('Please enter your api credentials from <a href="' . PTPKG_URL . '/settings/tokens">ptpgk.dev</a>', 'ptpkg') . '</p>';
     }
 
     /**
