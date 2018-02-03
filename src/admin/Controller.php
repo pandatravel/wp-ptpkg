@@ -223,7 +223,7 @@ class Controller
      */
     public function update_package_rest_meta_field($value, $post, $field_name)
     {
-        return update_post_meta($post->ID, $field_name, sanitize_text_field($value));
+        return update_post_meta($post->ID, $field_name, $value);
     }
 
     /*
