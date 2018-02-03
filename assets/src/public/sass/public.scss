@@ -3,6 +3,11 @@
 
 // Bootstrap
 // @import "bootstrap";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+// Components
+@import "components/index";
 
 // Custom
 @import "custom";
