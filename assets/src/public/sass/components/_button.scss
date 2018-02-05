@@ -1,0 +1,173 @@
+//
+// Buttons
+//
+
+// Button outline style
+.btn-primary {
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: $primary !important; // #007bff;
+    border-color: $primary !important; // #007bff;
+    &.btn-outline {
+        color: $btn-primary-bg;
+        &:hover {
+            background-color: $btn-primary-bg !important;
+            border-color: $btn-primary-border !important;
+        }
+    }
+}
+
+.btn-success {
+    color: #fff;
+    background-color: $success !important;
+    border-color: $success !important;
+    &.btn-outline {
+        color: $btn-success-bg;
+        &:hover {
+            background-color: $btn-success-bg !important;
+            border-color: $btn-success-border !important;
+        }
+    }
+}
+
+.btn-info {
+    color: #fff;
+    background-color: $info !important;
+    border-color: $info !important;
+    &.btn-outline {
+        color: $btn-info-bg;
+        &:hover {
+            background-color: $btn-info-bg !important;
+            border-color: $btn-info-border !important;
+        }
+    }
+}
+
+.btn-warning {
+    color: #fff;
+    background-color: $warning !important;
+    border-color: $warning !important;
+    &.btn-outline {
+        color: $btn-warning-bg;
+        &:hover {
+            background-color: $btn-warning-bg !important;
+            border-color: $btn-warning-border !important;
+        }
+    }
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: $danger !important;
+    border-color: $danger !important;
+    &.btn-outline {
+        color: $btn-danger-bg !important;
+        &:hover {
+          background-color: $btn-danger-bg !important;
+              border-color: $btn-danger-border !important;
+        }
+    }
+}
+
+.btn-outline {
+    background-color: #fff !important;
+    color: inherit;
+    transition: all .5s;
+    &:hover {
+        color: #fff !important;
+    }
+}
+
+// Button outline style on inverse background
+.btn-outline-inverse {
+    background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+    &:hover {
+      background-color: #fff;
+    }
+}
+.btn-primary.btn-outline-inverse:hover {
+    color: $brand-primary;
+}
+
+.btn-success.btn-outline-inverse:hover {
+    color: $brand-success;
+}
+
+.btn-info.btn-outline-inverse:hover {
+    color: $brand-info;
+}
+
+.btn-warning.btn-outline-inverse:hover {
+    color: $brand-warning;
+}
+
+.btn-danger.btn-outline-inverse:hover {
+    color: $brand-danger;
+}
+
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: darken($background, 10%);
+        border-color: darken($border, 25%);
+  }
+  &:hover {
+    color: $color;
+    background-color: darken($background, 10%);
+        border-color: darken($border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: darken($background, 10%);
+        border-color: darken($border, 12%);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: darken($background, 17%);
+          border-color: darken($border, 25%);
+    }
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: $background;
+          border-color: $border;
+    }
+  }
+
+  .badge {
+    color: $background;
+    background-color: $color;
+  }
+}
+
+// Button sizes
+@mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  padding: $padding-vertical $padding-horizontal;
+  font-size: $font-size;
+  line-height: $line-height;
+  border-radius: $border-radius;
+}
+

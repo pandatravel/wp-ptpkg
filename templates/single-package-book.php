@@ -17,7 +17,7 @@ get_header(); ?>
 
 <!-- Start single-package.php -->
 <div id="page-body" class="package-single-wrapper">
-    <div class="container-fluid">
+    <div id="app" class="container-fluid">
 
         <?php
         /* Start the Loop */

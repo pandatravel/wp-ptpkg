@@ -100,5 +100,6 @@ class Controller
          */
 
         wp_enqueue_script($this->plugin_name . '-public', plugins_url('/../../assets/public/js/ptpkg-public.js', __FILE__), [ 'jquery' ], $this->version, true);
+        wp_enqueue_script($this->plugin_name . '-app', plugins_url('/../../assets/public/js/ptpkg-app.js', __FILE__), [ 'jquery' ], $this->version, true);
     }
 }
