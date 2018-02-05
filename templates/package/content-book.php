@@ -20,6 +20,7 @@ $api = new Api();
  * Custom meta fields
  */
 $currentID = get_the_ID();
+$package = $api->get_client()->tours()->show_wp($currentID);
 $packageBannerUrl = wp_get_attachment_image_url(get_post_meta($currentID, 'package-banner', true), 'full');
 $packageTeaser = get_post_meta($currentID, 'package-teaser', true);
 $packagePrice = get_post_meta($currentID, 'package-price', true);
@@ -28,7 +29,7 @@ $packageSEOAd = get_post_meta($currentID, 'package-seo-ad', true);
 $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('package-book'); ?>>
 
     <div class="row">
         <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBannerUrl; ?>') top center no-repeat;">
@@ -44,21 +45,23 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
     </div>
 
     <div class="row package-content-wrapper">
-        <div class="col-sm-12">
-            <div class="package-post-wrapper">
-                <h2>Tour Package Booking Page</h2>
+        <div class="col-sm-10 col-sm-offset-1">
 
-                <?php
-
-                $response = $api->get_client()->tours()->show_wp($currentID);
-
-                ?>
-
-                <pre><?php print_r($response); ?></pre>
-
-
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 class="card-title text-primary text-center"><?php the_title(); ?></h2>
+                </div>
+                <div class="card-body">
+                    body
+                </div>
+                <div class="card-footer">
+                    footer
+                </div>
             </div>
+
         </div>
     </div>
 
 </article><!-- #post-## -->
+
+<!-- <pre><?php print_r($package); ?></pre> -->

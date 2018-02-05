@@ -29,7 +29,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4 text-center">
                     <div class="package-cta-book">
-                        <a class="btn btn-primary btn-outlinex btn-lg btn-block" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
+                        <a class="btn btn-primary btn-lg btn-block" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
                     </div>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4">
@@ -51,29 +51,32 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
             $package_cat = get_term($primary_cat_id);
         }
 
-        $category = get_the_category() ;
+        $category = get_the_category();
         ?>
         <div class="col-sm-8">
-            <div class="package-post-wrapper">
-                <div class="row package-navigation-wrapper">
+            <div class="card">
+                <div class="card-header">
                     <?php
                     $prev_post = get_previous_post($category[0]->term_id);
                     if (!empty($prev_post)): ?>
-                      <a href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>"><div id="package-previous-button">&nbsp;</div></a>
+                      <a class="btn btn-danger btn-outline btn-sm text-uppercase" href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>"><span class="glyphicon glyphicon-menu-left"></span> Previous</a>
                     <?php endif ?>
 
                     <?php
                     $next_post = get_next_post($category[0]->term_id);
                     if (!empty($next_post)): ?>
-                      <a href="<?php echo esc_url(get_permalink($next_post->ID)); ?>"><div id="package-next-button">&nbsp;</div></a>
+                      <a class="btn btn-danger btn-outline btn-sm pull-right text-uppercase" href="<?php echo esc_url(get_permalink($next_post->ID)); ?>">Next <span class="glyphicon glyphicon-menu-right"></span></a>
                     <?php endif; ?>
-
                 </div>
-                <div class="package-thumbnail-wrapper">
-                    <?php the_post_thumbnail('medium', ['class' => 'img-thumbnail']); ?>
+                <div class="card-body">
+                    <div class="package-thumbnail-wrapper">
+                        <?php the_post_thumbnail('medium', ['class' => 'img-thumbnail']); ?>
+                    </div>
+                    <?php the_content(); ?>
                 </div>
-                <?php the_content(); ?>
-                <a class="btn btn-primary" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
+                <div class="card-footer text-center text-uppercase">
+                    <a href="<?php echo get_post_permalink($currentID) ?>" class="btn btn-link btn-block" title="Start Booking This Package Now">Book Now</a>
+                </div>
             </div>
         </div>
         <div class="col-sm-4">
