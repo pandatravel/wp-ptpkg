@@ -31,36 +31,25 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('package-book'); ?>>
 
-    <div class="row">
-        <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBannerUrl; ?>') top center no-repeat;">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <h1 class="package-title"><?php the_title(); ?></h1>
-                    <div class="package-teaser">
-                        <?php echo $packageTeaser; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <v-layout row>
+        <v-flex xs10 offset-xs1>
 
-    <div class="row package-content-wrapper">
-        <div class="col-sm-10 col-sm-offset-1">
+            <v-card>
+                <v-card-text>
+                    <h2 class="card-title text-primary text-sm-center"><?php the_title(); ?></h2>
+                </v-card-text>
 
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2 class="card-title text-primary text-center"><?php the_title(); ?></h2>
-                </div>
-                <div class="card-body">
-                    body
-                </div>
-                <div class="card-footer">
-                    footer
-                </div>
-            </div>
+                <booking-form>
+                    <div slot="step-1">Step 1</div>
+                    <div slot="step-2">Step 2</div>
+                    <div slot="step-3">Step 3</div>
+                    <div slot="step-4">Step 4</div>
+                </booking-form>
 
-        </div>
-    </div>
+            </v-card>
+
+        </v-flex>
+    </v-layout>
 
 </article><!-- #post-## -->
 

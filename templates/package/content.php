@@ -21,68 +21,54 @@ $packageLocation = get_post_meta($currentID, 'package-location', true);
 $packageSEOAd = get_post_meta($currentID, 'package-seo-ad', true);
 $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
+$primary_cat_id=get_post_meta($currentID, '_yoast_wpseo_primary_category', true);
+if ($primary_cat_id) {
+    $package_cat = get_term($primary_cat_id);
+}
+$category = get_the_category();
+
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('package-details'); ?>>
 
-    <div class="row">
-        <div class="package-banner" style="min-height:333px; padding:0px 5px; background: url('<?php echo $packageBannerUrl; ?>') top center no-repeat;">
-            <div class="row">
-                <div class="col-sm-4 col-sm-offset-4 text-center">
-                    <div class="package-cta-book">
-                        <a class="btn btn-primary btn-lg btn-block" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">BOOK NOW</a>
-                    </div>
-                </div>
-                <div class="col-sm-8 col-sm-offset-4">
-                    <h1 class="package-title"><?php the_title(); ?></h1>
-                    <div class="package-teaser">
-                        <?php echo $packageTeaser; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <v-layout row>
+        <v-flex sm8>
 
-    <div class="row package-content-wrapper">
-        <?php
-        // Get Yoast primary category
-        $primary_cat_id=get_post_meta($currentID, '_yoast_wpseo_primary_category', true);
+            <v-card>
+                <v-card-text>
+                    <v-card-actions>
+                        <?php
+                        $prev_post = get_previous_post($category[0]->term_id);
+                        if (!empty($prev_post)): ?>
+                        <v-btn flat small outline absolute left href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>" color="orange"><v-icon dark left>arrow_back</v-icon>Previous</v-btn>
+                        <?php endif; ?>
+                        <?php
+                        $next_post = get_next_post($category[0]->term_id);
+                        if (!empty($next_post)): ?>
+                        <v-btn flat small outline absolute right href="<?php echo esc_url(get_permalink($next_post->ID)); ?>" color="orange">Next<v-icon dark right>arrow_forward</v-icon></v-btn>
+                        <?php endif; ?>
+                    </v-card-actions>
+                </v-card-text>
 
-        if ($primary_cat_id) {
-            $package_cat = get_term($primary_cat_id);
-        }
-
-        $category = get_the_category();
-        ?>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header">
-                    <?php
-                    $prev_post = get_previous_post($category[0]->term_id);
-                    if (!empty($prev_post)): ?>
-                      <a class="btn btn-danger btn-outline btn-sm text-uppercase" href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>"><span class="glyphicon glyphicon-menu-left"></span> Previous</a>
-                    <?php endif ?>
-
-                    <?php
-                    $next_post = get_next_post($category[0]->term_id);
-                    if (!empty($next_post)): ?>
-                      <a class="btn btn-danger btn-outline btn-sm pull-right text-uppercase" href="<?php echo esc_url(get_permalink($next_post->ID)); ?>">Next <span class="glyphicon glyphicon-menu-right"></span></a>
-                    <?php endif; ?>
-                </div>
-                <div class="card-body">
+                <v-card-title>
+                    <span class="card-title text-primary text-sm-center"><?php the_title(); ?></span>
+                </v-card-title>
+                <v-card-text>
                     <div class="package-thumbnail-wrapper">
                         <?php the_post_thumbnail('medium', ['class' => 'img-thumbnail']); ?>
                     </div>
                     <?php the_content(); ?>
-                </div>
-                <div class="card-footer text-center text-uppercase">
-                    <a href="<?php echo get_post_permalink($currentID) ?>" class="btn btn-link btn-block" title="Start Booking This Package Now">Book Now</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <h2>Additional Tours</h2>
-            <?php
+                </v-card-text>
 
+                <v-card-actions>
+                    <v-btn large block color="primary" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">Book Now</v-btn>
+                </v-card-actions>
+            </v-card>
+
+        </v-flex>
+
+        <v-flex sm4>
+
+            <?php
                 $args = [
                     // Change these category SLUGS to suit your use.
                     'post_type' => 'package',
@@ -96,46 +82,52 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                 $list_of_posts = new WP_Query($args);
                 wp_reset_postdata();
             ?>
-            <?php while ($list_of_posts->have_posts()) : $list_of_posts->the_post(); $pId = get_the_ID(); ?>
-                <div class="sp-column-wrapper">
-                    <div class="sp-package-wrapper" id="<?php echo 'package-id-'.$pId?>">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <?php
-                                    if (has_post_thumbnail()) {
-                                        the_post_thumbnail('small');
-                                    }
-                                ?>
-                            </div>
-                            <div class="col-xs-8 padding-left-reset">
-                                <div class="sp-package-title">
-                                    <?php the_title(); ?>
-                                </div>
-                                <?php echo get_post_meta($pId, "package-teaser", true); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row margin-reset sp-action-wrapper">
-                        <div class="col-sm-6 sp-action" data-toggle="modal" data-target="#myModal-<?php echo $pId; ?>">
-                            <a href="<?php echo get_permalink(); ?>">Details</a>
-                        </div>
-                        <div id="book-now-<?php echo $pId; ?>" post-id="<?php echo $pId; ?>" class="col-sm-6 sp-action" >
-                            <a href="#">Book Now</a>
-                        </div>
-                    </div>
+            <v-container grid-list-lg fluid class="additional-package-details">
+                <v-layout row wrap>
+                    <v-flex xs12 mb-3>
+                        <v-card>
+                            <v-card-text>
+                                <div class="title blue-grey--text text--darken-1 text-xs-center">Additional Tours</div>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
 
-                </div>
-            <?php endwhile; ?>
-        </div>
-    </div>
+                    <?php while ($list_of_posts->have_posts()) : $list_of_posts->the_post(); $pId = get_the_ID(); ?>
+                    <v-flex xs12 mb-2>
+                        <v-card>
+                            <v-container fluid fill-height grid-list-lg pb-0>
+                                <v-layout row>
+                                    <v-flex xs8>
+                                        <div class="title blue-grey--text text--darken-3"><?php the_title(); ?></div>
+                                        <div class=""><?php echo get_post_meta($pId, "package-teaser", true); ?></div>
+                                    </v-flex>
+                                    <v-flex xs4>
+                                        <v-card-media src="<?php echo get_the_post_thumbnail_url(); ?>" height="125px" contain></v-card-media>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <v-card-actions>
+                                <v-btn flat block color="primary" href="<?php echo rtrim(get_permalink(), '/book'); ?>">Details</v-btn>
+                                <v-btn flat block color="primary" href="<?php echo get_permalink(); ?>">Book Now</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-flex>
+                    <?php endwhile; ?>
 
-    <div id="package-seo-wrapper" class="row">
-        <div class="col-sm-3">
+                </v-layout>
+            </v-container>
+
+        </v-flex>
+
+    </v-layout>
+
+    <v-layout row>
+        <v-flex sm3>
             <?php echo $packageSEOAd; ?>
-        </div>
-        <div class="col-sm-9">
+        </v-flex>
+        <v-flex sm9>
             <?php echo $packageSEOContent; ?>
-        </div>
-    </div>
+        </v-flex>
+    </v-layout>
 
 </article><!-- #post-## -->

@@ -1,3 +1,8 @@
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css'
+import VueFormWizard from 'vue-form-wizard';
+import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+import 'babel-polyfill';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -6,7 +11,7 @@
  */
 
 import './bootstrap';
-import { Switch } from './components/index';
+import { BookingForm, ToggleSwitch } from './components/index';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -14,7 +19,10 @@ import { Switch } from './components/index';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('toggle-switch', Switch);
+Vue.use(Vuetify);
+Vue.use(VueFormWizard);
+Vue.component('toggle-switch', ToggleSwitch);
+Vue.component('booking-form', BookingForm);
 
 const app = new Vue({
     el: '#app'

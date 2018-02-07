@@ -1,5 +1,7 @@
-import Switch from './Switch.vue';
+import ToggleSwitch from './Switch.vue';
+import BookingForm from './BookingForm.vue';
 
 export {
-    Switch,
+    BookingForm,
+    ToggleSwitch,
 }

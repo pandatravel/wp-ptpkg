@@ -63,7 +63,6 @@ class Controller
      */
     public function enqueue_styles()
     {
-
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -75,8 +74,14 @@ class Controller
          * between the defined hooks and the functions defined in this
          * class.
          */
+        $query_args = [
+            'family' => 'Roboto:300,400,500,700|Material+Icons',
+            'subset' => 'latin,latin-ext',
+        ];
 
+        wp_enqueue_style('bootstrap', plugins_url('/../../assets/public/css/ptpkg-bootstrap.css', __FILE__), [], $this->version, 'all');
         wp_enqueue_style($this->plugin_name . '-public', plugins_url('/../../assets/public/css/ptpkg-public.css', __FILE__), [], $this->version, 'all');
+        wp_enqueue_style($this->plugin_name . '-google-fonts', add_query_arg($query_args, '//fonts.googleapis.com/css'), [], $this->version, 'all');
     }
 
     /**
