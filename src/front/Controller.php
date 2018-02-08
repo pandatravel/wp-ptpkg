@@ -12,6 +12,8 @@
 
 namespace Ptpkg\front;
 
+use Ptpkg\lib\common\CustomPostTypes;
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -44,16 +46,24 @@ class Controller
     private $version;
 
     /**
+     * The CustomPostType class
+     *
+     * @var Ptpkg\lib\common\CustomPostTypes
+     */
+    private $cpt;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
      * @param      string    $plugin_name       The name of the plugin.
      * @param      string    $version    The version of this plugin.
      */
-    public function __construct($plugin_name, $version)
+    public function __construct($plugin_name, $version, CustomPostTypes $cpt)
     {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+        $this->cpt = $cpt;
     }
 
     /**
@@ -74,14 +84,17 @@ class Controller
          * between the defined hooks and the functions defined in this
          * class.
          */
-        $query_args = [
-            'family' => 'Roboto:300,400,500,700|Material+Icons',
-            'subset' => 'latin,latin-ext',
-        ];
 
-        wp_enqueue_style('bootstrap', plugins_url('/../../assets/public/css/ptpkg-bootstrap.css', __FILE__), [], $this->version, 'all');
-        wp_enqueue_style($this->plugin_name . '-public', plugins_url('/../../assets/public/css/ptpkg-public.css', __FILE__), [], $this->version, 'all');
-        wp_enqueue_style($this->plugin_name . '-google-fonts', add_query_arg($query_args, '//fonts.googleapis.com/css'), [], $this->version, 'all');
+        if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
+            $query_args = [
+                'family' => 'Roboto:300,400,500,700|Material+Icons',
+                'subset' => 'latin,latin-ext',
+            ];
+
+            wp_enqueue_style('bootstrap', plugins_url('assets/public/css/ptpkg-bootstrap.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
+            wp_enqueue_style($this->plugin_name . '-public', plugins_url('assets/public/css/ptpkg-public.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
+            wp_enqueue_style($this->plugin_name . '-google-fonts', add_query_arg($query_args, '//fonts.googleapis.com/css'), [], $this->version, 'all');
+        }
     }
 
     /**
@@ -91,7 +104,6 @@ class Controller
      */
     public function enqueue_scripts()
     {
-
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -104,7 +116,9 @@ class Controller
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name . '-public', plugins_url('/../../assets/public/js/ptpkg-public.js', __FILE__), [ 'jquery' ], $this->version, true);
-        wp_enqueue_script($this->plugin_name . '-app', plugins_url('/../../assets/public/js/ptpkg-app.js', __FILE__), [ 'jquery' ], $this->version, true);
+        if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
+            wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), [ 'jquery' ], $this->version, true);
+            wp_enqueue_script($this->plugin_name . '-app', plugins_url('assets/public/js/ptpkg-app.js', PTPKG_ASSET_DIR), [ 'jquery' ], $this->version, true);
+        }
     }
 }

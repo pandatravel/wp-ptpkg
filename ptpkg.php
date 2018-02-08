@@ -44,6 +44,7 @@ define('PTPKG_URL', 'https://ptpkg.dev');
 define('PTPKG_PLUGIN_ROOT', plugin_dir_path(__FILE__));
 define('PTPKG_BASE_DIR', plugin_dir_path(__FILE__));
 define('PTPKG_TPL_DIR', PTPKG_BASE_DIR . 'templates/');
+define('PTPKG_ASSET_DIR', PTPKG_BASE_DIR . 'assets/');
 
 // We load Composer's autoload file
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
@@ -54,7 +55,7 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
  */
 function activate_ptpkg()
 {
-    lib\Activator::activate();
+    lib\core\Activator::activate();
 }
 
 /**
@@ -63,7 +64,7 @@ function activate_ptpkg()
  */
 function deactivate_ptpkg()
 {
-    lib\Deactivator::deactivate();
+    lib\core\Deactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_ptpkg');
@@ -80,7 +81,7 @@ register_deactivation_hook(__FILE__, 'deactivate_ptpkg');
  */
 function run_ptpkg()
 {
-    $plugin = new Main();
+    $plugin = new lib\core\Init();
     $plugin->run();
 }
 run_ptpkg();

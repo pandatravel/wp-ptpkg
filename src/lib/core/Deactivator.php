@@ -10,7 +10,7 @@
  * @subpackage Ptpkg/includes
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\core;
 
 /**
  * Fired during plugin deactivation.

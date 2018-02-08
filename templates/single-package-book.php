@@ -11,7 +11,7 @@
 * @author Ammon Casey
 */
 
-$templates = new Ptpkg\lib\CustomTemplateLoader;
+$templates = new Ptpkg\lib\common\CustomTemplateLoader;
 
 /**
  * Custom meta fields
@@ -28,7 +28,7 @@ get_header(); ?>
     <div id="app" class="package-book" v-cloak><!-- vue root -->
 
         <v-app>
-            <v-jumbotron src="<?php echo $packageBannerUrl; ?>" height="333px" class="package-banner mb-5">
+            <v-jumbotron src="<?php echo $packageBannerUrl; ?>" height="333px" class="package-banner mb-3">
                 <v-container fill-height py-5>
                     <v-layout row pt-5>
                         <v-flex sm9 offset-sm3 text-sm-left>

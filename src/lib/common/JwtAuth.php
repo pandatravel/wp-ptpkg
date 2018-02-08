@@ -13,7 +13,7 @@
  * @subpackage Ptpkg/lib
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\common;
 
 /** Requiere the JWT library. */
 use Firebase\JWT\ExpiredException;

@@ -13,7 +13,7 @@
  * @subpackage Ptpkg/lib
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\common;
 
 use Ammonkc\Ptpkg\Client;
 use Ptpkg\admin\Settings;

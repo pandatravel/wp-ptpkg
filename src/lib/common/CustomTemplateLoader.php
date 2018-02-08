@@ -7,7 +7,7 @@
  *
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\common;
 
 /**
  * The Custom Template Loader.

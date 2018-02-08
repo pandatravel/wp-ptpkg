@@ -12,8 +12,8 @@
 
 namespace Ptpkg\admin;
 
-use Ptpkg\lib\Api;
-use Ptpkg\lib\ExopiteTemplate;
+use Ptpkg\lib\common\Api;
+use Ptpkg\lib\common\ExopiteTemplate;
 
 /**
  * The admin-settings functionality of the plugin.

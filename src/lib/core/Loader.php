@@ -10,7 +10,7 @@
  * @subpackage Ptpkg/includes
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\core;
 
 /**
  * Register all actions and filters for the plugin.

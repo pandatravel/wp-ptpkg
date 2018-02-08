@@ -13,7 +13,14 @@
  * @subpackage Ptpkg/src
  */
 
-namespace Ptpkg;
+namespace Ptpkg\Lib\core;
+
+use Ptpkg\admin\Controller as AdminController;
+use Ptpkg\admin\Settings;
+use Ptpkg\front\BookingForm;
+use Ptpkg\front\Controller as FrontController;
+use Ptpkg\lib\common\CustomPostTypes;
+use Ptpkg\lib\common\JwtAuth;
 
 /**
  * The core plugin class.
@@ -29,7 +36,7 @@ namespace Ptpkg;
  * @subpackage Ptpkg/src
  * @author     Ammon Casey <acasey@panda-group.com>
  */
-class Main
+class Init
 {
 
     /**
@@ -77,7 +84,7 @@ class Main
         } else {
             $this->version = '1.0.0';
         }
-        $this->loader = new lib\Loader();
+        $this->loader = new Loader();
 
         $this->set_locale();
         $this->define_admin_hooks();
@@ -95,7 +102,7 @@ class Main
      */
     private function set_locale()
     {
-        $plugin_i18n = new lib\Internationalization();
+        $plugin_i18n = new Internationalization();
         $plugin_i18n->set_domain($this->get_plugin_name());
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
@@ -110,9 +117,9 @@ class Main
      */
     private function define_admin_hooks()
     {
-        $plugin_admin = new admin\Controller($this->get_plugin_name(), $this->get_version());
-        $plugin_settings = new admin\Settings($this->get_plugin_name(), $this->get_version());
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
+        $plugin_admin = new AdminController($this->get_plugin_name(), $this->get_version());
+        $plugin_settings = new Settings($this->get_plugin_name(), $this->get_version());
+        $plugin_post_types = new CustomPostTypes($this->get_plugin_name(), 'package', 'book');
 
         /**
          * register our ptpkg_settings_init to the admin_init action hook
@@ -168,9 +175,10 @@ class Main
      */
     private function define_public_hooks()
     {
-        $plugin_public = new front\Controller($this->get_plugin_name(), $this->get_version());
-        $plugin_post_types = new lib\CustomPostTypes($this->get_plugin_name(), 'package', 'book');
-        $plugin_jwt_auth = new lib\JwtAuth($this->get_plugin_name(), $this->get_version());
+        $plugin_post_types = new CustomPostTypes($this->get_plugin_name(), 'package', 'book');
+        $plugin_public = new FrontController($this->get_plugin_name(), $this->get_version(), $plugin_post_types);
+        $plugin_booking_form = new BookingForm($this->get_plugin_name(), $this->get_version(), $plugin_post_types);
+        $plugin_jwt_auth = new JwtAuth($this->get_plugin_name(), $this->get_version());
 
         $this->loader->add_action('init', $plugin_post_types, 'add_custom_endpoint');
         $this->loader->add_action('wp_head', $plugin_post_types, 'set_custom_permalink_filter');
@@ -182,8 +190,16 @@ class Main
         $this->loader->add_filter('determine_current_user', $plugin_jwt_auth, 'determine_current_user', 10);
         $this->loader->add_filter('rest_pre_dispatch', $plugin_jwt_auth, 'rest_pre_dispatch', 10, 2);
 
+        // $this->loader->add_action('admin_post_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        // $this->loader->add_action('admin_post_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        $this->loader->add_action('wp_ajax_nopriv_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        $this->loader->add_action('wp_ajax_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        $this->loader->add_action('rest_api_init', $plugin_booking_form, 'add_api_routes');
+        $this->loader->add_action('wp_head', $plugin_booking_form, 'add_csrf_token');
+
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_booking_form, 'enqueue_scripts');
     }
 
     /**

@@ -34,7 +34,7 @@
  * Created by Joe Szalai
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\common;
 
 class ExopiteTemplate
 {

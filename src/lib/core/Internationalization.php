@@ -13,7 +13,7 @@
  * @subpackage Ptpkg/includes
  */
 
-namespace Ptpkg\lib;
+namespace Ptpkg\lib\core;
 
 /**
  * Define the internationalization functionality.

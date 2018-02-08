@@ -12,7 +12,7 @@
 
 namespace Ptpkg\admin;
 
-use Ptpkg\lib\ExopiteTemplate;
+use Ptpkg\lib\common\ExopiteTemplate;
 
 /**
  * The admin-specific functionality of the plugin.
