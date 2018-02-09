@@ -177,10 +177,8 @@ class BookingForm
          */
 
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
-            $action = $this->plugin_name . '_booking_form';
             $wp_ajax = [
-                'action' => $action,
-                'url' => admin_url('admin-ajax.php?action=' . $action),
+                'url' => admin_url('admin-ajax.php'),
             ];
 
             // wp_localize_script($this->plugin_name . '-app', 'wp_ajax', $wp_ajax);
