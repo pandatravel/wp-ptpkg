@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'switch',
+    name: 'toggle-switch',
   model: {
     prop: 'checked',
     event: 'change'
