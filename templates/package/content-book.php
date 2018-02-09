@@ -55,9 +55,9 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                 <v-stepper-content step="1">
 
-                                    <v-text-field id="form-name" label="Name" name="user_name" v-model="form.user_name" required></v-text-field>
+                                    <v-text-field id="form-name" label="Name" name="ame" v-model="form.name" required></v-text-field>
                                     <v-text-field id="form-email" label="Email" name="email" v-model="form.email" required></v-text-field>
-                                    <pre>{{ form }}</pre>
+
                                     <v-btn color="primary" @click.native="step = 2">Continue</v-btn>
                                     <v-btn color="primary" type="submit">Submit</v-btn>
 

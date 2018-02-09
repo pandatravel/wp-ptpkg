@@ -108,7 +108,7 @@ class Controller
     public function package_seo_ad_build_meta_box($post)
     {
         $metafields = '<div>';
-        $metafields .= $this->metabox_wysiwyg_field('seo_ad', get_post_meta($post->ID, 'package-seo-ad', true), 'SEO Ad');
+        $metafields .= $this->metabox_wysiwyg_field('seo_ad', get_post_meta($post->ID, 'package-seo-ad', true));
         $metafields .= '</div>';
 
         echo $metafields;
@@ -122,7 +122,7 @@ class Controller
     public function package_seo_content_build_meta_box($post)
     {
         $metafields = '<div>';
-        $metafields .= $this->metabox_wysiwyg_field('seo_content', get_post_meta($post->ID, 'package-seo-content', true), 'SEO Content');
+        $metafields .= $this->metabox_wysiwyg_field('seo_content', get_post_meta($post->ID, 'package-seo-content', true));
         $metafields .= '</div>';
 
         echo $metafields;

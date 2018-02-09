@@ -19,6 +19,7 @@ use Ptpkg\admin\Controller as AdminController;
 use Ptpkg\admin\Settings;
 use Ptpkg\front\BookingForm;
 use Ptpkg\front\Controller as FrontController;
+use Ptpkg\lib\common\Api;
 use Ptpkg\lib\common\CustomPostTypes;
 use Ptpkg\lib\common\JwtAuth;
 
@@ -175,9 +176,10 @@ class Init
      */
     private function define_public_hooks()
     {
+        $api = new Api();
         $plugin_post_types = new CustomPostTypes($this->get_plugin_name(), 'package', 'book');
         $plugin_public = new FrontController($this->get_plugin_name(), $this->get_version(), $plugin_post_types);
-        $plugin_booking_form = new BookingForm($this->get_plugin_name(), $this->get_version(), $plugin_post_types);
+        $plugin_booking_form = new BookingForm($this->get_plugin_name(), $this->get_version(), $plugin_post_types, $api);
         $plugin_jwt_auth = new JwtAuth($this->get_plugin_name(), $this->get_version());
 
         $this->loader->add_action('init', $plugin_post_types, 'add_custom_endpoint');
@@ -192,8 +194,8 @@ class Init
 
         // $this->loader->add_action('admin_post_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
         // $this->loader->add_action('admin_post_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
-        $this->loader->add_action('wp_ajax_nopriv_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
-        $this->loader->add_action('wp_ajax_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        // $this->loader->add_action('wp_ajax_nopriv_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
+        // $this->loader->add_action('wp_ajax_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
         $this->loader->add_action('rest_api_init', $plugin_booking_form, 'add_api_routes');
         $this->loader->add_action('wp_head', $plugin_booking_form, 'add_csrf_token');
 
