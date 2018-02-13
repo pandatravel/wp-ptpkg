@@ -1,16 +1,17 @@
 <?php
 
-namespace Illuminate\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
 use stdClass;
+use Exception;
 use ArrayAccess;
 use Mockery as m;
 use ReflectionClass;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Tightenco\Collect\Support\Collection;
+use Tightenco\Collect\Contracts\Support\Jsonable;
+use Tightenco\Collect\Contracts\Support\Arrayable;
 
 class SupportCollectionTest extends TestCase
 {
@@ -142,6 +143,16 @@ class SupportCollectionTest extends TestCase
         $this->assertEmpty($collection->all());
     }
 
+    public function testCollectionShuffleWithSeed()
+    {
+        $collection = new Collection((range(0, 100, 10)));
+
+        $firstRandom = $collection->shuffle(1234);
+        $secondRandom = $collection->shuffle(1234);
+
+        $this->assertEquals($firstRandom, $secondRandom);
+    }
+
     public function testGetArrayableItems()
     {
         $collection = new Collection;
@@ -173,9 +184,9 @@ class SupportCollectionTest extends TestCase
 
     public function testToArrayCallsToArrayOnEachItemInCollection()
     {
-        $item1 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item1 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item1->shouldReceive('toArray')->once()->andReturn('foo.array');
-        $item2 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->toArray();
@@ -187,7 +198,7 @@ class SupportCollectionTest extends TestCase
     {
         $item1 = m::mock('JsonSerializable');
         $item1->shouldReceive('jsonSerialize')->once()->andReturn('foo.json');
-        $item2 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->jsonSerialize();
@@ -328,6 +339,16 @@ class SupportCollectionTest extends TestCase
         ]);
 
         $this->assertEquals(['id1' => 'first', 'id2' => 'second'], $c->keyBy->id->map->name->all());
+    }
+
+    public function testHigherOrderUnique()
+    {
+        $c = new Collection([
+            ['id' => '1', 'name' => 'first'],
+            ['id' => '1', 'name' => 'second'],
+        ]);
+
+        $this->assertCount(1, $c->unique->id);
     }
 
     public function testHigherOrderFilter()
@@ -974,8 +995,15 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['first' => 'Taylor'], $data->except(['last', 'email', 'missing'])->all());
         $this->assertEquals(['first' => 'Taylor'], $data->except('last', 'email', 'missing')->all());
 
+        $this->assertEquals(['first' => 'Taylor'], $data->except(collect(['last', 'email', 'missing']))->all());
         $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except(['last'])->all());
         $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except('last')->all());
+    }
+
+    public function testExceptSelf()
+    {
+        $data = new Collection(['first' => 'Taylor', 'last' => 'Otwell']);
+        $this->assertEquals(['first' => 'Taylor', 'last' => 'Otwell'], $data->except($data)->all());
     }
 
     public function testPluckWithArrayAndObjectValues()
@@ -996,6 +1024,15 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['foo', 'bar'], $data->pluck('email')->all());
     }
 
+    public function testHas()
+    {
+        $data = new Collection(['id' => 1, 'first' => 'Hello', 'second' => 'World']);
+        $this->assertTrue($data->has('first'));
+        $this->assertFalse($data->has('third'));
+        $this->assertTrue($data->has(['first', 'second']));
+        $this->assertFalse($data->has(['third', 'first']));
+    }
+
     public function testImplode()
     {
         $data = new Collection([['name' => 'taylor', 'email' => 'foo'], ['name' => 'dayle', 'email' => 'bar']]);
@@ -1012,6 +1049,20 @@ class SupportCollectionTest extends TestCase
         $data = new Collection(['taylor', 'dayle', 'shawn']);
         $data = $data->take(2);
         $this->assertEquals(['taylor', 'dayle'], $data->all());
+    }
+
+    public function testPut()
+    {
+        $data = new Collection(['name' => 'taylor', 'email' => 'foo']);
+        $data = $data->put('name', 'dayle');
+        $this->assertEquals(['name' => 'dayle', 'email' => 'foo'], $data->all());
+    }
+
+    public function testPutWithNoKey()
+    {
+        $data = new Collection(['taylor', 'shawn']);
+        $data = $data->put(null, 'dayle');
+        $this->assertEquals(['taylor', 'shawn', 'dayle'], $data->all());
     }
 
     public function testRandom()
@@ -2353,6 +2404,40 @@ class SupportCollectionTest extends TestCase
         $this->assertSame([['free' => false, 'title' => 'Premium']], $premium->values()->toArray());
     }
 
+    public function testPartitionWithOperators()
+    {
+        $collection = new Collection([
+            ['name' => 'Tim', 'age' => 17],
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        list($tims, $others) = $collection->partition('name', 'Tim');
+
+        $this->assertEquals($tims->values()->all(), [
+            ['name' => 'Tim', 'age' => 17],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        $this->assertEquals($others->values()->all(), [
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+        ]);
+
+        list($adults, $minors) = $collection->partition('age', '>=', 18);
+
+        $this->assertEquals($adults->values()->all(), [
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        $this->assertEquals($minors->values()->all(), [
+            ['name' => 'Tim', 'age' => 17],
+        ]);
+    }
+
     public function testPartitionPreservesKeys()
     {
         $courses = new Collection([
@@ -2463,6 +2548,35 @@ class SupportCollectionTest extends TestCase
         });
 
         $this->assertSame(['michael', 'tom', 'taylor'], $collection->toArray());
+    }
+
+    public function testHasReturnsValidResults()
+    {
+        $collection = new Collection(['foo' => 'one', 'bar' => 'two', 1 => 'three']);
+        $this->assertTrue($collection->has('foo'));
+        $this->assertTrue($collection->has('foo', 'bar', 1));
+        $this->assertFalse($collection->has('foo', 'bar', 1, 'baz'));
+        $this->assertFalse($collection->has('baz'));
+    }
+
+    public function testPutAddsItemToCollection()
+    {
+        $collection = new Collection();
+        $this->assertSame([], $collection->toArray());
+        $collection->put('foo', 1);
+        $this->assertSame(['foo' => 1], $collection->toArray());
+        $collection->put('bar', ['nested' => 'two']);
+        $this->assertSame(['foo' => 1, 'bar' => ['nested' => 'two']], $collection->toArray());
+        $collection->put('foo', 3);
+        $this->assertSame(['foo' => 3, 'bar' => ['nested' => 'two']], $collection->toArray());
+    }
+
+    public function testItThrowsExceptionWhenTryingToAccessNoProxyProperty()
+    {
+        $collection = new Collection();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Property [foo] does not exist on this collection instance.');
+        $collection->foo;
     }
 
     public function testGetWithNullReturnsNull()
