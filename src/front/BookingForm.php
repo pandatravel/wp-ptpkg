@@ -175,7 +175,6 @@ class BookingForm
          *
          * @link http://wordpress.stackexchange.com/a/190299/90212
          */
-        sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package['data']))
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             $package = $this->api->get_client()->tours()->show_wp($post->ID);
             // wp_localize_script($this->plugin_name . '-app', 'wp_ajax', $wp_ajax);
