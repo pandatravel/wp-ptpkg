@@ -166,7 +166,7 @@ class BookingForm
      */
     public function enqueue_scripts()
     {
-
+        global $post;
         /**
          *  In backend there is global ajaxurl variable defined by WordPress itself.
          *
@@ -177,13 +177,10 @@ class BookingForm
          */
 
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
-            $wp_ajax = [
-                'url' => admin_url('admin-ajax.php'),
-            ];
-
+            $package = $this->api->get_client()->tours()->show_wp($post->ID);
             // wp_localize_script($this->plugin_name . '-app', 'wp_ajax', $wp_ajax);
-            // wp_enqueue_script($this->plugin_name . '-data', plugins_url('assets/public/js/ptpkg-data.js', PTPKG_ASSET_DIR));
-            // wp_add_inline_script($this->plugin_name . '-data', 'window._exampleEditor = ' . wp_json_encode($response->get_data()) . ';');
+            wp_enqueue_script($this->plugin_name . '-data', plugins_url('assets/public/js/ptpkg-data.js', PTPKG_ASSET_DIR), [], $this->version);
+            wp_add_inline_script($this->plugin_name . '-data', 'window._packageData = ' . wp_json_encode($package['data']) . ';');
         }
     }
 }
