@@ -36,45 +36,43 @@ Vue.component('booking-form', {
     },
 
     computed: {
-        totalAdults() {
-            var total = 0;
-            this.form.rooms.forEach(function (room) {
-                room.travelers.forEach(function (traveler) {
-                    if (traveler.adult) {
-                        total++;
-                    }
-                })
-            });
-            return total;
+        adults() {
+            return this.form.rooms.reduce(function(adults, room) {
+                return adults + room.travelers.reduce(function(adults, traveler) {
+                    return (traveler.adult ? adults + 1 : adults);
+                }, 0);
+            }, 0);
         },
-        totalChildren() {
-            var total = 0;
-            this.form.rooms.forEach(function (room) {
-                room.travelers.forEach(function (traveler) {
-                    if (! traveler.adult) {
-                        total++;
-                    }
-                })
-            });
-            return total;
+        children() {
+            return this.form.rooms.reduce(function(children, room) {
+                return children + room.travelers.reduce(function(children, traveler) {
+                    return (! traveler.adult ? children + 1 : children);
+                }, 0);
+            }, 0);
+        },
+        totalTravelers() {
+            return this.adults + this.children;
+        },
+        maxTravelers() {
+            return this.package.rates.reduce(function(max, rate) {
+                var total = rate.adult + rate.child;
+                return (total > max ? total : max);
+            }, 0);
         },
         rateTier() {
-            var rate = this.package.rates.filter(this.rateFilterCallback(this.totalAdults, this.totalChildren));
+            var rate = this.package.rates.filter(this.rateFilter(this.adults, this.children));
             return rate;
         },
-        priceTotal() {
-            return this.priceSubTotal + this.insuranceTotal;
+        subTotal() {
+            return this.package.rates.reduce(this.rateReducer, 0);
         },
-        priceSubTotal() {
-            if (this.rateTier.length == 1) {
-                return this.rateTier[0].price;
-            }
+        total() {
+            return this.subTotal + this.insurance;
         },
-        insuranceTotal() {
-            var travelers = this.totalAdults + this.totalChildren;
+        insurance() {
+            var travelers = this.adults + this.children;
             return 0;
         },
-
     },
 
     methods: {
@@ -93,27 +91,23 @@ Vue.component('booking-form', {
             this.form.rooms.splice(index, 1)
         },
         addAdult(roomIndex) {
-            if (this.hasVacancy(roomIndex)) {
-                this.form.rooms[roomIndex].travelers.push({
-                    first_name:'',
-                    middle_name:'',
-                    last_name:'',
-                    birthdate:'',
-                    gender: '',
-                    adult: true
-                });
-            }
+            this.addTraveler(roomIndex, true);
         },
         addChild(roomIndex) {
-            if (this.hasVacancy(roomIndex)) {
-                this.form.rooms[roomIndex].travelers.push({
-                    first_name:'',
-                    middle_name:'',
-                    last_name:'',
-                    birthdate:'',
-                    gender: '',
-                    adult: false
-                });
+            this.addTraveler(roomIndex, false);
+        },
+        addTraveler(roomIndex, adult = true) {
+            if (this.totalTravelers < this.maxTravelers) {
+                if (this.hasVacancy(roomIndex)) {
+                    this.form.rooms[roomIndex].travelers.push({
+                        first_name:'',
+                        middle_name:'',
+                        last_name:'',
+                        birthdate:'',
+                        gender: '',
+                        adult: adult
+                    });
+                }
             }
         },
         removeTraveler(roomIndex, travelerIndex) {
@@ -125,12 +119,17 @@ Vue.component('booking-form', {
         hasVacancy(roomIndex) {
             return this.getRoomCount(roomIndex) < this.room_max;
         },
-        rateFilterCallback(adults, children) {
+        rateFilter(adults, children) {
             return function(rate) {
                 return rate.adult == adults && rate.child == children;
             }
-        }
-
+        },
+        rateReducer(price, rate) {
+            if (rate.adult == this.adults && rate.child == this.children) {
+                price = rate.price;
+            }
+            return price;
+        },
     }
 
 });

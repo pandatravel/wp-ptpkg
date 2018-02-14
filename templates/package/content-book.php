@@ -53,12 +53,12 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                 <!-- <v-card-text v-if="priceSubTotal"> -->
                                     <dl class="dl-horizontal px-3">
                                         <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
-                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ priceSubTotal | currency }}</dd>
+                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ subTotal | currency }}</dd>
                                         <dt class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
-                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ insuranceTotal | currency }}</dd>
+                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
                                         <v-divider class="mt-1 mb-3"></v-divider>
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
-                                        <dd class="title primary--text text-xs-right">{{ priceTotal | currency }}</dd>
+                                        <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
                                     </dl>
                                 <!-- </v-card-text> -->
                             </v-flex>
@@ -93,8 +93,8 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                     </v-toolbar-items>
                                                     <v-spacer></v-spacer>
                                                     <v-toolbar-items>
-                                                        <v-btn @click="addAdult(roomIndex)" :disabled="hasVacancy(roomIndex) == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
-                                                        <v-btn @click="addChild(roomIndex)" :disabled="hasVacancy(roomIndex) == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
+                                                        <v-btn @click="addAdult(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
+                                                        <v-btn @click="addChild(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
                                                     </v-toolbar-items>
                                                 </v-toolbar>
                                                 <v-divider class="mt-0"></v-divider>
