@@ -1,6 +1,7 @@
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill';
+import VueCurrencyFilter from 'vue-currency-filter'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -18,6 +19,14 @@ import './index';
  */
 
 Vue.use(Vuetify);
+Vue.use(VueCurrencyFilter, {
+  symbol : '$',
+  thousandsSeparator: ',',
+  fractionCount: 2,
+  fractionSeparator: '.',
+  symbolPosition: 'front',
+  symbolSpacing: false
+});
 
 const app = new Vue({
     el: '#app'

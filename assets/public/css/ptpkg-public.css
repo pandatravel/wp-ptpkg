@@ -797,6 +797,55 @@
   border-color: #343a40;
 }
 
+dl {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+dt,
+dd {
+  line-height: 1.42857143;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0;
+}
+
+.dl-horizontal dd {
+  padding-bottom: 5px;
+}
+
+.dl-horizontal dd:before,
+.dl-horizontal dd:after {
+  content: " ";
+  display: table;
+}
+
+.dl-horizontal dd:after {
+  clear: both;
+}
+
+@media (min-width: 768px) {
+  .dl-horizontal dt {
+    float: left;
+    width: 50%;
+    clear: left;
+    text-align: right;
+    padding-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dl-horizontal dd {
+    margin-left: 180px;
+  }
+}
+
 /*!
  * Ptpkg v0.1.0 (https://www.pandaonline.com)
  * Copyright 2011-2018 The Ptpkg Authors

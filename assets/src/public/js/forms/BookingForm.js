@@ -18,26 +18,63 @@ Vue.component('booking-form', {
     data() {
         return {
             form: new Form({
+                id: '',
                 rooms: [],
-                email: '',
             }),
             step:1,
             room_max: 3,
             submiting: false,
+            package: window._packageData,
         }
     },
 
-    mounted() {
-        // console.log(this.form)
-    },
-
     created() {
+        this.form.id = this.package.id;
+        this.room_max = this.package.room_max;
+
         this.addRoom();
-        this.addAdult(0);
     },
 
     computed: {
-        // -
+        totalAdults() {
+            var total = 0;
+            this.form.rooms.forEach(function (room) {
+                room.travelers.forEach(function (traveler) {
+                    if (traveler.adult) {
+                        total++;
+                    }
+                })
+            });
+            return total;
+        },
+        totalChildren() {
+            var total = 0;
+            this.form.rooms.forEach(function (room) {
+                room.travelers.forEach(function (traveler) {
+                    if (! traveler.adult) {
+                        total++;
+                    }
+                })
+            });
+            return total;
+        },
+        rateTier() {
+            var rate = this.package.rates.filter(this.rateFilterCallback(this.totalAdults, this.totalChildren));
+            return rate;
+        },
+        priceTotal() {
+            return this.priceSubTotal + this.insuranceTotal;
+        },
+        priceSubTotal() {
+            if (this.rateTier.length == 1) {
+                return this.rateTier[0].price;
+            }
+        },
+        insuranceTotal() {
+            var travelers = this.totalAdults + this.totalChildren;
+            return 0;
+        },
+
     },
 
     methods: {
@@ -49,7 +86,8 @@ Vue.component('booking-form', {
                      .catch(errors => console.log(errors));
         },
         addRoom() {
-            this.form.rooms.push({travelers:[]});
+            var newRoom = this.form.rooms.push({travelers:[]}) -1;
+            this.addAdult(newRoom);
         },
         removeRoom(index) {
             this.form.rooms.splice(index, 1)
@@ -86,6 +124,11 @@ Vue.component('booking-form', {
         },
         hasVacancy(roomIndex) {
             return this.getRoomCount(roomIndex) < this.room_max;
+        },
+        rateFilterCallback(adults, children) {
+            return function(rate) {
+                return rate.adult == adults && rate.child == children;
+            }
         }
 
     }

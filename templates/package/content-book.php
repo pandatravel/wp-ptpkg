@@ -20,7 +20,7 @@ $api = new Api();
  * Custom meta fields
  */
 $currentID = get_the_ID();
-$package = $api->get_client()->tours()->show_wp($currentID);
+// $package = $api->get_client()->tours()->show_wp($currentID);
 $packageBannerUrl = wp_get_attachment_image_url(get_post_meta($currentID, 'package-banner', true), 'full');
 $packageTeaser = get_post_meta($currentID, 'package-teaser', true);
 $packagePrice = get_post_meta($currentID, 'package-price', true);
@@ -39,12 +39,30 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                     <h2 class="card-title text-primary text-sm-center"><?php the_title(); ?></h2>
                     <!-- package total -->
                 </v-card-text>
-                <v-divider class="mt-0"></v-divider>
-                <v-card-text>
-
-                </v-card-text>
+                <v-divider class="my-0"></v-divider>
                 <booking-form endpoint="package" inline-template>
                     <v-form action="/wp-json/ptpkg/v1/package" @submit.prevent="onSubmit" method="post">
+                        <v-layout row v-cloak>
+                            <v-flex xs6>
+                                <v-card-text class="mt-5 pt-5">
+                                    <p class="caption blue-grey--text lighten-3">* Taxes are included</p>
+                                    <p class="caption blue-grey--text lighten-3">* Additional fees may apply. See our terms and conditions for details.</p>
+                                </v-card-text>
+                            </v-flex>
+                            <v-flex xs6>
+                                <v-card-text v-if="priceSubTotal">
+                                    <dl class="dl-horizontal">
+                                        <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
+                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ priceSubTotal | currency }}</dd>
+                                        <dt class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
+                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ insuranceTotal | currency }}</dd>
+                                        <v-divider class="mt-1 mb-3"></v-divider>
+                                        <dt class="title primary--text text-xs-left">Total Price</dt>
+                                        <dd class="title primary--text text-xs-right">{{ priceTotal | currency }}</dd>
+                                    </dl>
+                                </v-card-text>
+                            </v-flex>
+                        </v-layout>
                         <v-stepper v-model="step" flat>
                             <v-stepper-header>
                                 <v-stepper-step step="1" :complete="step > 1">Select Tour Package</v-stepper-step>
