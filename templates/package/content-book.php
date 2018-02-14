@@ -44,14 +44,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                     <v-form action="/wp-json/ptpkg/v1/package" @submit.prevent="onSubmit" method="post">
                         <v-layout row v-cloak>
                             <v-flex xs6>
-                                <v-card-text class="mt-5 pt-5">
-                                    <p class="caption blue-grey--text lighten-3">* Taxes are included</p>
-                                    <p class="caption blue-grey--text lighten-3">* Additional fees may apply. See our terms and conditions for details.</p>
+                                <v-card-text class="mt-4 pt-5">
+                                    <p class="caption blue-grey--text lighten-3 mb-1">* Taxes are included</p>
+                                    <p class="caption blue-grey--text lighten-3 mb-1">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
                                 </v-card-text>
                             </v-flex>
                             <v-flex xs6>
-                                <v-card-text v-if="priceSubTotal">
-                                    <dl class="dl-horizontal">
+                                <!-- <v-card-text v-if="priceSubTotal"> -->
+                                    <dl class="dl-horizontal px-3">
                                         <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
                                         <dd class="blue-grey--text darken-4 text-xs-right">{{ priceSubTotal | currency }}</dd>
                                         <dt class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
@@ -60,7 +60,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
                                         <dd class="title primary--text text-xs-right">{{ priceTotal | currency }}</dd>
                                     </dl>
-                                </v-card-text>
+                                <!-- </v-card-text> -->
                             </v-flex>
                         </v-layout>
                         <v-stepper v-model="step" flat>
