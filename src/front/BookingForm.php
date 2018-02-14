@@ -177,8 +177,6 @@ class BookingForm
          */
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             $package = $this->api->get_client()->tours()->show_wp($post->ID);
-            // wp_localize_script($this->plugin_name . '-app', 'wp_ajax', $wp_ajax);
-            // wp_enqueue_script($this->plugin_name . '-data', plugins_url('assets/public/js/ptpkg-data.js', PTPKG_ASSET_DIR), [], $this->version);
             wp_add_inline_script($this->plugin_name . '-app', sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package['data'])), 'before');
         }
     }
