@@ -24,7 +24,7 @@ Vue.component('booking-form', {
             step:1,
             room_max: 3,
             submiting: false,
-            package: window._packageData,
+            package: window._ptpkgAPIDataPreload,
         }
     },
 
