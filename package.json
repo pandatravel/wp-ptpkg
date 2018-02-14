@@ -18,10 +18,11 @@
         "laravel-mix": "^2.0.0",
         "lodash": "^4.17.5",
         "moment": "^2.20.1",
+        "qs": "^6.5.1",
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.1",
-        "qs": "^6.5.1",
         "vue": "^2.5.13",
+        "vue-currency-filter": "^2.1.0",
         "vuetify": "^1.0.0-beta.6"
     }
 }
