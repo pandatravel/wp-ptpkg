@@ -45,8 +45,6 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                         <v-layout row v-cloak>
                             <v-flex xs6>
                                 <v-card-text class="mt-4 pt-5">
-                                    <p class="caption blue-grey--text lighten-3 mb-1">* Taxes are included</p>
-                                    <p class="caption blue-grey--text lighten-3 mb-1">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
                                 </v-card-text>
                             </v-flex>
                             <v-flex xs6>
@@ -59,6 +57,8 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                         <v-divider class="mt-1 mb-3"></v-divider>
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
                                         <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
+                                        <p class="caption blue-grey--text lighten-5 mb-0">* Taxes are included</p>
+                                        <p class="caption blue-grey--text lighten-3 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
                                     </dl>
                                 <!-- </v-card-text> -->
                             </v-flex>
