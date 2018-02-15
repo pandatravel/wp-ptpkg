@@ -138,6 +138,7 @@ class Init
         $this->loader->add_action('admin_init', $plugin_admin, 'package_add_meta_boxes');
         $this->loader->add_action('save_post', $plugin_admin, 'package_save_meta');
         $this->loader->add_action('rest_api_init', $plugin_admin, 'package_rest_meta_fields');
+        $this->loader->add_action('init', $plugin_admin, 'add_categories_to_attachments');
         // $this->loader->add_filter('is_protected_meta', $plugin_admin, 'pacakge_seo_protected_meta', 10, 2);
 
         /**

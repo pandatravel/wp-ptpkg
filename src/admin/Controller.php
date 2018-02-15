@@ -327,6 +327,23 @@ class Controller
 
     /*
     |--------------------------------------------------------------------------
+    | Applying Categories, Tags and Custom Taxonomies to Media Attachments
+    |--------------------------------------------------------------------------
+    |
+    | Applying Categories, Tags and Custom Taxonomies to Media Attachments
+    |
+    */
+
+    /*
+     * Add Categories to attachements
+     */
+    public function add_categories_to_attachments()
+    {
+        register_taxonomy_for_object_type('category', 'attachment');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Custom Post Type List Columns
     |--------------------------------------------------------------------------
     |
