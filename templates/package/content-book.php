@@ -78,7 +78,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                 <v-stepper-content step="1">
                                     <v-layout row>
                                         <v-flex xs12>
-                                            <v-btn @click="addRoom" small outline color="info"><v-icon>add</v-icon> Add Room</v-btn>
+                                            <v-btn @click="addRoom" small flat color="info"><v-icon>add</v-icon> Add Room</v-btn>
                                             <span class="grey--text lighten-1"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
                                         </v-flex>
                                     </v-layout>
@@ -89,7 +89,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-toolbar card light dense>
                                                     <v-toolbar-title class="body-2 grey--text">Room {{ roomIndex + 1 }}</v-toolbar-title>
                                                     <v-toolbar-items>
-                                                        <v-btn @click="removeRoom(roomIndex)" flat dark color="red"><v-icon dark>remove</v-icon> remove</v-btn>
+                                                        <v-btn @click="removeRoom(roomIndex)" flat dark color="red"><v-icon dark>close</v-icon> remove</v-btn>
                                                     </v-toolbar-items>
                                                     <v-spacer></v-spacer>
                                                     <v-toolbar-items>
