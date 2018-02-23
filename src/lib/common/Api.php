@@ -81,6 +81,15 @@ class Api
     protected $token;
 
     /**
+     * The ptpkg api options
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      string    $api_options
+     */
+    protected $api_options = [];
+
+    /**
      * Define the core functionality of the plugin.
      *
      * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -95,7 +104,10 @@ class Api
         $this->client_id = get_option($this->plugin_name . '_client_id');
         $this->client_secret = get_option($this->plugin_name . '_client_secret');
         $this->token = get_option($this->plugin_name . '_token');
-        $this->client = new Client(['verify' => false]);
+        if (WP_DEBUG) {
+            $this->api_options = ['verify' => false];
+        }
+        $this->client = new Client($this->api_options);
 
         if ($this->token) {
             $this->_authenticate();
