@@ -12,6 +12,9 @@
 
 namespace Ptpkg\front;
 
+use Ammonkc\Ptpkg\HttpClient\Message\ResponseMediator;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Ptpkg\lib\common\Api;
 use Ptpkg\lib\common\CustomPostTypes;
 
@@ -117,8 +120,34 @@ class BookingForm
             return $valid;
         }
 
-        $data = $request->get_params();
-        $response = $this->api->get_client()->orders()->create($data);
+        try {
+            $data = $request->get_params();
+            $response = $this->api->get_client()->orders()->create($data);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $body = ResponseMediator::getContent($response);
+
+            return new \WP_Error(
+                $response->getReasonPhrase(),
+                __($body['message'], $this->plugin_name),
+                [
+                    'status' => $e->getCode(),
+                    'errors' => $body['errors'],
+                ]
+            );
+        } catch (ServerException $e) {
+            $response = $e->getResponse();
+            $body = ResponseMediator::getContent($response);
+
+            return new \WP_Error(
+                $response->getReasonPhrase(),
+                __($body['message'], $this->plugin_name),
+                [
+                    'status' => $e->getCode(),
+                    'errors' => $body['errors'],
+                ]
+            );
+        }
 
         return $response;
     }
@@ -177,7 +206,7 @@ class BookingForm
          */
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             $package = $this->api->get_client()->tours()->show_wp($post->ID);
-            wp_add_inline_script($this->plugin_name . '-app', sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package['data'])), 'before');
+            wp_add_inline_script($this->plugin_name . '-app', sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package)), 'before');
         }
     }
 }
