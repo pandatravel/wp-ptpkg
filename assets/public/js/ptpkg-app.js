@@ -81043,6 +81043,12 @@ Vue.component('booking-form', {
             package: window._ptpkgAPIDataPreload.data
         };
     },
+
+
+    $_veeValidate: {
+        validator: 'new'
+    },
+
     created: function created() {
         this.form.tour_id = this.package.id;
         this.room_max = this.package.room_max;
@@ -81522,29 +81528,15 @@ var render = function() {
             attrs: {
               value: _vm.value.first_name,
               label: "First Name",
-              id:
-                "first_name-" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
-              name:
-                "first_name-" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+              id: "first_name-" + _vm.index.room + "-" + _vm.index.traveler,
+              name: "first_name-" + _vm.index.room + "-" + _vm.index.traveler,
               "persistent-hint": "",
               hint: _vm.value.adult ? "Adult (19+)" : "Child (2-18)",
               "error-messages": _vm.errors.collect(
-                "first_name-" +
-                  (_vm.index.room + 1) +
-                  "-" +
-                  (_vm.index.traveler + 1)
+                "first_name-" + _vm.index.room + "-" + _vm.index.traveler
               ),
               "data-vv-name":
-                "first_name-" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+                "first_name-" + _vm.index.room + "-" + _vm.index.traveler,
               "data-vv-as": "First Name",
               required: ""
             },
@@ -81574,16 +81566,8 @@ var render = function() {
             attrs: {
               value: _vm.value.middle_name,
               label: "Middle Name",
-              id:
-                "middle_name" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
-              name:
-                "middle_name" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1)
+              id: "middle_name" + _vm.index.room + "-" + _vm.index.traveler,
+              name: "middle_name" + _vm.index.room + "-" + _vm.index.traveler
             },
             on: {
               traveler: function($event) {
@@ -81619,27 +81603,13 @@ var render = function() {
             attrs: {
               value: _vm.value.last_name,
               label: "Last Name",
-              id:
-                "last_name" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
-              name:
-                "last_name" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+              id: "last_name" + _vm.index.room + "-" + _vm.index.traveler,
+              name: "last_name" + _vm.index.room + "-" + _vm.index.traveler,
               "error-messages": _vm.errors.collect(
-                "last_name-" +
-                  (_vm.index.room + 1) +
-                  "-" +
-                  (_vm.index.traveler + 1)
+                "last_name-" + _vm.index.room + "-" + _vm.index.traveler
               ),
               "data-vv-name":
-                "last_name-" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+                "last_name-" + _vm.index.room + "-" + _vm.index.traveler,
               "data-vv-as": "Last Name",
               required: ""
             },
@@ -81701,10 +81671,7 @@ var render = function() {
                   label: "Birthdate",
                   hint: "mm/dd/yyyy",
                   "data-vv-name":
-                    "birthdate-" +
-                    (_vm.index.room + 1) +
-                    "-" +
-                    (_vm.index.traveler + 1),
+                    "birthdate-" + _vm.index.room + "-" + _vm.index.traveler,
                   "data-vv-as": "Birthdate",
                   readonly: "",
                   required: ""
@@ -81763,28 +81730,14 @@ var render = function() {
             attrs: {
               value: _vm.value.gender,
               label: "Gender",
-              id:
-                "gender" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
-              name:
-                "gender" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+              id: "gender" + _vm.index.room + "-" + _vm.index.traveler,
+              name: "gender" + _vm.index.room + "-" + _vm.index.traveler,
               items: ["Male", "Female"],
               "error-messages": _vm.errors.collect(
-                "gender-" +
-                  (_vm.index.room + 1) +
-                  "-" +
-                  (_vm.index.traveler + 1)
+                "gender-" + _vm.index.room + "-" + _vm.index.traveler
               ),
               "data-vv-name":
-                "gender-" +
-                (_vm.index.room + 1) +
-                "-" +
-                (_vm.index.traveler + 1),
+                "gender-" + _vm.index.room + "-" + _vm.index.traveler,
               "data-vv-as": "Gender",
               required: ""
             },
