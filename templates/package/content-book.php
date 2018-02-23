@@ -48,19 +48,17 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                 </v-card-text>
                             </v-flex>
                             <v-flex xs6>
-                                <!-- <v-card-text v-if="priceSubTotal"> -->
-                                    <dl class="dl-horizontal px-3">
-                                        <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
-                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ subTotal | currency }}</dd>
-                                        <dt v-if="form.insurance" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
-                                        <dd v-if="form.insurance" class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
-                                        <v-divider class="mt-1 mb-3"></v-divider>
-                                        <dt class="title primary--text text-xs-left">Total Price</dt>
-                                        <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
-                                        <p class="caption blue-grey--text lighten-5 mb-0">* Taxes are included</p>
-                                        <p class="caption blue-grey--text lighten-3 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
-                                    </dl>
-                                <!-- </v-card-text> -->
+                                <dl class="dl-horizontal px-3">
+                                    <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
+                                    <dd class="blue-grey--text darken-4 text-xs-right">{{ subTotal | currency }}</dd>
+                                    <dt v-if="form.insurance" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
+                                    <dd v-if="form.insurance" class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
+                                    <v-divider class="mt-1 mb-3"></v-divider>
+                                    <dt class="title primary--text text-xs-left">Total Price</dt>
+                                    <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
+                                    <p class="caption blue-grey--text lighten-5 mb-0">* Taxes are included</p>
+                                    <p class="caption blue-grey--text lighten-3 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                </dl>
                             </v-flex>
                         </v-layout>
                         <v-stepper v-model="step" flat>
