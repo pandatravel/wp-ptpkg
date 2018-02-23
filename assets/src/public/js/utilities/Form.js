@@ -36,7 +36,7 @@ class Form {
      */
     reset() {
         for (let field in this.originalData) {
-            this[field] = '';
+            this[field] = (_.isArray(this[field]) ? [] : '');
         }
 
         this.errors.clear();
