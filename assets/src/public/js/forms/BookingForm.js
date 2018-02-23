@@ -1,5 +1,10 @@
+import room from '../components/Room.vue';
 
 Vue.component('booking-form', {
+    components: {
+        room,
+    },
+
     props: {
         'data': {
             type: Object,
@@ -18,21 +23,28 @@ Vue.component('booking-form', {
     data() {
         return {
             form: new Form({
-                id: '',
+                tour_id: '',
+                rate_id: '',
+                insurance: false,
+                subscribe: false,
+                agree_terms: false,
+
                 rooms: [],
             }),
             step:1,
             room_max: 3,
             submiting: false,
-            package: window._ptpkgAPIDataPreload,
+            package: window._ptpkgAPIDataPreload.data,
         }
     },
 
     created() {
-        this.form.id = this.package.id;
+        this.form.tour_id = this.package.id;
         this.room_max = this.package.room_max;
 
         this.addRoom();
+
+        this.form.rate_id = this.rateId;
     },
 
     computed: {
@@ -60,18 +72,38 @@ Vue.component('booking-form', {
             }, 0);
         },
         rateTier() {
+            if (this.totalTravelers == 0) {
+                return [];
+            }
             var rate = this.package.rates.filter(this.rateFilter(this.adults, this.children));
-            return rate;
+            return rate[0];
+        },
+        rateId() {
+            return this.rateTier.id;
         },
         subTotal() {
-            return this.package.rates.reduce(this.rateReducer, 0);
+            return Number(this.package.rates.reduce(this.rateReducer, 0));
         },
         total() {
             return this.subTotal + this.insurance;
         },
+        perPersonRate() {
+            if (this.totalTravelers == 0) {
+                return 0;
+            }
+            return this.subTotal / this.totalTravelers;
+        },
+        premium() {
+            if (this.totalTravelers == 0) {
+                return [];
+            }
+            return this.package.insurance.premiums.filter(this.premiumFilter(this.perPersonRate));
+        },
+        premiumPrice() {
+            return Number(this.package.insurance.premiums.reduce(this.premiumReducer, 0));
+        },
         insurance() {
-            var travelers = this.adults + this.children;
-            return 0;
+            return this.premiumPrice * this.totalTravelers;
         },
     },
 
@@ -103,15 +135,19 @@ Vue.component('booking-form', {
                         first_name:'',
                         middle_name:'',
                         last_name:'',
-                        birthdate:'',
+                        birthdate: null,
                         gender: '',
-                        adult: adult
+                        adult: adult,
+                        ffp: '',
+                        seat_preference: '',
+                        country: '',
+                        state: '',
                     });
                 }
             }
         },
-        removeTraveler(roomIndex, travelerIndex) {
-            this.form.rooms[roomIndex].travelers.splice(travelerIndex, 1);
+        removeTraveler(index) {
+            this.form.rooms[index.room].travelers.splice(index.traveler, 1);
         },
         getRoomCount(roomIndex) {
             return this.form.rooms[roomIndex].travelers.length;
@@ -124,9 +160,20 @@ Vue.component('booking-form', {
                 return rate.adult == adults && rate.child == children;
             }
         },
+        premiumFilter(perPersonRate) {
+            return function(premium) {
+                return perPersonRate >= premium.range_start && perPersonRate <=premium.range_end;
+            }
+        },
         rateReducer(price, rate) {
             if (rate.adult == this.adults && rate.child == this.children) {
                 price = rate.price;
+            }
+            return price;
+        },
+        premiumReducer(price, premium) {
+            if (this.perPersonRate >= premium.range_start && this.perPersonRate <= premium.range_end) {
+                price = premium.price;
             }
             return price;
         },

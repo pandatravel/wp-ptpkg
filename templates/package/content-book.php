@@ -32,7 +32,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 <article id="post-<?php the_ID(); ?>" <?php post_class('package-book'); ?>>
 
     <v-layout row>
-        <v-flex xs10 offset-xs1>
+        <v-flex xs12>
 
             <v-card>
                 <v-card-text>
@@ -52,8 +52,8 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                     <dl class="dl-horizontal px-3">
                                         <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
                                         <dd class="blue-grey--text darken-4 text-xs-right">{{ subTotal | currency }}</dd>
-                                        <dt class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
-                                        <dd class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
+                                        <dt v-if="form.insurance" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
+                                        <dd v-if="form.insurance" class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
                                         <v-divider class="mt-1 mb-3"></v-divider>
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
                                         <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
@@ -82,45 +82,43 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                             <span class="grey--text lighten-1"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
                                         </v-flex>
                                     </v-layout>
-                                    <div v-for="(room, roomIndex) in form.rooms">
-                                    <v-layout row pb-1>
-                                          <v-flex xs12>
+
+                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :room_max="room_max" :total_travelers="totalTravelers" :max_travelers="maxTravelers" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+
+                                    <v-layout row>
+                                        <v-flex xs12>
                                             <v-card class="card--flex-toolbar mx-1 my-1">
                                                 <v-toolbar card light dense>
-                                                    <v-toolbar-title class="body-2 grey--text">Room {{ roomIndex + 1 }}</v-toolbar-title>
-                                                    <v-toolbar-items>
-                                                        <v-btn @click="removeRoom(roomIndex)" flat dark color="red"><v-icon dark>close</v-icon> remove</v-btn>
-                                                    </v-toolbar-items>
+                                                    <v-toolbar-title class="body-2 grey--text">Travel Insurance - <span class="primary--text">{{ package.insurance.name }}</span></v-toolbar-title>
                                                     <v-spacer></v-spacer>
-                                                    <v-toolbar-items>
-                                                        <v-btn @click="addAdult(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
-                                                        <v-btn @click="addChild(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
-                                                    </v-toolbar-items>
                                                 </v-toolbar>
                                                 <v-divider class="mt-0"></v-divider>
-                                                <v-container grid-list-xl fluid class="px-3 py-1">
-                                                    <v-layout v-for="(traveler, travelerIndex) in room.travelers" wrap>
-                                                        <v-flex xs3>
-                                                            <v-text-field persistent-hint :hint="traveler.adult ? 'Adult (19+)' : 'Child (2-18)'" id="form-first_name" label="First Name" name="first_name" v-model="traveler.first_name" required></v-text-field>
-                                                        </v-flex>
-                                                        <v-flex xs3>
-                                                            <v-text-field id="form-middle_name" label="Middle Name" name="middle_name" v-model="traveler.middle_name"></v-text-field>
-                                                        </v-flex>
-                                                        <v-flex xs3>
-                                                            <v-text-field id="form-last_name" label="Last Name" name="last_name" v-model="traveler.last_name" required></v-text-field>
-                                                        </v-flex>
-                                                        <v-flex xs2>
-                                                            <v-select label="Gender" :items="['Male', 'Female']" required></v-select>
-                                                        </v-flex>
-                                                        <v-flex xs1>
-                                                            <v-btn @click="removeTraveler(roomIndex, travelerIndex)" color="red" small flat dark fab><v-icon>delete_forever</v-icon></v-btn>
-                                                        </v-flex>
-                                                    </v-layout>
-                                                </v-container>
+                                                <v-card-text>
+                                                    <div v-html="package.insurance.description"></div>
+                                                    <p>This plan is available for your itinerary at a cost of {{ premiumPrice | currency }} per traveler.</p>
+                                                    <v-checkbox
+                                                          v-model="form.insurance"
+                                                          value="1"
+                                                          label="Purchase Insurance"
+                                                          type="checkbox"></v-checkbox>
+                                                </v-card-text>
                                             </v-card>
                                         </v-flex>
                                     </v-layout>
-                                    </div>
+
+                                    <v-layout row>
+                                        <v-flex xs12>
+                                            <v-checkbox
+                                                  v-model="form.agree_terms"
+                                                  value="1"
+                                                  label="Agree to the Terms and Conditions"
+                                                  :error-messages="errors.collect('agree_terms')"
+                                                  v-validate="'required'"
+                                                  data-vv-name="agree_terms"
+                                                  type="checkbox"
+                                                  required></v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
 
                                     <v-btn color="primary" @click.native="step = 2">Continue</v-btn>
 
