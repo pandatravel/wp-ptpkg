@@ -14,6 +14,7 @@ namespace Ptpkg\front;
 
 use Ammonkc\Ptpkg\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use Ptpkg\lib\common\Api;
 use Ptpkg\lib\common\CustomPostTypes;
@@ -124,6 +125,18 @@ class BookingForm
             $data = $request->get_params();
             $response = $this->api->get_client()->orders()->create($data);
         } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $body = ResponseMediator::getContent($response);
+
+            return new \WP_Error(
+                $response->getReasonPhrase(),
+                __($body['message'], $this->plugin_name),
+                [
+                    'status' => $e->getCode(),
+                    'errors' => $body['errors'],
+                ]
+            );
+        } catch (RequestException $e) {
             $response = $e->getResponse();
             $body = ResponseMediator::getContent($response);
 
