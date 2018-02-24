@@ -136,18 +136,6 @@ class BookingForm
                     'errors' => $body['errors'],
                 ]
             );
-        } catch (RequestException $e) {
-            $response = $e->getResponse();
-            $body = ResponseMediator::getContent($response);
-
-            return new \WP_Error(
-                $response->getReasonPhrase(),
-                __($body['message'], $this->plugin_name),
-                [
-                    'status' => $e->getCode(),
-                    'errors' => $body['errors'],
-                ]
-            );
         } catch (ServerException $e) {
             $response = $e->getResponse();
             $body = ResponseMediator::getContent($response);
@@ -157,7 +145,23 @@ class BookingForm
                 __($body['message'], $this->plugin_name),
                 [
                     'status' => $e->getCode(),
-                    'errors' => $body['errors'],
+                    'exception' => $body['exception'],
+                    'file' => $body['file'],
+                    'line' => $body['line'],
+                ]
+            );
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            $body = ResponseMediator::getContent($response);
+
+            return new \WP_Error(
+                $response->getReasonPhrase(),
+                __($body['message'], $this->plugin_name),
+                [
+                    'status' => $e->getCode(),
+                    'exception' => $body['exception'],
+                    'file' => $body['file'],
+                    'line' => $body['line'],
                 ]
             );
         }
