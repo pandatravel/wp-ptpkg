@@ -2,7 +2,7 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill';
 import VueCurrencyFilter from 'vue-currency-filter'
-
+import Notifications from 'vue-notification';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -19,6 +19,7 @@ import './index';
  */
 
 Vue.use(Vuetify);
+Vue.use(Notifications);
 Vue.use(VueCurrencyFilter, {
   symbol : '$',
   thousandsSeparator: ',',

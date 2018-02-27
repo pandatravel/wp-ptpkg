@@ -10,10 +10,9 @@
                 :id="'first_name' + indexId"
                 persistent-hint
                 :hint="value.adult ? 'Adult (19+)' : 'Child (2-18)'"
-                :error-messages="errors.collect('first_name' + indexId)"
-                v-validate="'required'"
-                :data-vv-name="'first_name' + indexId"
-                data-vv-as="First Name"
+                :error-messages="firstNameErrors({room:index.room, traveler:index.traveler})"
+                @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].first_name.$touch()"
+                @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].first_name.$touch()"
                 @traveler="updateTraveler()"></v-text-field>
         </v-flex>
         <v-flex xs2>
@@ -34,10 +33,9 @@
                 label="Last Name"
                 :name="'last_name' + indexId"
                 :id="'last_name' + indexId"
-                :error-messages="errors.collect('last_name-' + indexId)"
-                v-validate="'required'"
-                :data-vv-name="'last_name-' + indexId"
-                data-vv-as="Last Name"
+                :error-messages="lastNameErrors({room:index.room, traveler:index.traveler})"
+                @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].last_name.$touch()"
+                @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].last_name.$touch()"
                 @traveler="updateTraveler()"></v-text-field>
         </v-flex>
         <v-flex xs2>
@@ -57,10 +55,11 @@
                   slot="activator"
                   :name="'birthdate' + indexId"
                   label="Birthdate"
-                  hint="mm/dd/yyyy"
-                  v-validate="'required'"
-                  :data-vv-name="'birthdate-' + indexId"
-                  data-vv-as="Birthdate"
+                  hint="yyyy-mm-dd"
+                  prepend-icon="event"
+                  :error-messages="birthdateErrors({room:index.room, traveler:index.traveler})"
+                  @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
+                  @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @traveler="updateTraveler()"
                   readonly></v-text-field>
                 <v-date-picker
@@ -80,10 +79,9 @@
                 :name="'gender' + indexId"
                 :id="'gender' + indexId"
                 :items="['Male', 'Female']"
-                :error-messages="errors.collect('gender-' + indexId)"
-                v-validate="'required'"
-                :data-vv-name="'gender-' + indexId"
-                data-vv-as="Gender"
+                :error-messages="genderErrors({room:index.room, traveler:index.traveler})"
+                @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
+                @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
                 @traveler="updateTraveler()"></v-select>
         </v-flex>
         <v-flex xs1>
@@ -93,13 +91,17 @@
 </template>
 
 <script>
+import errors from '../mixins/errors'
+
 export default {
     name: 'traveler',
-    inject: ['$validator'],
+
+    mixins: [errors],
 
     props: [
         'value',
         'index',
+        '$v',
     ],
 
     data() {
