@@ -20,7 +20,7 @@
         "moment": "^2.20.1",
         "qs": "^6.5.1",
         "stylus": "^0.54.5",
-        "stylus-loader": "^3.0.1",
+        "stylus-loader": "^3.0.2",
         "vee-validate": "^2.0.4",
         "vue": "^2.5.13",
         "vue-currency-filter": "^2.1.0",
