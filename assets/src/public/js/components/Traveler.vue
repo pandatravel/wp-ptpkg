@@ -6,16 +6,15 @@
                 :value="value.first_name"
                 ref="first_name"
                 label="First Name"
-                :id="'first_name-' + index.room  + '-' + index.traveler"
-                :name="'first_name-' + index.room  + '-' + index.traveler"
+                :name="'first_name' + indexId"
+                :id="'first_name' + indexId"
                 persistent-hint
                 :hint="value.adult ? 'Adult (19+)' : 'Child (2-18)'"
-                :error-messages="errors.collect('first_name-' + index.room  + '-' + index.traveler)"
+                :error-messages="errors.collect('first_name' + indexId)"
                 v-validate="'required'"
-                :data-vv-name="'first_name-' + index.room  + '-' + index.traveler"
+                :data-vv-name="'first_name' + indexId"
                 data-vv-as="First Name"
-                @traveler="updateTraveler()"
-                required></v-text-field>
+                @traveler="updateTraveler()"></v-text-field>
         </v-flex>
         <v-flex xs2>
             <v-text-field
@@ -23,8 +22,8 @@
                 :value="value.middle_name"
                 ref="middle_name"
                 label="Middle Name"
-                :id="'middle_name' + index.room  + '-' + index.traveler"
-                :name="'middle_name' + index.room  + '-' + index.traveler"
+                :name="'middle_name' + indexId"
+                :id="'middle_name' + indexId"
                 @traveler="updateTraveler()"></v-text-field>
         </v-flex>
         <v-flex xs2>
@@ -33,14 +32,13 @@
                 :value="value.last_name"
                 ref="last_name"
                 label="Last Name"
-                :id="'last_name' + index.room  + '-' + index.traveler"
-                :name="'last_name' + index.room  + '-' + index.traveler"
-                :error-messages="errors.collect('last_name-' + index.room  + '-' + index.traveler)"
+                :name="'last_name' + indexId"
+                :id="'last_name' + indexId"
+                :error-messages="errors.collect('last_name-' + indexId)"
                 v-validate="'required'"
-                :data-vv-name="'last_name-' + index.room  + '-' + index.traveler"
+                :data-vv-name="'last_name-' + indexId"
                 data-vv-as="Last Name"
-                @traveler="updateTraveler()"
-                required></v-text-field>
+                @traveler="updateTraveler()"></v-text-field>
         </v-flex>
         <v-flex xs2>
             <v-menu
@@ -57,14 +55,14 @@
                   v-model="value.birthdate"
                   :value="value.birthdate"
                   slot="activator"
+                  :name="'birthdate' + indexId"
                   label="Birthdate"
                   hint="mm/dd/yyyy"
                   v-validate="'required'"
-                  :data-vv-name="'birthdate-' + index.room  + '-' + index.traveler"
+                  :data-vv-name="'birthdate-' + indexId"
                   data-vv-as="Birthdate"
                   @traveler="updateTraveler()"
-                  readonly
-                  required></v-text-field>
+                  readonly></v-text-field>
                 <v-date-picker
                   ref="picker"
                   v-model="value.birthdate"
@@ -79,15 +77,14 @@
                 :value="value.gender"
                 ref="gender"
                 label="Gender"
-                :id="'gender' + index.room  + '-' + index.traveler"
-                :name="'gender' + index.room  + '-' + index.traveler"
+                :name="'gender' + indexId"
+                :id="'gender' + indexId"
                 :items="['Male', 'Female']"
-                :error-messages="errors.collect('gender-' + index.room  + '-' + index.traveler)"
+                :error-messages="errors.collect('gender-' + indexId)"
                 v-validate="'required'"
-                :data-vv-name="'gender-' + index.room  + '-' + index.traveler"
+                :data-vv-name="'gender-' + indexId"
                 data-vv-as="Gender"
-                @traveler="updateTraveler()"
-                required></v-select>
+                @traveler="updateTraveler()"></v-select>
         </v-flex>
         <v-flex xs1>
             <v-btn @click="removeTraveler" color="red" small flat dark fab><v-icon>delete_forever</v-icon></v-btn>
@@ -96,43 +93,50 @@
 </template>
 
 <script>
-    export default {
-        name: 'traveler',
+export default {
+    name: 'traveler',
+    inject: ['$validator'],
 
-        props: [
-            'value',
-            'index',
-        ],
+    props: [
+        'value',
+        'index',
+    ],
 
-        data() {
-            return {
-                date: null,
-                menu: false,
-            }
+    data() {
+        return {
+            date: null,
+            menu: false,
+        }
+    },
+
+    computed: {
+        indexId() {
+            return '-' + this.index.room + '-' + this.index.traveler;
+        }
+    },
+
+    watch: {
+        menu(val) {
+            val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+        }
+    },
+
+    methods: {
+        updateTraveler() {
+            this.$emit('traveler', {
+                first_name: +this.$refs.first_name.value,
+                middle_name: +this.$refs.middle_name.value,
+                last_name: +this.$refs.last_name.value,
+                birthdate: +this.$refs.birthdate.value,
+                gender: +this.$refs.gender.value,
+            })
         },
-
-        watch: {
-            menu(val) {
-                val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
-            }
+        removeTraveler() {
+            this.$emit('remove-traveler', this.index)
         },
-
-        methods: {
-            updateTraveler() {
-                this.$emit('traveler', {
-                    first_name: +this.$refs.first_name.value,
-                    middle_name: +this.$refs.middle_name.value,
-                    last_name: +this.$refs.last_name.value,
-                    birthdate: +this.$refs.birthdate.value,
-                    gender: +this.$refs.gender.value,
-                })
-            },
-            removeTraveler() {
-                this.$emit('remove-traveler', this.index)
-            },
-            save(date) {
-                this.$refs.menu.save(date)
-            }
-        },
-    }
+        save(date) {
+            this.$refs.menu.save(date)
+        }
+    },
+}
 </script>

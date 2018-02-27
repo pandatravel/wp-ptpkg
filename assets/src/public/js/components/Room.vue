@@ -15,7 +15,7 @@
                 </v-toolbar>
                 <v-divider class="mt-0"></v-divider>
                 <v-container grid-list-xl fluid class="px-3 py-1">
-                    <traveler v-for="(traveler, travelerIndex) in room.travelers" :key="travelerIndex" v-model="room.travelers[travelerIndex]" :index="{traveler:travelerIndex, room:index}" @remove-traveler="removeTraveler"></traveler>
+                    <traveler v-for="(traveler, travelerIndex) in room.travelers" :key="'traveler-' + travelerIndex" v-model="room.travelers[travelerIndex]" :index="{traveler:travelerIndex, room:index}" @remove-traveler="removeTraveler"></traveler>
                 </v-container>
             </v-card>
         </v-flex>
@@ -28,6 +28,7 @@ import traveler from './Traveler.vue';
   export default {
     name: 'room',
     components: {traveler},
+    inject: ['$validator'],
 
     props: [
         'room',

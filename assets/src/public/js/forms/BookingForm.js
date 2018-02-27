@@ -1,8 +1,17 @@
+// Mixins
+import { validationMixin } from 'vuelidate'
+// Components
 import room from '../components/Room.vue';
+import traveler from '../components/Traveler.vue';
+import birthdate from '../components/Birthdate.vue';
 
 Vue.component('booking-form', {
+    mixins: [validationMixin],
+
     components: {
         room,
+        traveler,
+        birthdate,
     },
 
     props: {
@@ -27,7 +36,7 @@ Vue.component('booking-form', {
                 rate_id: '',
                 insurance: false,
                 subscribe: false,
-                agree_terms: false,
+                agree_terms: '',
 
                 rooms: [],
             }),
@@ -107,20 +116,57 @@ Vue.component('booking-form', {
         },
     },
 
+    watch: {
+        dobMenu(val) {
+            val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+        }
+    },
+
     methods: {
         onSubmit() {
-            this.submiting = true;
+            return this.$validator.validateAll()
+                .then(isValid => {
+                    if (isValid) {
+                        this.submiting = true;
 
-            this.form.post(this.endpoint)
-                     .then(data => console.log(data))
-                     .catch(errors => console.log(errors));
+                        this.form.post(this.endpoint)
+                                 .then(data => {
+                                    this.submiting = false;
+                                    console.log(data)
+                                 })
+                                 .catch(errors => {
+                                    this.submiting = false;
+                                    console.log(errors)
+                                });
+                    } else {
+                        // this.$notify({ type: 'error', title: 'Error!', text: 'The form contains invalid fields.'});
+                        return false;
+                    }
+
+                });
+        },
+        onSuccess(data) {
+            this.submiting = false;
+        },
+        onFail(errors) {
+            this.submiting = false;
+            // var bag = this.$validator.errors;
+            // Object.keys(errors).map(function(key) {
+            //     var splitted = key.split('.', 2);
+            //     // we assume that first dot divides column and locale (TODO maybe refactor this and make it more general)
+            //     if (splitted.length > 1) {
+            //         bag.add(splitted[0]+'_'+splitted[1], errors[key][0]);
+            //     } else {
+            //         bag.add(key, errors[key][0]);
+            //     }
+            // });
         },
         addRoom() {
             var newRoom = this.form.rooms.push({travelers:[]}) -1;
             this.addAdult(newRoom);
         },
-        removeRoom(index) {
-            this.form.rooms.splice(index, 1)
+        removeRoom(roomIndex) {
+            this.form.rooms.splice(roomIndex, 1)
         },
         addAdult(roomIndex) {
             this.addTraveler(roomIndex, true);

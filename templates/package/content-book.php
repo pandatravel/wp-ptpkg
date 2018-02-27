@@ -41,10 +41,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                 </v-card-text>
                 <v-divider class="my-0"></v-divider>
                 <booking-form endpoint="package" inline-template>
-                    <v-form action="/wp-json/ptpkg/v1/package" @submit.prevent="onSubmit" method="post">
+                    <v-form @submit.prevent="onSubmit" method="post">
                         <v-layout row v-cloak>
                             <v-flex xs6>
                                 <v-card-text class="mt-4 pt-5">
+                                    <pre>{{ errors.items.map(e => e.msg) }}</pre>
                                 </v-card-text>
                             </v-flex>
                             <v-flex xs6>
@@ -81,7 +82,95 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                         </v-flex>
                                     </v-layout>
 
-                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :room_max="room_max" :total_travelers="totalTravelers" :max_travelers="maxTravelers" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+                                    <!-- <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :room_max="room_max" :total_travelers="totalTravelers" :max_travelers="maxTravelers" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room> -->
+                                    <v-layout v-for="(room, roomIndex) in form.rooms" row pb-1>
+                                        <v-flex xs12>
+                                            <v-card class="card--flex-toolbar mx-1 my-1">
+                                                <v-toolbar card light dense>
+                                                    <v-toolbar-title class="body-2 grey--text">Room {{ roomIndex + 1 }}</v-toolbar-title>
+                                                    <v-toolbar-items>
+                                                        <v-btn @click="removeRoom(roomIndex)" flat dark color="red"><v-icon dark>close</v-icon> remove</v-btn>
+                                                    </v-toolbar-items>
+                                                    <v-spacer></v-spacer>
+                                                    <v-toolbar-items>
+                                                        <v-btn @click="addAdult(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
+                                                        <v-btn @click="addChild(roomIndex)" :disabled="hasVacancy(roomIndex) == false || totalTravelers >= maxTravelers" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
+                                                    </v-toolbar-items>
+                                                </v-toolbar>
+                                                <v-divider class="mt-0"></v-divider>
+                                                <v-container grid-list-xl fluid class="px-3 py-1">
+                                                    <!-- <traveler v-for="(traveler, travelerIndex) in room.travelers" :key="travelerIndex" v-model="room.travelers[travelerIndex]" :index="{traveler:travelerIndex, room:roomIndex}" @remove-traveler="removeTraveler"></traveler> -->
+                                                    <v-layout v-for="(traveler, travelerIndex) in room.travelers" wrap>
+                                                        <v-flex xs3>
+                                                            <v-text-field
+                                                                v-model="traveler.first_name"
+                                                                label="First Name"
+                                                                :id="'first_name-' + roomIndex  + '-' + travelerIndex"
+                                                                persistent-hint
+                                                                :hint="traveler.adult ? 'Adult (19+)' : 'Child (2-18)'"
+                                                                :error-messages="errors.collect('first_name-' + roomIndex  + '-' + travelerIndex)"
+                                                                v-validate="'required'"
+                                                                :data-vv-name="'first_name-' + roomIndex  + '-' + travelerIndex"
+                                                                data-vv-as="First Name"
+                                                                required></v-text-field>
+                                                        </v-flex>
+                                                        <v-flex xs2>
+                                                            <v-text-field
+                                                                v-model="traveler.middle_name"
+                                                                label="Middle Name"
+                                                                :id="'middle_name-' + roomIndex  + '-' + travelerIndex"></v-text-field>
+                                                        </v-flex>
+                                                        <v-flex xs2>
+                                                            <v-text-field
+                                                                v-model="traveler.last_name"
+                                                                label="Last Name"
+                                                                :id="'last_name-' + roomIndex  + '-' + travelerIndex"
+                                                                :error-messages="errors.collect('last_name-' + roomIndex  + '-' + travelerIndex)"
+                                                                v-validate="'required'"
+                                                                :data-vv-name="'last_name-' + roomIndex  + '-' + travelerIndex"
+                                                                data-vv-as="Last Name"
+                                                                required></v-text-field>
+                                                        </v-flex>
+                                                        <v-flex xs2>
+                                                            <!-- <birthdate
+                                                                v-model="room.travelers[travelerIndex]"
+                                                                :index="{traveler:travelerIndex, room:roomIndex}"
+                                                                :name="'birthdate-' + roomIndex + '-' + travelerIndex"
+                                                                v-validate="'required'"
+                                                                :error-messages="errors.collect('birthdate-' + roomIndex  + '-' + travelerIndex)"
+                                                                :data-vv-name="'birthdate-' + roomIndex  + '-' + travelerIndex"
+                                                                data-vv-as="Birthdate"></birthdate> -->
+                                                            <v-text-field
+                                                                v-model="traveler.birthdate"
+                                                                label="Birthdate"
+                                                                :id="'birthdate-' + roomIndex  + '-' + travelerIndex"
+                                                                hint="mm/dd/yyy"
+                                                                :error-messages="errors.collect('birthdate-' + roomIndex  + '-' + travelerIndex)"
+                                                                v-validate="'required|date_format:MM/DD/YYYY'"
+                                                                :data-vv-name="'birthdate-' + roomIndex  + '-' + travelerIndex"
+                                                                data-vv-as="Birthdate"
+                                                                required></v-text-field>
+                                                        </v-flex>
+                                                        <v-flex xs2>
+                                                            <v-select
+                                                                v-model="traveler.gender"
+                                                                label="Gender"
+                                                                :id="'gender-' + roomIndex  + '-' + travelerIndex"
+                                                                :items="['Male', 'Female']"
+                                                                :error-messages="errors.collect('gender-' + roomIndex  + '-' + travelerIndex)"
+                                                                v-validate="'required'"
+                                                                :data-vv-name="'gender-' + roomIndex  + '-' + travelerIndex"
+                                                                data-vv-as="Gender"
+                                                                required></v-select>
+                                                        </v-flex>
+                                                        <v-flex xs1>
+                                                            <v-btn @click="removeTraveler" color="red" small flat dark fab><v-icon>delete_forever</v-icon></v-btn>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-container>
+                                            </v-card>
+                                        </v-flex>
+                                    </v-layout>
 
                                     <v-layout row>
                                         <v-flex xs12>
@@ -113,20 +202,22 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                   :error-messages="errors.collect('agree_terms')"
                                                   v-validate="'required'"
                                                   data-vv-name="agree_terms"
+                                                  data-vv-as="Agree to Terms & Conditions"
                                                   type="checkbox"
                                                   required></v-checkbox>
                                         </v-flex>
                                     </v-layout>
 
                                     <v-btn color="primary" @click.native="step = 2">Continue</v-btn>
+                                    <v-btn color="primary" type="submit">Submit</v-btn>
 
                                 </v-stepper-content>
 
                                 <v-stepper-content step="2">
 
-                                    <v-text-field label="Street" v-model="form.street" required></v-text-field>
+                                    <!-- <v-text-field label="Street" v-model="form.street" required></v-text-field>
                                     <v-text-field label="City" v-model="form.city" required></v-text-field>
-                                    <v-text-field label="State" v-model="form.state" required></v-text-field>
+                                    <v-text-field label="State" v-model="form.state" required></v-text-field> -->
 
                                     <v-btn flat @click.native="step = 1">Previous</v-btn>
                                     <v-btn color="primary" @click.native="step = 3">Continue</v-btn>
