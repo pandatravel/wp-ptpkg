@@ -992,17 +992,17 @@
     },
     {
         "name": "tightenco/collect",
-        "version": "v5.6.5",
-        "version_normalized": "5.6.5.0",
+        "version": "v5.6.6",
+        "version_normalized": "5.6.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/tightenco/collect.git",
-            "reference": "1a588bfc5b1ca0444c69d5a4c56f588b7401f771"
+            "reference": "2906ceef45c911bcaf44bae92c34ee8b5d070ed3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tightenco/collect/zipball/1a588bfc5b1ca0444c69d5a4c56f588b7401f771",
-            "reference": "1a588bfc5b1ca0444c69d5a4c56f588b7401f771",
+            "url": "https://api.github.com/repos/tightenco/collect/zipball/2906ceef45c911bcaf44bae92c34ee8b5d070ed3",
+            "reference": "2906ceef45c911bcaf44bae92c34ee8b5d070ed3",
             "shasum": ""
         },
         "require": {
@@ -1014,7 +1014,7 @@
             "nesbot/carbon": "~1.20",
             "phpunit/phpunit": "~7.0"
         },
-        "time": "2018-02-22T21:01:23+00:00",
+        "time": "2018-02-27T17:49:29+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
