@@ -21,9 +21,9 @@
         "qs": "^6.5.1",
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
-        "vee-validate": "^2.0.4",
         "vue": "^2.5.13",
         "vue-currency-filter": "^2.1.0",
-        "vuetify": "^1.0.3"
+        "vuelidate": "^0.6.2",
+        "vuetify": "^1.0.4"
     }
 }
