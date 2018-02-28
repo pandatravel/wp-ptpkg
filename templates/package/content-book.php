@@ -99,7 +99,9 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                         <p>This plan is available for your itinerary at a cost of {{ premiumPrice | currency }} per traveler.</p>
                                                         <v-checkbox
                                                               v-model="form.insurance"
-                                                              value="1"
+                                                              :value="true"
+                                                              :true-value="true"
+                                                              :false-value="false"
                                                               label="Purchase Insurance"
                                                               type="checkbox"></v-checkbox>
                                                     </v-card-text>
