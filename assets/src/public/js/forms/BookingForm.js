@@ -140,7 +140,7 @@ Vue.component('booking-form', {
         onSubmit() {
             this.$v.$touch()
             if (this.$v.$invalid) {
-                // this.$notify({ type: 'error', title: 'Error!', text: 'The form contains invalid fields.'});
+                this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'The form contains invalid fields.'});
                 return false;
             } else {
                 this.submiting = true;
@@ -152,6 +152,7 @@ Vue.component('booking-form', {
                          })
                          .catch(errors => {
                             this.submiting = false;
+                            this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors});
                             console.log(errors)
                         });
             }

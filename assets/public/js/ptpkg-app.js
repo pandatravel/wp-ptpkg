@@ -74590,7 +74590,7 @@ Vue.component('booking-form', {
 
             this.$v.$touch();
             if (this.$v.$invalid) {
-                // this.$notify({ type: 'error', title: 'Error!', text: 'The form contains invalid fields.'});
+                this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'The form contains invalid fields.' });
                 return false;
             } else {
                 this.submiting = true;
@@ -74600,6 +74600,7 @@ Vue.component('booking-form', {
                     console.log(data);
                 }).catch(function (errors) {
                     _this.submiting = false;
+                    _this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors });
                     console.log(errors);
                 });
             }
@@ -77811,6 +77812,27 @@ var form = {
 
             package: window._ptpkgAPIDataPreload.data
         };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        // Add a loader request interceptor
+        axios.interceptors.request.use(function (config) {
+            _this.setLoading(true);
+            return config;
+        }, function (error) {
+            _this.setLoading(false);
+            return Promise.reject(error);
+        });
+
+        // Add a loader response interceptor
+        axios.interceptors.response.use(function (response) {
+            _this.setLoading(false);
+            return response;
+        }, function (error) {
+            _this.setLoading(false);
+            return Promise.reject(error);
+        });
     },
 
 
