@@ -26,6 +26,7 @@ get_header(); ?>
 <!-- Start single-package-book.php -->
 <div id="page-body" class="package-single-wrapper">
     <div id="app" class="package-book" v-cloak><!-- vue root -->
+        <notifications group="package" position="bottom right" :duration="4000"></notifications>
 
         <v-app>
             <v-jumbotron src="<?php echo $packageBannerUrl; ?>" height="333px" class="package-banner mb-3">
