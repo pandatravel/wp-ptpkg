@@ -6,7 +6,7 @@
         "dist": {
             "type": "path",
             "url": "/Users/ammonkc/Develop/src/ptpkg-api",
-            "reference": "ce1f0757ace599598c12b247743c74626dbdfb5c",
+            "reference": "def321401c76c3a2261d8dbf154b5290038e4764",
             "shasum": null
         },
         "require": {
@@ -851,17 +851,17 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v4.0.4",
-        "version_normalized": "4.0.4.0",
+        "version": "v4.0.5",
+        "version_normalized": "4.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "a9c4e4cc56f7eff0960c4f6c157da8f6b13211fc"
+            "reference": "e20a9b7f9f62cb33a11638b345c248e7d510c938"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/a9c4e4cc56f7eff0960c4f6c157da8f6b13211fc",
-            "reference": "a9c4e4cc56f7eff0960c4f6c157da8f6b13211fc",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/e20a9b7f9f62cb33a11638b345c248e7d510c938",
+            "reference": "e20a9b7f9f62cb33a11638b345c248e7d510c938",
             "shasum": ""
         },
         "require": {
@@ -886,7 +886,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2018-01-18T22:19:33+00:00",
+        "time": "2018-02-22T10:50:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -921,17 +921,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.0.4",
-        "version_normalized": "4.0.4.0",
+        "version": "v4.0.5",
+        "version_normalized": "4.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "6d63cc74f3e2d4961411ccb77389a00332653104"
+            "reference": "c7d89044ed6ed3b7d8b558d509cca0666b947e58"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/6d63cc74f3e2d4961411ccb77389a00332653104",
-            "reference": "6d63cc74f3e2d4961411ccb77389a00332653104",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c7d89044ed6ed3b7d8b558d509cca0666b947e58",
+            "reference": "c7d89044ed6ed3b7d8b558d509cca0666b947e58",
             "shasum": ""
         },
         "require": {
@@ -950,7 +950,7 @@
             "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
             "ext-intl": "To show region name in time zone dump"
         },
-        "time": "2018-01-29T09:06:29+00:00",
+        "time": "2018-02-26T15:55:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
