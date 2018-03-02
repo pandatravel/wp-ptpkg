@@ -123,7 +123,7 @@ class BookingForm
 
         try {
             $data = $request->get_params();
-            $response = $this->api->get_client()->orders()->create($data);
+            $response = $this->api->get_client()->packages()->create($data);
         } catch (ClientException $e) {
             $response = $e->getResponse();
             $body = ResponseMediator::getContent($response);
