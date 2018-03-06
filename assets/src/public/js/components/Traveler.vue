@@ -92,6 +92,9 @@
 
 <script>
 import errors from '../mixins/errors'
+import countries from '../mixins/countries'
+import states from '../mixins/states'
+import Moment from 'moment'
 
 export default {
     name: 'traveler',
@@ -106,6 +109,7 @@ export default {
 
     data() {
         return {
+            traveler: this.value,
             date: null,
             menu: false,
         }
@@ -114,7 +118,7 @@ export default {
     computed: {
         indexId() {
             return '-' + this.index.room + '-' + this.index.traveler;
-        }
+        },
     },
 
     watch: {
