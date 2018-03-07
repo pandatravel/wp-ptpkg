@@ -5,10 +5,6 @@ const Event = new class {
         this.bus = new Vue();
     }
 
-    get bus() {
-        return this.bus;
-    }
-
     fire(event, data = null) {
         this.bus.$emit(event, data);
     }
