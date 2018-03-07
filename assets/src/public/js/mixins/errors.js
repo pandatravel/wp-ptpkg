@@ -15,14 +15,14 @@ export default {
             !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].last_name.required && errors.push('Last Name is required.')
             return errors
         },
-        birthdateErrors (index, age, adult) {
+        birthdateErrors (index, adult) {
             const errors = []
             if (!this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$dirty) return errors
             !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.required && errors.push('Birthdate is required.')
             if (adult) {
-                !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.ageRange && errors.push(`Adults age must be ${age.max + 1}+ years old`)
+                !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.ageRange && errors.push(`Adults age must be ${this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$params.ageRange.max + 1}+ years old`)
             } else {
-                !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.ageRange && errors.push(`Childs age must be between ${age.min} - ${age.max} years old`)
+                !this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.ageRange && errors.push(`Childs age must be between ${this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$params.ageRange.min} - ${this.$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$params.ageRange.max} years old`)
             }
             return errors
         },
