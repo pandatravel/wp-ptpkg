@@ -57,7 +57,7 @@
                   label="Birthdate"
                   hint="yyyy-mm-dd"
                   prepend-icon="event"
-                  :error-messages="birthdateErrors({room:index.room, traveler:index.traveler})"
+                  :error-messages="birthdateErrors({room:index.room, traveler:index.traveler}, age, value.adult)"
                   @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @traveler="updateTraveler()"
@@ -104,6 +104,7 @@ export default {
     props: [
         'value',
         'index',
+        'age',
         '$v',
     ],
 
