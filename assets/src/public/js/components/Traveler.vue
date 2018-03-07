@@ -13,7 +13,8 @@
                 :error-messages="firstNameErrors({room:index.room, traveler:index.traveler})"
                 @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].first_name.$touch()"
                 @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].first_name.$touch()"
-                @traveler="updateTraveler()"></v-text-field>
+                @traveler="updateTraveler()"
+                required></v-text-field>
         </v-flex>
         <v-flex xs2>
             <v-text-field
@@ -23,7 +24,8 @@
                 label="Middle Name"
                 :name="'middle_name' + indexId"
                 :id="'middle_name' + indexId"
-                @traveler="updateTraveler()"></v-text-field>
+                @traveler="updateTraveler()"
+                required></v-text-field>
         </v-flex>
         <v-flex xs2>
             <v-text-field
@@ -36,7 +38,8 @@
                 :error-messages="lastNameErrors({room:index.room, traveler:index.traveler})"
                 @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].last_name.$touch()"
                 @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].last_name.$touch()"
-                @traveler="updateTraveler()"></v-text-field>
+                @traveler="updateTraveler()"
+                required></v-text-field>
         </v-flex>
         <v-flex xs2>
             <v-menu
@@ -57,11 +60,12 @@
                   label="Birthdate"
                   hint="yyyy-mm-dd"
                   prepend-icon="event"
-                  :error-messages="birthdateErrors({room:index.room, traveler:index.traveler}, age, value.adult)"
+                  :error-messages="birthdateErrors({room:index.room, traveler:index.traveler}, value.adult)"
                   @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @traveler="updateTraveler()"
-                  readonly></v-text-field>
+                  readonly
+                  required></v-text-field>
                 <v-date-picker
                   ref="picker"
                   v-model="value.birthdate"
@@ -82,7 +86,8 @@
                 :error-messages="genderErrors({room:index.room, traveler:index.traveler})"
                 @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
                 @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
-                @traveler="updateTraveler()"></v-select>
+                @traveler="updateTraveler()"
+                required></v-select>
         </v-flex>
         <v-flex xs1>
             <v-btn @click="removeTraveler" color="red" small flat dark fab><v-icon>delete_forever</v-icon></v-btn>
@@ -96,6 +101,8 @@ import countries from '../mixins/countries'
 import states from '../mixins/states'
 import Moment from 'moment'
 
+const touchMap = new WeakMap()
+
 export default {
     name: 'traveler',
 
@@ -104,7 +111,6 @@ export default {
     props: [
         'value',
         'index',
-        'age',
         '$v',
     ],
 
@@ -143,6 +149,13 @@ export default {
         },
         save(date) {
             this.$refs.menu.save(date)
+        },
+        delayTouch($v) {
+            $v.$reset()
+            if (touchMap.has($v)) {
+                clearTimeout(touchMap.get($v))
+            }
+            touchMap.set($v, setTimeout($v.$touch, 1000))
         }
     },
 }
