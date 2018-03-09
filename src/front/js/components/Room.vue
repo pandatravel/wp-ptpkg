@@ -61,10 +61,10 @@ import traveler from './Traveler.vue';
                         birthdate: null,
                         gender: '',
                         adult: adult,
-                        ffp: '',
-                        seat_preference: '',
-                        country: '',
-                        state: '',
+                        ffp: '327709212',
+                        seat_preference: 'Window Seat',
+                        country: 'US',
+                        state: 'HI',
                     });
                 }
             }

@@ -3,12 +3,14 @@ import axios from 'axios';
 import _ from 'lodash';
 import moment from 'moment';
 import Form from './utilities/Form';
+import Event from './utilities/EventBus';
 
 window.Vue = Vue;
 window._ = _;
 window.axios = axios;
 window.moment = moment;
 window.Form = Form;
+window.Event = Event;
 
 let api = {
     url: 'https://pandaonline.dev/wp-json/',

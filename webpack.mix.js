@@ -15,9 +15,9 @@ let mix = require('laravel-mix');
  mix.config.publicPath = 'assets'
  mix.config.fileLoaderDirs.fonts = 'public/fonts';
 
-mix.js('assets/src/admin/js/admin.js', 'admin/js/ptpkg-admin.js')
-   .sass('assets/src/admin/sass/admin.scss', 'admin/css/ptpkg-admin.css')
-   .js('assets/src/public/js/app.js', 'public/js/ptpkg-app.js')
-   .js('assets/src/public/js/public.js', 'public/js/ptpkg-public.js')
-   .sass('assets/src/public/sass/public.scss', 'public/css/ptpkg-public.css')
-   .sass('assets/src/public/sass/_bootstrap.scss', 'public/css/ptpkg-bootstrap.css');
+mix.js('src/admin/js/admin.js', 'admin/js/ptpkg-admin.js')
+   .sass('src/admin/sass/admin.scss', 'admin/css/ptpkg-admin.css')
+   .js('src/front/js/app.js', 'public/js/ptpkg-app.js')
+   .js('src/front/js/public.js', 'public/js/ptpkg-public.js')
+   .sass('src/front/sass/public.scss', 'public/css/ptpkg-public.css')
+   .sass('src/front/sass/_bootstrap.scss', 'public/css/ptpkg-bootstrap.css');
