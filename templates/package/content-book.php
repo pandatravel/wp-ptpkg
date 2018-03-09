@@ -638,7 +638,6 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 </v-flex>
                                             </v-layout>
 
-
                                             <v-divider></v-divider>
 
                                         </v-container>
@@ -649,8 +648,146 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                             </v-stepper>
                         </v-form>
                     </div>
-                    <div v-else>
+                    <div class="pa-4" v-else>
+                        <v-layout row wrap>
+                            <v-flex sm12>
+                                <v-alert type="success" :value="success" color="success" class="mb-3" outline>
+                                    <h3 class="title ml-3 mt-0"> Tour Package successfully purchased</h3>
+                                    <p class="ml-3 mb-0">Thank you for joining Panda Travel on this tour.</p>
+                                </v-alert>
 
+                                <v-card color="grey lighten-5">
+                                    <v-container>
+                                        <v-layout row wrap>
+                                            <v-flex class="pr-5" sm6>
+                                                <h4 class="small-title primary--text text-thin my-2">Your Information</h4>
+                                                <v-divider></v-divider>
+                                                <p class="mb-2"><strong>{{ form.name }}</strong></p>
+                                                <p class="mb-0"><font-awesome-icon icon="phone"></font-awesome-icon> {{ form.phone }}</p>
+                                                <p v-if="form.fax" class="mb-0"><font-awesome-icon icon="fax"></font-awesome-icon> {{ form.fax }}</p>
+                                                <p class="mb-0"><font-awesome-icon icon="envelope"></font-awesome-icon> {{ form.email }}</p>
+                                            </v-flex>
+                                            <v-flex class="pl-5" sm6>
+                                                <h4 class="small-title primary--text text-thin my-2">Billing Address</h4>
+                                                <v-divider></v-divider>
+                                                <p class="mb-2"><strong>{{ form.name }}</strong></p>
+                                                <p class="mb-0">{{ form.address }}</p>
+                                                <p class="mb-0" v-if="form.address2">{{ form.address2 }}</p>
+                                                <p class="mb-0">{{ form.city }}, {{ form.state }}., {{ form.zip }} {{ form.country }} </p>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex class="pr-5" sm6>
+                                                <h4 class="small-title primary--text text-thin my-2">Payment</h4>
+                                                <v-divider></v-divider>
+                                                <p class="mb-0">
+                                                    <strong>{{ cardNiceType }}</strong>
+                                                </p>
+                                                <p>
+                                                    <v-chip>
+                                                        <font-awesome-icon :icon="[cardIcon.fa, cardIcon.card]" size="2x"></font-awesome-icon> &nbsp;
+                                                         {{ form.card_number | creditCardMask }}
+                                                    </v-chip>
+                                                </p>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+
+                            </v-flex>
+                        </v-layout>
+
+                        <v-layout class="pt-3" row wrap>
+                            <v-flex xs12 sm7>
+                                <v-card class="package-details-card" flat dense>
+                                    <div class="card-header">
+                                        <h4 class="primary--text">Traveler Information</h4>
+                                    </div>
+                                    <v-list class="mt-0" dense two-line>
+                                        <template v-for="(room, roomIndex) in form.rooms">
+                                            <v-subheader>Room {{ roomIndex + 1 }}</v-subheader>
+                                            <template v-for="(traveler, travelerIndex) in room.travelers">
+                                                <v-list-tile>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>{{ traveler.first_name }} {{ traveler.middle_name }} {{ traveler.last_name }}</v-list-tile-title>
+                                                        <v-list-tile-sub-title>(<span v-if="traveler.adult">Adult</span><span v-else>Child</span> {{ traveler.birthdate | age }} yrs) &nbsp; {{ traveler.birthdate | dateFormat }}</v-list-tile-sub-title>
+                                                    </v-list-tile-content>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>Frequent Flyer Number</v-list-tile-title>
+                                                        <v-list-tile-sub-title>{{ traveler.ffp }}</v-list-tile-sub-title>
+                                                    </v-list-tile-content>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>Seat Preference</v-list-tile-title>
+                                                        <v-list-tile-sub-title>{{ traveler.seat_preference }}</v-list-tile-sub-title>
+                                                    </v-list-tile-content>
+                                                    <v-list-tile-action>
+                                                        <v-list-tile-action-text></v-list-tile-action-text>
+                                                    </v-list-tile-action>
+                                                </v-list-tile>
+                                                <v-divider v-if="travelerIndex + 1 < room.travelers.length" class="my-0"></v-divider>
+                                                <v-divider v-if="roomIndex + 1 != form.rooms.length && travelerIndex + 1 == room.travelers.length" class="my-0"></v-divider>
+                                            </template>
+                                        </template>
+                                    </v-list>
+                                </v-card>
+                            </v-flex>
+                            <v-flex class="pl-4" sm5>
+                                <v-card class="package-details-card" flat outline>
+                                    <div class="card-header">
+                                        <h4 class="primary--text">Package Details</h4>
+                                    </div>
+                                    <v-list class="my-0" dense>
+                                        <v-list-tile>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title>Itinerary Price</v-list-tile-title>
+                                            </v-list-tile-content>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title class="text-xs-right">{{ subTotal | currency }}</v-list-tile-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                        <v-list-tile v-if="form.insurance">
+                                            <v-list-tile-content>
+                                                <v-list-tile-title>Travel Insurance</v-list-tile-title>
+                                            </v-list-tile-content>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title class="text-xs-right">{{ insurance | currency }}</v-list-tile-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                    </v-list>
+                                    <v-divider class="my-0"></v-divider>
+                                    <v-list class="my-0" dense>
+                                        <v-list-tile>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title :class="[isDeposit ? 'grey--text text--lighten-1' : 'title primary--text']" class="text-xs-left">Total</v-list-tile-title>
+                                            </v-list-tile-content>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title :class="[isDeposit ? 'grey--text text--lighten-1' : 'title primary--text']" class="text-xs-left text-xs-right">{{ total | currency }}</v-list-tile-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                    </v-list>
+                                    <v-list v-if="isDeposit" class="my-0" dense two-line>
+                                        <v-divider class="mt-0 mb-3"></v-divider>
+                                        <v-list-tile>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title class="title primary--text">Deposit Price</v-list-tile-title>
+                                                <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title class="title primary--text text-xs-right">{{ deposit | currency }}</v-list-tile-title>
+                                                <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balanceTotal | currency }}</v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                    </v-list>
+                                    <v-divider class="mt-0"></v-divider>
+                                    <v-card-text class="pt-0">
+                                        <p class="caption blue-grey--text text--lighten-2 mb-0">* Taxes are included</p>
+                                        <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                    </v-card-text>
+                                </v-card>
+                            </v-flex>
+                        </v-layout>
+
+                        <v-divider></v-divider>
                     </div>
                 </booking-form>
 

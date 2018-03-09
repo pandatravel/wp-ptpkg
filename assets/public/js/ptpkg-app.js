@@ -77641,10 +77641,7 @@ var Form = function () {
 
     }, {
         key: 'onSuccess',
-        value: function onSuccess(data) {
-
-            this.reset();
-        }
+        value: function onSuccess(data) {}
 
         /**
          * Handle a failed form submission.
@@ -77824,23 +77821,42 @@ var Event = new (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuelidate__ = __webpack_require__(523);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuelidate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuelidate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__ = __webpack_require__(525);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__validators__ = __webpack_require__(545);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_errors__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_form__ = __webpack_require__(550);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_countries__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_states__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_creditCards__ = __webpack_require__(551);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_creditCardMask__ = __webpack_require__(582);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Room_vue__ = __webpack_require__(559);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Room_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_Room_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_TravelerExtended_vue__ = __webpack_require__(565);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_TravelerExtended_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_TravelerExtended_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_OrderInfo_vue__ = __webpack_require__(576);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_OrderInfo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_OrderInfo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_card_validator__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_card_validator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_card_validator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuelidate__ = __webpack_require__(523);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuelidate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuelidate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__ = __webpack_require__(525);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators__ = __webpack_require__(545);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_errors__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_form__ = __webpack_require__(550);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_countries__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_states__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_creditCards__ = __webpack_require__(551);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_creditCardMask__ = __webpack_require__(582);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__fortawesome_vue_fontawesome__ = __webpack_require__(552);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__fortawesome_vue_fontawesome___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__fortawesome_vue_fontawesome__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__fortawesome_fontawesome__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__fortawesome_fontawesome_free_brands__ = __webpack_require__(553);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__fortawesome_fontawesome_free_solid_faAddressCard__ = __webpack_require__(554);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__fortawesome_fontawesome_free_solid_faAddressCard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__fortawesome_fontawesome_free_solid_faAddressCard__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__fortawesome_fontawesome_free_solid_faCreditCard__ = __webpack_require__(555);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__fortawesome_fontawesome_free_solid_faCreditCard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__fortawesome_fontawesome_free_solid_faCreditCard__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__fortawesome_fontawesome_free_solid_faPhone__ = __webpack_require__(556);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__fortawesome_fontawesome_free_solid_faPhone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__fortawesome_fontawesome_free_solid_faPhone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__fortawesome_fontawesome_free_solid_faFax__ = __webpack_require__(557);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__fortawesome_fontawesome_free_solid_faFax___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__fortawesome_fontawesome_free_solid_faFax__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__fortawesome_fontawesome_free_solid_faEnvelope__ = __webpack_require__(558);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__fortawesome_fontawesome_free_solid_faEnvelope___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__fortawesome_fontawesome_free_solid_faEnvelope__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__fortawesome_fontawesome_free_solid_faCheck__ = __webpack_require__(583);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__fortawesome_fontawesome_free_solid_faCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__fortawesome_fontawesome_free_solid_faCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Room_vue__ = __webpack_require__(559);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Room_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_Room_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_TravelerExtended_vue__ = __webpack_require__(565);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_TravelerExtended_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_TravelerExtended_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_OrderInfo_vue__ = __webpack_require__(576);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_OrderInfo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_OrderInfo_vue__);
+
 // Mixins
 
 
@@ -77856,15 +77872,27 @@ var Event = new (function () {
 
 
 
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_11__fortawesome_fontawesome__["default"].library.add(__WEBPACK_IMPORTED_MODULE_12__fortawesome_fontawesome_free_brands__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__fortawesome_fontawesome_free_solid_faAddressCard___default.a, __WEBPACK_IMPORTED_MODULE_14__fortawesome_fontawesome_free_solid_faCreditCard___default.a, __WEBPACK_IMPORTED_MODULE_15__fortawesome_fontawesome_free_solid_faPhone___default.a, __WEBPACK_IMPORTED_MODULE_16__fortawesome_fontawesome_free_solid_faFax___default.a, __WEBPACK_IMPORTED_MODULE_17__fortawesome_fontawesome_free_solid_faEnvelope___default.a, __WEBPACK_IMPORTED_MODULE_18__fortawesome_fontawesome_free_solid_faCheck___default.a);
+
+
+
+
+
 var touchMap = new WeakMap();
 
 Vue.component('booking-form', {
-    mixins: [__WEBPACK_IMPORTED_MODULE_0_vuelidate__["validationMixin"], __WEBPACK_IMPORTED_MODULE_3__mixins_errors__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_form__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_countries__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_states__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_creditCards__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_creditCardMask__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_1_vuelidate__["validationMixin"], __WEBPACK_IMPORTED_MODULE_4__mixins_errors__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_form__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_countries__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_states__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_creditCards__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_creditCardMask__["a" /* default */]],
 
     components: {
-        Room: __WEBPACK_IMPORTED_MODULE_9__components_Room_vue___default.a,
-        TravelerExtended: __WEBPACK_IMPORTED_MODULE_10__components_TravelerExtended_vue___default.a,
-        OrderInfo: __WEBPACK_IMPORTED_MODULE_11__components_OrderInfo_vue___default.a
+        Room: __WEBPACK_IMPORTED_MODULE_19__components_Room_vue___default.a,
+        TravelerExtended: __WEBPACK_IMPORTED_MODULE_20__components_TravelerExtended_vue___default.a,
+        OrderInfo: __WEBPACK_IMPORTED_MODULE_21__components_OrderInfo_vue___default.a,
+        FontAwesomeIcon: __WEBPACK_IMPORTED_MODULE_10__fortawesome_vue_fontawesome___default.a
     },
 
     props: {
@@ -77915,7 +77943,7 @@ Vue.component('booking-form', {
             exp_min: moment().subtract(1, 'month').format('YYYY-MM'),
             exp_max: moment().add(8, 'YEAR').format('YYYY-MM'),
             submiting: false,
-            success: false,
+            success: true,
 
             order: {},
             package: window._ptpkgAPIDataPreload.data
@@ -77927,21 +77955,21 @@ Vue.component('booking-form', {
                 return {
                     form: {
                         rooms: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
                             $each: {
                                 travelers: {
-                                    required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
-                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["maxLength"])(this.room_max),
+                                    required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
+                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["maxLength"])(this.room_max),
                                     $each: {
-                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                                         birthdate: {
-                                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                                            ageRange: Object(__WEBPACK_IMPORTED_MODULE_2__validators__["a" /* ageRange */])(this.package.child_min_age, this.package.child_max_age)
+                                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                                            ageRange: Object(__WEBPACK_IMPORTED_MODULE_3__validators__["a" /* ageRange */])(this.package.child_min_age, this.package.child_max_age)
                                         },
-                                        gender: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] }
+                                        gender: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] }
                                     }
                                 }
                             }
@@ -77953,16 +77981,16 @@ Vue.component('booking-form', {
                 return {
                     form: {
                         rooms: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
                             $each: {
                                 travelers: {
-                                    required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
-                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["maxLength"])(this.room_max),
+                                    required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
+                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["maxLength"])(this.room_max),
                                     $each: {
-                                        country: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        state: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] }
+                                        country: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        state: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] }
                                     }
                                 }
                             }
@@ -77973,51 +78001,51 @@ Vue.component('booking-form', {
             case 3:
                 return {
                     form: {
-                        address: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        city: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        state: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        country: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        zip: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        phone: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        address: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        city: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        state: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        country: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        zip: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        phone: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         email: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            email: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["email"],
-                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["sameAs"])('email_confirm')
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            email: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["email"],
+                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["sameAs"])('email_confirm')
                         },
                         email_confirm: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            email: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["email"],
-                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["sameAs"])('email')
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            email: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["email"],
+                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["sameAs"])('email')
                         },
-                        name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         card_number: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCard: __WEBPACK_IMPORTED_MODULE_2__validators__["b" /* creditCard */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCard: __WEBPACK_IMPORTED_MODULE_3__validators__["b" /* creditCard */]
                         },
                         card_expiration: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCardExpiration: __WEBPACK_IMPORTED_MODULE_2__validators__["d" /* creditCardExpiration */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCardExpiration: __WEBPACK_IMPORTED_MODULE_3__validators__["d" /* creditCardExpiration */]
                         },
                         card_cvv: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCardCvv: __WEBPACK_IMPORTED_MODULE_2__validators__["c" /* creditCardCvv */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCardCvv: __WEBPACK_IMPORTED_MODULE_3__validators__["c" /* creditCardCvv */]
                         },
-                        agree_terms: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        agree_terms: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         rooms: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
                             $each: {
                                 travelers: {
-                                    required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
-                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["maxLength"])(this.room_max),
+                                    required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
+                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["maxLength"])(this.room_max),
                                     $each: {
-                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        birthdate: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        gender: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        country: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        state: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] }
+                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        birthdate: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        gender: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        country: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        state: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] }
                                     }
                                 }
                             }
@@ -78028,51 +78056,51 @@ Vue.component('booking-form', {
             default:
                 return {
                     form: {
-                        address: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        city: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        state: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        country: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        zip: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                        phone: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        address: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        city: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        state: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        country: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        zip: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                        phone: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         email: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            email: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["email"],
-                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["sameAs"])('email_confirm')
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            email: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["email"],
+                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["sameAs"])('email_confirm')
                         },
                         email_confirm: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            email: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["email"],
-                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["sameAs"])('email')
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            email: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["email"],
+                            sameAs: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["sameAs"])('email')
                         },
-                        name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         card_number: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCard: __WEBPACK_IMPORTED_MODULE_2__validators__["b" /* creditCard */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCard: __WEBPACK_IMPORTED_MODULE_3__validators__["b" /* creditCard */]
                         },
                         card_expiration: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCardExpiration: __WEBPACK_IMPORTED_MODULE_2__validators__["d" /* creditCardExpiration */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCardExpiration: __WEBPACK_IMPORTED_MODULE_3__validators__["d" /* creditCardExpiration */]
                         },
                         card_cvv: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            creditCardCvv: __WEBPACK_IMPORTED_MODULE_2__validators__["c" /* creditCardCvv */]
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            creditCardCvv: __WEBPACK_IMPORTED_MODULE_3__validators__["c" /* creditCardCvv */]
                         },
-                        agree_terms: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
+                        agree_terms: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
                         rooms: {
-                            required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                            minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
+                            required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                            minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
                             $each: {
                                 travelers: {
-                                    required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"],
-                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["minLength"])(1),
-                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["maxLength"])(this.room_max),
+                                    required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"],
+                                    minLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["minLength"])(1),
+                                    maxLength: Object(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["maxLength"])(this.room_max),
                                     $each: {
-                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        birthdate: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        gender: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        country: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] },
-                                        state: { required: __WEBPACK_IMPORTED_MODULE_1_vuelidate_lib_validators__["required"] }
+                                        first_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        last_name: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        birthdate: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        gender: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        country: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+                                        state: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] }
                                     }
                                 }
                             }
@@ -78183,6 +78211,26 @@ Vue.component('booking-form', {
             var balanceDue = moment(this.package.balance_at, 'MM/DD/YYYY');
             var travelStart = moment(this.package.travel_start_at, 'MM/DD/YYYY');
             return travelStart.diff(balanceDue, 'days');
+        },
+        cardIcon: function cardIcon() {
+            var number = __WEBPACK_IMPORTED_MODULE_0_card_validator___default.a.number(this.form.card_number);
+            if (number.card) {
+                var type = number.card.type;
+                var card = this.creditCards.filter(function (item) {
+                    return item.card == type;
+                });
+                if (card.length == 0) {
+                    return { 'card': 'credit-card', 'fa': 'fas' };
+                }
+                return card[0].icon;
+            }
+            return { 'card': 'credit-card', 'fa': 'fas' };
+        },
+        cardNiceType: function cardNiceType() {
+            var number = __WEBPACK_IMPORTED_MODULE_0_card_validator___default.a.number(this.form.card_number);
+            if (number.card) {
+                return number.card.niceType;
+            }
         }
     },
 
@@ -83418,6 +83466,12 @@ var creditCardMask = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (creditCardMask);
+
+/***/ }),
+/* 583 */
+/***/ (function(module, exports) {
+
+module.exports = { prefix: 'fas', iconName: 'check', icon: [512, 512, [], "f00c", "M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"] };
 
 /***/ })
 /******/ ]);

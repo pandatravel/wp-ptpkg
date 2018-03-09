@@ -113,7 +113,6 @@ class Form {
      */
     onSuccess(data) {
 
-        this.reset();
     }
 
 

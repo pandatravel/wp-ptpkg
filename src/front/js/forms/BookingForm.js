@@ -1,3 +1,4 @@
+import valid from 'card-validator'
 // Mixins
 import { validationMixin } from 'vuelidate'
 import { required, minLength, maxLength, email, sameAs, between } from 'vuelidate/lib/validators'
@@ -9,6 +10,17 @@ import states from '../mixins/states'
 import creditCards from '../mixins/creditCards'
 import creditCardMask from '../mixins/creditCardMask'
 // Components
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import fontawesome from '@fortawesome/fontawesome'
+import brands from '@fortawesome/fontawesome-free-brands'
+import faAddressCard from '@fortawesome/fontawesome-free-solid/faAddressCard'
+import faCreditCard from '@fortawesome/fontawesome-free-solid/faCreditCard'
+import faPhone from '@fortawesome/fontawesome-free-solid/faPhone'
+import faFax from '@fortawesome/fontawesome-free-solid/faFax'
+import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope'
+import faCheck from '@fortawesome/fontawesome-free-solid/faCheck'
+fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faCheck)
+
 import Room from '../components/Room.vue';
 import TravelerExtended from '../components/TravelerExtended.vue';
 import OrderInfo from '../components/OrderInfo.vue';
@@ -30,6 +42,7 @@ Vue.component('booking-form', {
         Room,
         TravelerExtended,
         OrderInfo,
+        FontAwesomeIcon,
     },
 
     props: {
@@ -80,7 +93,7 @@ Vue.component('booking-form', {
             exp_min: moment().subtract(1, 'month').format('YYYY-MM'),
             exp_max: moment().add(8, 'YEAR').format('YYYY-MM'),
             submiting: false,
-            success: false,
+            success: true,
 
             order: {},
             package: window._ptpkgAPIDataPreload.data,
@@ -349,6 +362,26 @@ Vue.component('booking-form', {
             let balanceDue = moment(this.package.balance_at, 'MM/DD/YYYY')
             let travelStart = moment(this.package.travel_start_at, 'MM/DD/YYYY')
             return travelStart.diff(balanceDue, 'days')
+        },
+        cardIcon() {
+            let number = valid.number(this.form.card_number)
+            if (number.card) {
+                let type = number.card.type
+                let card = this.creditCards.filter(function(item) {
+                    return item.card == type
+                })
+                if (card.length == 0) {
+                    return {'card':'credit-card', 'fa': 'fas'}
+                }
+                return card[0].icon
+            }
+            return {'card':'credit-card', 'fa': 'fas'}
+        },
+        cardNiceType() {
+            let number = valid.number(this.form.card_number)
+            if (number.card) {
+                return number.card.niceType
+            }
         },
     },
 
