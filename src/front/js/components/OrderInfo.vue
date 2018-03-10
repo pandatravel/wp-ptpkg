@@ -14,7 +14,7 @@
                     <h4 class="small-title primary--text text-thin my-2">Billing Address</h4>
                     <v-divider></v-divider>
                     <p class="mb-2"><strong>{{ order.name }}</strong></p>
-                    <p class="mb-0">{{ order.address }}</p>
+                    <p class="mb-0"><font-awesome-icon icon="map-marker-alt"></font-awesome-icon> {{ order.address }}</p>
                     <p class="mb-0" v-if="order.address2">{{ order.address2 }}</p>
                     <p class="mb-0">{{ order.city }}, {{ order.state }}., {{ order.zip }} {{ order.country }} </p>
                 </v-flex>
@@ -50,7 +50,8 @@ import faCreditCard from '@fortawesome/fontawesome-free-solid/faCreditCard'
 import faPhone from '@fortawesome/fontawesome-free-solid/faPhone'
 import faFax from '@fortawesome/fontawesome-free-solid/faFax'
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope'
-fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope)
+import faMapMarkerAlt from '@fortawesome/fontawesome-free-solid/faMapMarkerAlt'
+fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt)
 
   export default {
     name: 'order-info',
