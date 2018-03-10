@@ -18,8 +18,9 @@ import faCreditCard from '@fortawesome/fontawesome-free-solid/faCreditCard'
 import faPhone from '@fortawesome/fontawesome-free-solid/faPhone'
 import faFax from '@fortawesome/fontawesome-free-solid/faFax'
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope'
-import faCheck from '@fortawesome/fontawesome-free-solid/faCheck'
-fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faCheck)
+import faMapMarkerAlt from '@fortawesome/fontawesome-free-solid/faMapMarkerAlt'
+import faAsterisk from '@fortawesome/fontawesome-free-solid/faAsterisk'
+fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk)
 
 import Room from '../components/Room.vue';
 import TravelerExtended from '../components/TravelerExtended.vue';
@@ -61,7 +62,7 @@ Vue.component('booking-form', {
                 rate_id: '',
                 premium: '',
                 deposit: '',
-                total: '',
+                amount: '',
                 name: 'Ammon Casey',
                 card_number: '378282246310005',
                 card_expiration: '2020-08',
@@ -85,7 +86,7 @@ Vue.component('booking-form', {
                 rooms: [],
             }),
 
-            step: 4,
+            step: 1,
             room_max: 3,
             isDeposit: false,
             full_terms: false,
@@ -93,7 +94,7 @@ Vue.component('booking-form', {
             exp_min: moment().subtract(1, 'month').format('YYYY-MM'),
             exp_max: moment().add(8, 'YEAR').format('YYYY-MM'),
             submiting: false,
-            success: true,
+            success: false,
 
             order: {},
             package: window._ptpkgAPIDataPreload.data,
@@ -309,7 +310,7 @@ Vue.component('booking-form', {
             let total = (this.form.insurance ? Number(this.subTotal + this.insurance) : this.subTotal)
             if (! this.isDeposit) {
                 this.form.deposit = ''
-                this.form.total = total
+                this.form.amount = total
                 this.form.purchased = true
             }
             return total
@@ -321,7 +322,7 @@ Vue.component('booking-form', {
             }
             if (this.isDeposit) {
                 this.form.deposit = deposit
-                this.form.total = ''
+                this.form.amount = ''
                 this.form.purchased = false
             }
             return deposit
