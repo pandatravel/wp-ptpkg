@@ -81,7 +81,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                             <h2 class="headline primary--text text-uppercase">Build your Tour Package</h2>
                                             <p class="mx-3">Add all the travelers in your party</p>
-                                            <p>Fields marked with an * are required</p>
+                                            <p class="grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</p>
 
                                             <v-layout row>
                                                 <v-flex xs12>
@@ -671,7 +671,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <h4 class="small-title primary--text text-thin my-2">Billing Address</h4>
                                                 <v-divider></v-divider>
                                                 <p class="mb-2"><strong>{{ form.name }}</strong></p>
-                                                <p class="mb-0">{{ form.address }}</p>
+                                                <p class="mb-0"><font-awesome-icon icon="map-marker-alt"></font-awesome-icon> {{ form.address }}</p>
                                                 <p class="mb-0" v-if="form.address2">{{ form.address2 }}</p>
                                                 <p class="mb-0">{{ form.city }}, {{ form.state }}., {{ form.zip }} {{ form.country }} </p>
                                             </v-flex>
