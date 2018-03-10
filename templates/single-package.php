@@ -80,6 +80,9 @@ get_header(); ?>
         </v-app>
 
     </div><!-- #app -->
-</div><!-- #page-body .package-single-wrapper -->
+    <div class="theme--light">
+        <hr class="divider mt-0">
+    </div>
+<!-- #page-body .package-single-wrapper -->
 
 <?php get_footer(); ?>
