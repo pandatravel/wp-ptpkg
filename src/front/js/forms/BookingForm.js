@@ -287,24 +287,16 @@ Vue.component('booking-form', {
         totalTravelers() {
             return this.adults + this.children;
         },
-        maxTravelers() {
+        roomMax() {
             return this.package.rates.reduce(function(max, rate) {
                 var total = rate.adult + rate.child;
                 return (total > max ? total : max);
             }, 0);
         },
-        rateTier() {
-            if (this.totalTravelers == 0) {
-                return [];
-            }
-            var rate = this.package.rates.filter(this.rateFilter(this.adults, this.children));
-            return rate[0];
-        },
-        rateId() {
-            return this.rateTier.id
-        },
         subTotal() {
-            return Number(this.package.rates.reduce(this.rateReducer, 0));
+            var subTotal = this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
+
+            return Number(subTotal)
         },
         total() {
             let total = (this.form.insurance ? Number(this.subTotal + this.insurance) : this.subTotal)
@@ -348,7 +340,7 @@ Vue.component('booking-form', {
         insurance() {
             let insurance = 0;
              if (this.form.insurance) {
-                insurance = this.premiumPrice * this.totalTravelers;
+                insurance = this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium), 0)
                 this.form.premium = insurance
              }
             return insurance
@@ -430,8 +422,13 @@ Vue.component('booking-form', {
                 this.$notify({ group: 'package', type: 'warn', title: 'Tour Is Full!', text: 'All rooms on this tour are full.'});
                 return false
             }
-            var newRoom = this.form.rooms.push({travelers:[]}) -1;
+            var newRoom = this.form.rooms.push({travelers:[], rate:[], premium:''}) -1;
             this.addAdult(newRoom);
+        },
+        updateRoom(room) {
+            this.form.rooms[room.index].rate = room.rate
+            this.form.rooms[room.index].rate_id = room.rate.id
+            this.form.rooms[room.index].premium = room.premium
         },
         removeRoom(roomIndex) {
             this.form.rooms.splice(roomIndex, 1)
@@ -443,21 +440,19 @@ Vue.component('booking-form', {
             this.addTraveler(roomIndex, false);
         },
         addTraveler(roomIndex, adult = true) {
-            if (this.totalTravelers < this.maxTravelers) {
-                if (this.hasVacancy(roomIndex)) {
-                    this.form.rooms[roomIndex].travelers.push({
-                        first_name:'Ammon',
-                        middle_name:'Kaohiai',
-                        last_name:'Casey',
-                        birthdate: '1979-05-31',
-                        gender: 'Male',
-                        adult: adult,
-                        ffp: '327709212',
-                        seat_preference: 'Window Seat',
-                        country: 'US',
-                        state: 'HI',
-                    });
-                }
+            if (this.hasVacancy(roomIndex)) {
+                this.form.rooms[roomIndex].travelers.push({
+                    first_name:'Ammon',
+                    middle_name:'Kaohiai',
+                    last_name:'Casey',
+                    birthdate: '1979-05-31',
+                    gender: 'Male',
+                    adult: adult,
+                    ffp: '327709212',
+                    seat_preference: 'Window Seat',
+                    country: 'US',
+                    state: 'HI',
+                });
             }
         },
         removeTraveler(index) {
@@ -473,7 +468,7 @@ Vue.component('booking-form', {
             }
         },
         hasVacancy(roomIndex) {
-            return this.getRoomCount(roomIndex) < this.room_max;
+            return this.getRoomCount(roomIndex) < this.roomMax;
         },
         rateFilter(adults, children) {
             return function(rate) {

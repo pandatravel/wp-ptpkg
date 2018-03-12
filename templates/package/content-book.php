@@ -91,7 +91,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                             </v-layout>
 
                                             <!-- room component -->
-                                            <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :room_max="room_max" :total_travelers="totalTravelers" :max_travelers="maxTravelers" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+                                            <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
 
                                             <v-layout row>
                                                 <v-flex xs12>
@@ -566,7 +566,9 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                             <v-list-tile-action-text>(<span v-if="traveler.adult">Adult</span><span v-else>Child</span> {{ traveler.birthdate | age }} yrs) &nbsp; {{ traveler.birthdate | dateFormat }}</v-list-tile-action-text>
                                                                         </v-list-tile-action>
                                                                     </v-list-tile>
-                                                                    <v-divider v-if="travelerIndex + 1 < room.travelers.length" :key="travelerIndex" class="my-0"></v-divider>
+
+                                                                    <v-divider v-if="travelerIndex + 1 < room.travelers.length" class="my-0"></v-divider>
+                                                                    <v-divider v-if="roomIndex + 1 != form.rooms.length && travelerIndex + 1 == room.travelers.length" class="my-0"></v-divider>
                                                                 </template>
                                                             </template>
                                                         </v-list>

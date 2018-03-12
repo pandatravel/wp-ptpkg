@@ -8,9 +8,13 @@
                         <v-btn @click="removeRoom" flat dark color="red"><v-icon dark>close</v-icon> remove</v-btn>
                     </v-toolbar-items>
                     <v-spacer></v-spacer>
+                    <span class="caption grey--text text--darken-1">Price: {{ perPersonRate | currency }} per person</span>
+                    <v-spacer></v-spacer>
+                    <span class="caption grey--text text--darken-1">Insurance: {{ premium | currency }} per person</span>
+                    <v-spacer></v-spacer>
                     <v-toolbar-items>
-                        <v-btn @click="addAdult" :disabled="hasVacancy == false || total_travelers >= max_travelers" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
-                        <v-btn @click="addChild" :disabled="hasVacancy == false || total_travelers >= max_travelers" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
+                        <v-btn @click="addAdult" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
+                        <v-btn @click="addChild" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-divider class="mt-0"></v-divider>
@@ -32,19 +36,94 @@ import traveler from './Traveler.vue';
     props: [
         'room',
         'index',
+        'rates',
+        'premiums',
         'room_max',
-        'total_travelers',
-        'max_travelers',
         '$v',
     ],
 
+    data() {
+        return {
+
+        }
+    },
+
+    mounted() {
+        this.updateRoom()
+    },
+
     computed: {
+        count() {
+            return this.room.travelers.length
+        },
         hasVacancy() {
-            return this.room.travelers.length < this.room_max;
+            return this.count < this.roomMax
+        },
+        adults() {
+            return this.room.travelers.reduce(function(adults, traveler) {
+                return (traveler.adult ? adults + 1 : adults);
+            }, 0);
+        },
+        children() {
+            return this.room.travelers.reduce(function(children, traveler) {
+                return (! traveler.adult ? children + 1 : children);
+            }, 0);
+        },
+        roomMax() {
+            return this.rates.reduce(function(max, rate) {
+                var total = rate.adult + rate.child;
+                return (total > max ? total : max);
+            }, 0);
+        },
+        rateTier() {
+            if (this.count == 0) {
+                return []
+            }
+            var rate = this.rates.filter(this.rateFilter(this.adults, this.children))
+            return rate[0]
+        },
+        rateId() {
+            return this.rateTier.id
+        },
+        roomTotal() {
+            return Number(this.rates.reduce(this.rateReducer, 0))
+        },
+        perPersonRate() {
+            if (this.count == 0) {
+                return 0
+            }
+            return this.roomTotal / this.count;
+        },
+        premiumTier() {
+            if (this.count == 0) {
+                return []
+            }
+            var premium = this.premiums.filter(this.premiumFilter(this.perPersonRate))
+            return premium[0]
+        },
+        premium() {
+            return Number(this.premiums.reduce(this.premiumReducer, 0));
+        },
+        premiumTotal() {
+            return this.premium * this.count
+        }
+    },
+
+    watch: {
+        rateTier() {
+            this.updateRoom()
         }
     },
 
     methods: {
+        updateRoom() {
+            // console.log('updateRoom fired: ' + this.rateTier.price)
+            this.$emit('update-room', {
+                index: this.index,
+                rate: this.rateTier,
+                premium: this.premiumTotal,
+            })
+        },
         addAdult() {
             this.addTraveler(true);
         },
@@ -52,21 +131,19 @@ import traveler from './Traveler.vue';
             this.addTraveler(false);
         },
         addTraveler(adult = true) {
-            if (this.total_travelers < this.max_travelers) {
-                if (this.hasVacancy) {
-                    this.room.travelers.push({
-                        first_name:'',
-                        middle_name:'',
-                        last_name:'',
-                        birthdate: null,
-                        gender: '',
-                        adult: adult,
-                        ffp: '327709212',
-                        seat_preference: 'Window Seat',
-                        country: 'US',
-                        state: 'HI',
-                    });
-                }
+            if (this.hasVacancy) {
+                this.room.travelers.push({
+                    first_name:'',
+                    middle_name:'',
+                    last_name:'',
+                    birthdate: null,
+                    gender: '',
+                    adult: adult,
+                    ffp: '327709212',
+                    seat_preference: 'Window Seat',
+                    country: 'US',
+                    state: 'HI',
+                });
             }
         },
         removeRoom() {
@@ -74,6 +151,28 @@ import traveler from './Traveler.vue';
         },
         removeTraveler(index) {
             this.$emit('remove-traveler', index)
+        },
+        rateFilter(adults, children) {
+            return function(rate) {
+                return rate.adult == adults && rate.child == children;
+            }
+        },
+        rateReducer(price, rate) {
+            if (rate.adult == this.adults && rate.child == this.children) {
+                price = rate.price;
+            }
+            return price;
+        },
+        premiumFilter(perPersonRate) {
+            return function(premium) {
+                return perPersonRate >= premium.range_start && perPersonRate <=premium.range_end;
+            }
+        },
+        premiumReducer(price, premium) {
+            if (this.perPersonRate >= premium.range_start && this.perPersonRate <= premium.range_end) {
+                price = premium.price;
+            }
+            return price;
         },
     },
   }
