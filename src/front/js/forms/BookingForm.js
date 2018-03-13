@@ -84,6 +84,10 @@ Vue.component('booking-form', {
                 agree_terms: true,
 
                 rooms: [],
+
+                code: '',
+                description: '',
+
             }),
 
             step: 1,
@@ -263,8 +267,10 @@ Vue.component('booking-form', {
     },
 
     created() {
-        this.form.tour_id = this.package.id;
-        this.room_max = this.package.room_max;
+        this.form.tour_id = this.package.id
+        this.form.code = this.package.code
+        this.form.description = this.package.name
+        this.room_max = this.package.room_max
 
         this.addRoom()
     },
