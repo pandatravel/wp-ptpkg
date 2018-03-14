@@ -62,6 +62,7 @@ Vue.component('booking-form', {
                 rate_id: '',
                 premium: '',
                 deposit: '',
+                balance: '',
                 amount: '',
                 name: 'Ammon Casey',
                 card_number: '378282246310005',
@@ -332,7 +333,9 @@ Vue.component('booking-form', {
             return this.subTotal / this.totalTravelers;
         },
         balanceTotal() {
-            return this.isDeposit ? Number(this.total - this.deposit) : this.total;
+            let balance = this.isDeposit ? Number(this.total - this.deposit) : ''
+            this.form.balance = balance
+            return balance
         },
         premium() {
             if (this.totalTravelers == 0) {
