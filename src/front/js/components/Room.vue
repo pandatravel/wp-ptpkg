@@ -112,6 +112,9 @@ import traveler from './Traveler.vue';
     watch: {
         rateTier() {
             this.updateRoom()
+        },
+        premiumTier() {
+            this.updateRoom()
         }
     },
 
