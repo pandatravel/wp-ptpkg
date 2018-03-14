@@ -59,7 +59,6 @@
                   :name="'birthdate' + indexId"
                   label="Birthdate"
                   hint="yyyy-mm-dd"
-                  prepend-icon="event"
                   :error-messages="birthdateErrors({room:index.room, traveler:index.traveler}, value.adult)"
                   @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
                   @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].birthdate.$touch()"
@@ -89,8 +88,8 @@
                 @traveler="updateTraveler()"
                 required></v-select>
         </v-flex>
-        <v-flex xs1>
-            <v-btn @click="removeTraveler" color="red" small flat dark fab><v-icon>delete_forever</v-icon></v-btn>
+        <v-flex xs1 class="px-0">
+            <v-btn @click="removeTraveler" color="red" small outline flat dark fab><v-icon>delete_forever</v-icon></v-btn>
         </v-flex>
     </v-layout>
 </template>
