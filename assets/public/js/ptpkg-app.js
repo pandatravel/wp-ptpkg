@@ -80107,7 +80107,7 @@ Vue.component('booking-form', {
             var insurance = 0;
             if (this.form.insurance) {
                 insurance = this.form.rooms.reduce(function (price, room) {
-                    return Number(price) + Number(room.premium);
+                    return Number(price) + Number(room.premium.price * room.travelers.length);
                 }, 0);
                 this.form.premium = insurance;
             }
@@ -80200,8 +80200,9 @@ Vue.component('booking-form', {
         },
         updateRoom: function updateRoom(room) {
             this.form.rooms[room.index].rate = room.rate;
-            this.form.rooms[room.index].rate_id = room.rate.id;
             this.form.rooms[room.index].premium = room.premium;
+            this.form.rooms[room.index].rate_id = room.rate.id;
+            this.form.rooms[room.index].premium_id = room.premium.id;
         },
         removeRoom: function removeRoom(roomIndex) {
             this.form.rooms.splice(roomIndex, 1);
@@ -82158,7 +82159,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('update-room', {
                 index: this.index,
                 rate: this.rateTier,
-                premium: this.premiumTotal
+                premium: this.premiumTier
+
             });
         },
         addAdult: function addAdult() {

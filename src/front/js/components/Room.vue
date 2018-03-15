@@ -124,7 +124,8 @@ import traveler from './Traveler.vue';
             this.$emit('update-room', {
                 index: this.index,
                 rate: this.rateTier,
-                premium: this.premiumTotal,
+                premium: this.premiumTier,
+
             })
         },
         addAdult() {

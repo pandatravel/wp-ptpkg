@@ -349,7 +349,7 @@ Vue.component('booking-form', {
         insurance() {
             let insurance = 0;
              if (this.form.insurance) {
-                insurance = this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium), 0)
+                insurance = this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium.price * room.travelers.length), 0)
                 this.form.premium = insurance
              }
             return insurance
@@ -436,8 +436,9 @@ Vue.component('booking-form', {
         },
         updateRoom(room) {
             this.form.rooms[room.index].rate = room.rate
-            this.form.rooms[room.index].rate_id = room.rate.id
             this.form.rooms[room.index].premium = room.premium
+            this.form.rooms[room.index].rate_id = room.rate.id
+            this.form.rooms[room.index].premium_id = room.premium.id
         },
         removeRoom(roomIndex) {
             this.form.rooms.splice(roomIndex, 1)
