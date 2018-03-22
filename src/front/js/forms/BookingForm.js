@@ -309,6 +309,7 @@ Vue.component('booking-form', {
             let total = (this.form.insurance ? Number(this.subTotal + this.insurance) : this.subTotal)
             if (! this.isDeposit) {
                 this.form.deposit = ''
+                this.form.balance = ''
                 this.form.amount = total
                 this.form.purchased = true
             }
@@ -334,7 +335,9 @@ Vue.component('booking-form', {
         },
         balanceTotal() {
             let balance = this.isDeposit ? Number(this.total - this.deposit) : ''
-            this.form.balance = balance
+            if (this.isDeposit) {
+                this.form.balance = balance
+            }
             return balance
         },
         premium() {
