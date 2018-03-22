@@ -1883,8 +1883,9 @@ class Assertion
     {
         if ($count !== \count($countable)) {
             $message = \sprintf(
-                static::generateMessage($message ?: 'List does not contain exactly "%d" elements.'),
-                static::stringify($count)
+                static::generateMessage($message ?: 'List does not contain exactly %d elements (%d given).'),
+                static::stringify($count),
+                static::stringify(\count($countable))
             );
 
             throw static::createException($countable, $message, static::INVALID_COUNT, $propertyPath, array('count' => $count));
@@ -1970,8 +1971,6 @@ class Assertion
      * @param string|null          $propertyPath
      *
      * @return bool
-     *
-     * @throws
      */
     public static function methodExists($value, $object, $message = null, $propertyPath = null)
     {
