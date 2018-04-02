@@ -79853,7 +79853,7 @@ Vue.component('booking-form', {
                 email: 'ammonkc@gmail.com',
                 email_confirm: 'ammonkc@gmail.com',
                 requests: '',
-                purchased: false,
+                status: false,
                 insurance: false,
                 subscribe: true,
                 agree_terms: true,
@@ -80086,7 +80086,7 @@ Vue.component('booking-form', {
                 this.form.deposit = '';
                 this.form.balance = '';
                 this.form.amount = total;
-                this.form.purchased = true;
+                this.form.status = true;
             }
             return total;
         },
@@ -80098,7 +80098,7 @@ Vue.component('booking-form', {
             if (this.isDeposit) {
                 this.form.deposit = deposit;
                 this.form.amount = '';
-                this.form.purchased = false;
+                this.form.status = false;
             }
             return deposit;
         },
