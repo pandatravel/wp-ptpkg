@@ -81,6 +81,7 @@ Vue.component('booking-form', {
                 requests: '',
                 status: false,
                 insurance: false,
+                discount: false,
                 subscribe: true,
                 agree_terms: true,
 
@@ -94,7 +95,6 @@ Vue.component('booking-form', {
             step: 1,
             room_max: 3,
             isDeposit: false,
-            discount: false,
 
             full_terms: false,
             exp_menu: false,
@@ -273,8 +273,8 @@ Vue.component('booking-form', {
         this.form.tour_id = this.package.id
         this.form.code = this.package.code
         this.form.description = this.package.name
+        this.form.discount = !this.package.discount ? false : true
         this.room_max = this.package.room_max
-        this.discount = !this.package.discount ? false : true
 
         this.addRoom()
     },
@@ -313,8 +313,8 @@ Vue.component('booking-form', {
             if (this.form.insurance) {
                 total += this.insurance
             }
-            if (this.discount) {
-                total -= this.package.discount.amount
+            if (this.form.discount) {
+                total -= this.discount
             }
             if (! this.isDeposit) {
                 this.form.deposit = ''
@@ -323,6 +323,13 @@ Vue.component('booking-form', {
                 this.form.status = true
             }
             return total
+        },
+        discount() {
+            let discount = Number(this.package.discount.amount * this.totalTravelers)
+            if (!this.form.discount) {
+                return 0
+            }
+            return discount
         },
         deposit() {
             let deposit = Number(this.package.deposit * this.totalTravelers)
