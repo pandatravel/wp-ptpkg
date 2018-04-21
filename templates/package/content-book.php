@@ -55,6 +55,8 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                         <dd class="blue-grey--text darken-4 text-xs-right">{{ subTotal | currency }}</dd>
                                         <dt v-if="form.insurance" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
                                         <dd v-if="form.insurance" class="blue-grey--text darken-4 text-xs-right">{{ insurance | currency }}</dd>
+                                        <dt v-if="discount" class="blue-grey--text darken-4 text-xs-left">Discount ({{ package.discount.name }})</dt>
+                                        <dd v-if="discount" class="blue-grey--text darken-4 text-xs-right">-{{ package.discount.amount | currency }}</dd>
                                         <v-divider class="mt-1 mb-3"></v-divider>
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
                                         <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
@@ -423,6 +425,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ insurance | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
+                                                            <v-list-tile v-if="discount">
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title>Discount ({{ package.discount.name }})</v-list-tile-title>
+                                                                </v-list-tile-content>
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title class="text-xs-right">-{{ package.discount.amount | currency }}</v-list-tile-title>
+                                                                </v-list-tile-content>
+                                                            </v-list-tile>
                                                         </v-list>
                                                         <v-divider class="mt-0"></v-divider>
                                                         <v-layout row wrap>
@@ -753,6 +763,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                             </v-list-tile-content>
                                             <v-list-tile-content>
                                                 <v-list-tile-title class="text-xs-right">{{ insurance | currency }}</v-list-tile-title>
+                                            </v-list-tile-content>
+                                        </v-list-tile>
+                                        <v-list-tile v-if="discount">
+                                            <v-list-tile-content>
+                                                <v-list-tile-title>Discount ({{ package.discount.name }})</v-list-tile-title>
+                                            </v-list-tile-content>
+                                            <v-list-tile-content>
+                                                <v-list-tile-title class="text-xs-right">-{{ package.discount.amount | currency }}</v-list-tile-title>
                                             </v-list-tile-content>
                                         </v-list-tile>
                                     </v-list>

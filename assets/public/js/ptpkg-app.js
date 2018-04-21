@@ -80091,6 +80091,8 @@ Vue.component('booking-form', {
             step: 1,
             room_max: 3,
             isDeposit: false,
+            discount: false,
+
             full_terms: false,
             exp_menu: false,
             exp_min: moment().subtract(1, 'month').format('YYYY-MM'),
@@ -80267,6 +80269,7 @@ Vue.component('booking-form', {
         this.form.code = this.package.code;
         this.form.description = this.package.name;
         this.room_max = this.package.room_max;
+        this.discount = !this.package.discount ? false : true;
 
         this.addRoom();
     },
@@ -80304,7 +80307,13 @@ Vue.component('booking-form', {
             return Number(subTotal);
         },
         total: function total() {
-            var total = this.form.insurance ? Number(this.subTotal + this.insurance) : this.subTotal;
+            var total = this.subTotal;
+            if (this.form.insurance) {
+                total += this.insurance;
+            }
+            if (this.discount) {
+                total -= this.package.discount.amount;
+            }
             if (!this.isDeposit) {
                 this.form.deposit = '';
                 this.form.balance = '';
