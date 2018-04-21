@@ -606,6 +606,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ insurance | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
+                                                            <v-list-tile v-if="form.discount">
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title>Discount ({{ package.discount.name }})</v-list-tile-title>
+                                                                </v-list-tile-content>
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title class="text-xs-right">-{{ discount | currency }}</v-list-tile-title>
+                                                                </v-list-tile-content>
+                                                            </v-list-tile>
                                                         </v-list>
                                                         <v-divider class="my-0"></v-divider>
                                                         <v-list class="my-0" dense>
