@@ -11,10 +11,10 @@
  * @author Ammon Casey
  */
 
-use Ptpkg\lib\common\Api;
+// use Ptpkg\lib\common\Api;
 
 // Get an instance of the ptpkg api
-$api = new Api();
+// $api = new Api();
 
 /**
  * Custom meta fields
@@ -45,8 +45,10 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                         <v-form @submit.prevent="onSubmit" method="post"  id="booking-form">
                             <v-layout row v-cloak>
                                 <v-flex xs6>
-                                    <v-card-text class="mt-4 pt-5">
-
+                                    <v-card-text class="">
+                                        <v-alert v-if="form.discount" color="info" icon="info" :value="true">
+                                            <strong>{{ package.discount.name }}</strong> - {{ package.discount.description }}
+                                        </v-alert>
                                     </v-card-text>
                                 </v-flex>
                                 <v-flex xs6>
