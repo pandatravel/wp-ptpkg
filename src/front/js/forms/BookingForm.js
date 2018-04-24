@@ -60,6 +60,7 @@ Vue.component('booking-form', {
             form: new Form({
                 tour_id: '',
                 rate_id: '',
+                discount_id: '',
                 premium: '',
                 deposit: '',
                 balance: '',
@@ -274,6 +275,9 @@ Vue.component('booking-form', {
         this.form.code = this.package.code
         this.form.description = this.package.name
         this.form.discount = !this.package.discount ? false : true
+        if (this.form.discount) {
+            this.form.discount_id = this.package.discount.id
+        }
         this.room_max = this.package.room_max
 
         this.addRoom()
