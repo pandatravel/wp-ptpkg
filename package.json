@@ -16,7 +16,7 @@
         "@fortawesome/vue-fontawesome": "^0.0.22",
         "axios": "^0.18.0",
         "babel-polyfill": "^6.26.0",
-        "bootstrap": "^4.1.0",
+        "bootstrap": "^4.1.1",
         "bootstrap-sass": "^3.3.7",
         "card-validator": "^4.3.0",
         "cross-env": "^5.1.4",
