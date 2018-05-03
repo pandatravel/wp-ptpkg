@@ -463,7 +463,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                                                 </v-list-tile-content>
                                                                 <v-list-tile-content>
-                                                                    <v-list-tile-title class="title primary--text text-xs-right">{{ deposit | currency }}</v-list-tile-title>
+                                                                    <v-list-tile-title class="title primary--text text-xs-right">{{ depositTotal | currency }}</v-list-tile-title>
                                                                     <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balanceTotal | currency }}</v-list-tile-sub-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
@@ -538,7 +538,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 </v-flex>
                                                 <v-flex sm6>
                                                     <div v-if="isDeposit">
-                                                        <v-container class="text-xs-right mx-auto pr-0">Order Total: <strong class="title">{{ deposit | currency }}</strong> <v-btn type="submit" color="success" class="ml-4">Reserve Package Now</v-btn></v-container>
+                                                        <v-container class="text-xs-right mx-auto pr-0">Order Total: <strong class="title">{{ depositTotal | currency }}</strong> <v-btn type="submit" color="success" class="ml-4">Reserve Package Now</v-btn></v-container>
                                                     </div>
                                                     <div v-else>
                                                         <v-container class="text-xs-right mx-auto pr-0">Order Total: <strong class="title">{{ total | currency }}</strong> <v-btn type="submit" color="success" class="ml-4">Purchase Package Now</v-btn></v-container>
@@ -636,7 +636,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                                                 </v-list-tile-content>
                                                                 <v-list-tile-content>
-                                                                    <v-list-tile-title class="title primary--text text-xs-right">{{ deposit | currency }}</v-list-tile-title>
+                                                                    <v-list-tile-title class="title primary--text text-xs-right">{{ depositTotal | currency }}</v-list-tile-title>
                                                                     <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balanceTotal | currency }}</v-list-tile-sub-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
@@ -803,7 +803,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                             </v-list-tile-content>
                                             <v-list-tile-content>
-                                                <v-list-tile-title class="title primary--text text-xs-right">{{ deposit | currency }}</v-list-tile-title>
+                                                <v-list-tile-title class="title primary--text text-xs-right">{{ depositTotal | currency }}</v-list-tile-title>
                                                 <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balanceTotal | currency }}</v-list-tile-sub-title>
                                             </v-list-tile-content>
                                         </v-list-tile>

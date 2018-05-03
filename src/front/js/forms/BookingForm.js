@@ -308,23 +308,25 @@ Vue.component('booking-form', {
             }, 0);
         },
         subTotal() {
-            var subTotal = this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
-
-            return Number(subTotal)
+            return this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
         },
-        total() {
-            let total = this.subTotal
-            if (this.form.insurance) {
-                total += this.insurance
-            }
+        amount() {
+            let amount = this.subTotal
             if (this.form.discount) {
-                total -= this.discount
+                amount -= this.discount
             }
             if (! this.isDeposit) {
                 this.form.deposit = ''
                 this.form.balance = ''
-                this.form.amount = total
+                this.form.amount = amount
                 this.form.status = true
+            }
+            return amount
+        },
+        total() {
+            let total = this.amount
+            if (this.form.insurance) {
+                total += this.insurance
             }
             return total
         },
@@ -337,15 +339,19 @@ Vue.component('booking-form', {
         },
         deposit() {
             let deposit = Number(this.package.deposit * this.totalTravelers)
-            if (this.form.insurance) {
-                deposit = deposit + this.insurance
-            }
             if (this.isDeposit) {
                 this.form.deposit = deposit
                 this.form.amount = ''
                 this.form.status = false
             }
             return deposit
+        },
+        depositTotal() {
+            let total = this.deposit
+            if (this.form.insurance) {
+                total += this.insurance
+            }
+            return total
         },
         perPersonRate() {
             if (this.totalTravelers == 0) {
@@ -354,7 +360,7 @@ Vue.component('booking-form', {
             return this.subTotal / this.totalTravelers;
         },
         balanceTotal() {
-            let balance = this.isDeposit ? Number(this.total - this.deposit) : ''
+            let balance = this.isDeposit ? Number(this.total - this.depositTotal) : ''
             if (this.isDeposit) {
                 this.form.balance = balance
             }
@@ -420,7 +426,7 @@ Vue.component('booking-form', {
     },
 
     mounted() {
-        // console.log(this.$v.form.rooms.$each[0].travelers.$each[0].birthdate)
+
     },
 
     methods: {
