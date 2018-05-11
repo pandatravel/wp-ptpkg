@@ -437,7 +437,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                             </v-list-tile>
                                                         </v-list>
                                                         <v-divider class="mt-0"></v-divider>
-                                                        <v-layout row wrap>
+                                                        <v-layout v-if="package.allow_deposit" row wrap>
                                                             <v-flex class="info--text" sm12>
                                                                 <v-alert color="info" :value="true" class="mx-3" outline>
                                                                     <v-switch label="Reserve with a Deposit" v-model="isDeposit" color="info"></v-switch>
@@ -455,7 +455,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
                                                         </v-list>
-                                                        <v-list v-if="isDeposit" class="my-0" dense two-line>
+                                                        <v-list v-if="isDeposit && package.allow_deposit" class="my-0" dense two-line>
                                                             <v-divider class="mt-0 mb-3"></v-divider>
                                                             <v-list-tile>
                                                                 <v-list-tile-content>

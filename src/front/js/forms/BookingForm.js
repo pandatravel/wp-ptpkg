@@ -339,7 +339,7 @@ Vue.component('booking-form', {
         },
         deposit() {
             let deposit = Number(this.package.deposit * this.totalTravelers)
-            if (this.isDeposit) {
+            if (this.isDeposit && this.package.allow_deposit) {
                 this.form.deposit = deposit
                 this.form.amount = ''
                 this.form.status = false
@@ -361,7 +361,7 @@ Vue.component('booking-form', {
         },
         balanceTotal() {
             let balance = this.isDeposit ? Number(this.total - this.depositTotal) : ''
-            if (this.isDeposit) {
+            if (this.isDeposit && this.package.allow_deposit) {
                 this.form.balance = balance
             }
             return balance
