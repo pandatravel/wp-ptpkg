@@ -18,7 +18,7 @@
         "babel-polyfill": "^6.26.0",
         "bootstrap": "^4.1.1",
         "bootstrap-sass": "^3.3.7",
-        "card-validator": "^4.3.0",
+        "card-validator": "^5.0.0",
         "cross-env": "^5.1.5",
         "laravel-mix": "^2.1.11",
         "lodash": "^4.17.10",
