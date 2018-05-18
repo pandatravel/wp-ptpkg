@@ -88,6 +88,7 @@ Vue.component('booking-form', {
 
                 rooms: [],
 
+                method: '',
                 code: '',
                 description: '',
 
@@ -274,6 +275,7 @@ Vue.component('booking-form', {
         this.form.tour_id = this.package.id
         this.form.code = this.package.code
         this.form.description = this.package.name
+        this.form.method = 'credit card'
         this.form.discount = !this.package.discount ? false : true
         if (this.form.discount) {
             this.form.discount_id = this.package.discount.id
