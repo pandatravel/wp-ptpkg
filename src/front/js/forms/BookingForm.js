@@ -309,81 +309,77 @@ Vue.component('booking-form', {
                 return (total > max ? total : max);
             }, 0);
         },
-        subTotal() {
-            return this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
-        },
         amount() {
-            let amount = this.subTotal
-            if (this.form.discount) {
-                amount -= this.discount
-            }
-            if (! this.isDeposit) {
-                this.form.deposit = ''
-                this.form.balance = ''
-                this.form.amount = amount
+            let amount = this.sub_total
+
+            if (this.isDeposit && this.package.allow_deposit) {
+                amount = this.deposit
+                this.form.status = false
+            } else {
+                if (this.form.discount) {
+                    amount -= this.discount
+                }
                 this.form.status = true
             }
+
+            if (this.form.insurance) {
+                amount += this.premium
+            }
+
+            this.form.amount = amount
+
             return amount
         },
+        sub_total() {
+            return this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
+        },
         total() {
-            let total = this.amount
+            let total = this.sub_total
+            if (this.form.discount) {
+                total -= this.discount
+            }
             if (this.form.insurance) {
-                total += this.insurance
+                total += this.premium
             }
             return total
         },
         discount() {
-            let discount = Number(this.package.discount.amount * this.totalTravelers)
-            if (!this.form.discount) {
-                return 0
-            }
-            return discount
+            return Number(this.package.discount.amount * this.totalTravelers)
+        },
+        balance() {
+            return Number(this.total - this.amount)
         },
         deposit() {
-            let deposit = Number(this.package.deposit * this.totalTravelers)
-            if (this.isDeposit && this.package.allow_deposit) {
-                this.form.deposit = deposit
-                this.form.amount = ''
-                this.form.status = false
+            return Number(this.package.deposit * this.totalTravelers)
+        },
+        premium() {
+            let premium =this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium.price * room.travelers.length), 0)
+             if (this.form.insurance) {
+                this.form.premium = premium
+             }
+            return premium
+        },
+        deposit_total() {
+            let deposit = this.deposit
+            if (this.form.insurance) {
+                deposit += this.premium
             }
             return deposit
-        },
-        depositTotal() {
-            let total = this.deposit
-            if (this.form.insurance) {
-                total += this.insurance
-            }
-            return total
         },
         perPersonRate() {
             if (this.totalTravelers == 0) {
                 return 0;
             }
-            return this.subTotal / this.totalTravelers;
+            return this.sub_total / this.totalTravelers;
         },
-        balanceTotal() {
-            let balance = this.isDeposit ? Number(this.total - this.depositTotal) : ''
-            if (this.isDeposit && this.package.allow_deposit) {
-                this.form.balance = balance
-            }
-            return balance
-        },
-        premium() {
+        premium_tier() {
             if (this.totalTravelers == 0) {
                 return [];
             }
             return this.package.insurance.premiums.filter(this.premiumFilter(this.perPersonRate));
         },
-        premiumPrice() {
+        premium_price() {
             return Number(this.package.insurance.premiums.reduce(this.premiumReducer, 0));
-        },
-        insurance() {
-            let insurance = 0;
-             if (this.form.insurance) {
-                insurance = this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium.price * room.travelers.length), 0)
-                this.form.premium = insurance
-             }
-            return insurance
         },
         roomsAvailable() {
             return this.package.room_block - this.package.rooms_count - this.form.rooms.length

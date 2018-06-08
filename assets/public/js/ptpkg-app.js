@@ -80628,85 +80628,81 @@ Vue.component('booking-form', {
                 return total > max ? total : max;
             }, 0);
         },
-        subTotal: function subTotal() {
+        amount: function amount() {
+            var amount = this.sub_total;
+
+            if (this.isDeposit && this.package.allow_deposit) {
+                amount = this.deposit;
+                this.form.status = false;
+            } else {
+                if (this.form.discount) {
+                    amount -= this.discount;
+                }
+                this.form.status = true;
+            }
+
+            if (this.form.insurance) {
+                amount += this.premium;
+            }
+
+            this.form.amount = amount;
+
+            return amount;
+        },
+        sub_total: function sub_total() {
             return this.form.rooms.reduce(function (price, room) {
                 return Number(price) + Number(room.rate.price);
             }, 0);
         },
-        amount: function amount() {
-            var amount = this.subTotal;
-            if (this.form.discount) {
-                amount -= this.discount;
-            }
-            if (!this.isDeposit) {
-                this.form.deposit = '';
-                this.form.balance = '';
-                this.form.amount = amount;
-                this.form.status = true;
-            }
-            return amount;
-        },
         total: function total() {
-            var total = this.amount;
+            var total = this.sub_total;
+            if (this.form.discount) {
+                total -= this.discount;
+            }
             if (this.form.insurance) {
-                total += this.insurance;
+                total += this.premium;
             }
             return total;
         },
         discount: function discount() {
-            var discount = Number(this.package.discount.amount * this.totalTravelers);
-            if (!this.form.discount) {
-                return 0;
-            }
-            return discount;
+            return Number(this.package.discount.amount * this.totalTravelers);
+        },
+        balance: function balance() {
+            return Number(this.total - this.amount);
         },
         deposit: function deposit() {
-            var deposit = Number(this.package.deposit * this.totalTravelers);
-            if (this.isDeposit && this.package.allow_deposit) {
-                this.form.deposit = deposit;
-                this.form.amount = '';
-                this.form.status = false;
+            return Number(this.package.deposit * this.totalTravelers);
+        },
+        premium: function premium() {
+            var premium = this.form.rooms.reduce(function (price, room) {
+                return Number(price) + Number(room.premium.price * room.travelers.length);
+            }, 0);
+            if (this.form.insurance) {
+                this.form.premium = premium;
+            }
+            return premium;
+        },
+        deposit_total: function deposit_total() {
+            var deposit = this.deposit;
+            if (this.form.insurance) {
+                deposit += this.premium;
             }
             return deposit;
-        },
-        depositTotal: function depositTotal() {
-            var total = this.deposit;
-            if (this.form.insurance) {
-                total += this.insurance;
-            }
-            return total;
         },
         perPersonRate: function perPersonRate() {
             if (this.totalTravelers == 0) {
                 return 0;
             }
-            return this.subTotal / this.totalTravelers;
+            return this.sub_total / this.totalTravelers;
         },
-        balanceTotal: function balanceTotal() {
-            var balance = this.isDeposit ? Number(this.total - this.depositTotal) : '';
-            if (this.isDeposit && this.package.allow_deposit) {
-                this.form.balance = balance;
-            }
-            return balance;
-        },
-        premium: function premium() {
+        premium_tier: function premium_tier() {
             if (this.totalTravelers == 0) {
                 return [];
             }
             return this.package.insurance.premiums.filter(this.premiumFilter(this.perPersonRate));
         },
-        premiumPrice: function premiumPrice() {
+        premium_price: function premium_price() {
             return Number(this.package.insurance.premiums.reduce(this.premiumReducer, 0));
-        },
-        insurance: function insurance() {
-            var insurance = 0;
-            if (this.form.insurance) {
-                insurance = this.form.rooms.reduce(function (price, room) {
-                    return Number(price) + Number(room.premium.price * room.travelers.length);
-                }, 0);
-                this.form.premium = insurance;
-            }
-            return insurance;
         },
         roomsAvailable: function roomsAvailable() {
             return this.package.room_block - this.package.rooms_count - this.form.rooms.length;
