@@ -77,7 +77,7 @@ Vue.component('booking-form', {
                 requests: '',
                 status: false,
                 insurance: false,
-                discount: false,
+                discounted: false,
                 subscribe: true,
                 agree_terms: true,
 
