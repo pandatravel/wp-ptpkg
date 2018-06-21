@@ -42,16 +42,12 @@
 import valid from 'card-validator'
 import creditCards from '../mixins/creditCards'
 import creditCardMask from '../mixins/creditCardMask'
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import fontawesome from '@fortawesome/fontawesome'
-import brands from '@fortawesome/fontawesome-free-brands'
-import faAddressCard from '@fortawesome/fontawesome-free-solid/faAddressCard'
-import faCreditCard from '@fortawesome/fontawesome-free-solid/faCreditCard'
-import faPhone from '@fortawesome/fontawesome-free-solid/faPhone'
-import faFax from '@fortawesome/fontawesome-free-solid/faFax'
-import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope'
-import faMapMarkerAlt from '@fortawesome/fontawesome-free-solid/faMapMarkerAlt'
-fontawesome.library.add(brands, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt)
+// Fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDinersClub } from '@fortawesome/free-brands-svg-icons'
+import { faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDinersClub, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk)
 
   export default {
     name: 'order-info',
