@@ -36,7 +36,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
             <v-card>
                 <v-card-text>
-                    <h2 class="card-title text-primary text-sm-center"><?php the_title(); ?></h2>
+                    <h2 class="card-title headline primary--text text-sm-center"><?php the_title(); ?></h2>
                     <!-- package total -->
                 </v-card-text>
                 <v-divider class="my-0"></v-divider>
