@@ -105,6 +105,23 @@ class Controller
      *
      * @param post $post The post object
      */
+    public function package_build_api_checkbox($post)
+    {
+        // Nonce field to validate form request came from current site
+        wp_nonce_field(basename(__FILE__), 'package_meta_box_nonce');
+
+        $metafields = '<div class="misc-pub-section misc-pub-section-last">';
+        $metafields .= $this->metabox_checkbox_field('api', get_post_meta($post->ID, 'package-api', true), 'Enable PTPKG API');
+        $metafields .= '</div>';
+
+        echo $metafields;
+    }
+
+    /**
+     * Build custom field meta box
+     *
+     * @param post $post The post object
+     */
     public function package_seo_ad_build_meta_box($post)
     {
         $metafields = '<div>';
@@ -148,7 +165,11 @@ class Controller
         if (! current_user_can('edit_post', $post_id)) {
             return;
         }
-
+        if (isset($_REQUEST['api'])) {
+            update_post_meta($post_id, "package-api", sanitize_text_field($_POST["api"]));
+        } else {
+            delete_post_meta($post_id, "package-api");
+        }
         if (isset($_REQUEST['banner_image'])) {
             update_post_meta($post_id, "package-banner", (int) $_POST["banner_image"]);
         }
@@ -271,6 +292,29 @@ class Controller
         $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'metabox/textarea-field.html';
+        return $template::get_template();
+    }
+
+    /*
+     * @param string $name Name of option or name of post custom field.
+     * @param string $value Optional Attachment ID
+     * @return string HTML of the Upload Button
+     */
+    public function metabox_checkbox_field($name, $value = '', $label = null, $type = 'checkbox', $class = 'form-control')
+    {
+        $id = $this->plugin_name . '-' . $name;
+        $placeholders = [
+            'id'    => $id,
+            'name'  => $name,
+            'type'  => $type,
+            'class' => $class,
+            'value' => $value ? 'checked="checked"' : '',
+            'label' => ucfirst(($label?:$name)),
+        ];
+
+        $template = new ExopiteTemplate;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'metabox/checkbox-field.html';
         return $template::get_template();
     }
 

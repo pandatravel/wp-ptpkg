@@ -211,7 +211,7 @@ class CustomPostTypes
 
         $theme_template = locate_template($theme_files, false);
 
-        if (! empty($theme_template)) {
+        if (! empty($theme_template) && ! $this->is_api()) {
             return $theme_template;
         } else {
             $locations = [
@@ -224,9 +224,9 @@ class CustomPostTypes
                     return apply_filters('ptpkg_locate_template', $location . $template_file);
                 }
             }
-
-            return $template;
         }
+
+        return $template;
     }
 
     /**
@@ -310,17 +310,42 @@ class CustomPostTypes
             return false;
         }
 
-        $locations = [
+        $theme_locations = [
             join(DIRECTORY_SEPARATOR, [ get_stylesheet_directory(), '' ]),
             join(DIRECTORY_SEPARATOR, [ get_stylesheet_directory(), $this->plugin_name, '' ]),
+        ];
+
+        $locations = [
             join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), '' ]),
             join(DIRECTORY_SEPARATOR, [ rtrim(PTPKG_BASE_DIR, "/"), 'templates', '' ]),
         ];
+
+        foreach ($theme_locations as $location) {
+            if (file_exists($location . $template_file)) {
+                if (! $this->is_api()) {
+                    return ($location . $template_file == $template);
+                }
+            }
+        }
 
         foreach ($locations as $location) {
             if (file_exists($location . $template_file)) {
                 return ($location . $template_file == $template);
             }
         }
+    }
+
+    /**
+     * check if the cpt is api enabled
+     *
+     * @since    1.0.0
+     */
+    public function is_api()
+    {
+        global $post;
+
+        $api = (bool) get_post_meta($post->ID, 'package-api', true);
+
+        return $api;
     }
 }

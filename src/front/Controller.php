@@ -86,14 +86,16 @@ class Controller
          */
 
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
-            $query_args = [
-                'family' => 'Roboto:300,400,500,700|Material+Icons',
-                'subset' => 'latin,latin-ext',
-            ];
+            if ($this->cpt->is_api()) {
+                $query_args = [
+                    'family' => 'Roboto:300,400,500,700|Material+Icons',
+                    'subset' => 'latin,latin-ext',
+                ];
 
-            wp_enqueue_style('bootstrap', plugins_url('assets/public/css/ptpkg-bootstrap.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
-            wp_enqueue_style($this->plugin_name . '-public', plugins_url('assets/public/css/ptpkg-public.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
-            wp_enqueue_style($this->plugin_name . '-google-fonts', add_query_arg($query_args, '//fonts.googleapis.com/css'), [], $this->version, 'all');
+                wp_enqueue_style('bootstrap', plugins_url('assets/public/css/ptpkg-bootstrap.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
+                wp_enqueue_style($this->plugin_name . '-public', plugins_url('assets/public/css/ptpkg-public.css', PTPKG_ASSET_DIR), [], $this->version, 'all');
+                wp_enqueue_style($this->plugin_name . '-google-fonts', add_query_arg($query_args, '//fonts.googleapis.com/css'), [], $this->version, 'all');
+            }
         }
     }
 
@@ -116,9 +118,12 @@ class Controller
          * class.
          */
 
+
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
-            wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
-            wp_enqueue_script($this->plugin_name . '-app', plugins_url('assets/public/js/ptpkg-app.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
+            if ($this->cpt->is_api()) {
+                wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
+                wp_enqueue_script($this->plugin_name . '-app', plugins_url('assets/public/js/ptpkg-app.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
+            }
         }
     }
 }

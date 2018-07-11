@@ -136,6 +136,7 @@ class Init
          * @link https://code.tutsplus.com/articles/rock-solid-wordpress-30-themes-using-custom-post-types--net-12093
          */
         $this->loader->add_action('admin_init', $plugin_admin, 'package_add_meta_boxes');
+        $this->loader->add_action('post_submitbox_misc_actions', $plugin_admin, 'package_build_api_checkbox');
         $this->loader->add_action('save_post', $plugin_admin, 'package_save_meta');
         $this->loader->add_action('rest_api_init', $plugin_admin, 'package_rest_meta_fields');
         $this->loader->add_action('init', $plugin_admin, 'add_categories_to_attachments');
