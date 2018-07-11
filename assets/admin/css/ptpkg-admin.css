@@ -8783,6 +8783,76 @@ a.text-dark:focus {
  * Copyright 2011-2018 The Ptpkg Authors
  */
 
+input[type=checkbox].input-switch {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+input[type=checkbox].input-switch:checked + label {
+  background: #15a0f5;
+}
+
+input[type=checkbox].input-switch:checked + label:after {
+  left: calc(100% - 2px);
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+label.input-switch-label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 60px;
+  height: 32px;
+  background: grey;
+  display: block;
+  border-radius: 32px;
+  position: relative;
+  margin-right: 5px;
+}
+
+label.input-switch-label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-radius: 28px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+label.input-switch-label:active:after {
+  width: 39px;
+}
+
+.form-switch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.form-switch .form-check-label {
+  margin-bottom: 0.6rem;
+}
+
+/*!
+ * Ptpkg v0.1.0 (https://www.pandaonline.com)
+ * Copyright 2011-2018 The Ptpkg Authors
+ */
+
 body {
   line-height: 1.4em;
 }

@@ -110,8 +110,8 @@ class Controller
         // Nonce field to validate form request came from current site
         wp_nonce_field(basename(__FILE__), 'package_meta_box_nonce');
 
-        $metafields = '<div class="misc-pub-section misc-pub-section-last">';
-        $metafields .= $this->metabox_checkbox_field('api', get_post_meta($post->ID, 'package-api', true), 'Enable PTPKG API');
+        $metafields = '<div class="misc-pub-section misc-pub-section-last"><hr>';
+        $metafields .= $this->metabox_switch_field('api', get_post_meta($post->ID, 'package-api', true), 'Enable PTPKG API');
         $metafields .= '</div>';
 
         echo $metafields;
@@ -315,6 +315,29 @@ class Controller
         $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
         $template::$filename = PTPKG_TPL_DIR . 'metabox/checkbox-field.html';
+        return $template::get_template();
+    }
+
+    /*
+     * @param string $name Name of option or name of post custom field.
+     * @param string $value Optional Attachment ID
+     * @return string HTML of the Upload Button
+     */
+    public function metabox_switch_field($name, $value = '', $label = null, $type = 'checkbox', $class = null)
+    {
+        $id = $this->plugin_name . '-' . $name;
+        $placeholders = [
+            'id'    => $id,
+            'name'  => $name,
+            'type'  => $type,
+            'class' => $class,
+            'value' => $value ? 'checked="checked"' : '',
+            'label' => ucfirst(($label?:$name)),
+        ];
+
+        $template = new ExopiteTemplate;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'metabox/switch-field.html';
         return $template::get_template();
     }
 
