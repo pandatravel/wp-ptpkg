@@ -38622,7 +38622,7 @@ var _iconsCache = {
 
 	  props: {
 	    value: {
-	      type: String,
+	      type: [String, Number],
 	      default: ''
 	    },
 	    transform: {
@@ -38636,7 +38636,7 @@ var _iconsCache = {
 
 	    var transform = objectWithKey('transform', typeof props.transform === 'string' ? fontawesomeSvgCore.parse.transform(props.transform) : props.transform);
 
-	    var renderedText = fontawesomeSvgCore.text(props.value, _extends({}, transform));
+	    var renderedText = fontawesomeSvgCore.text(props.value.toString(), _extends({}, transform));
 
 	    var abstract = renderedText.abstract;
 
