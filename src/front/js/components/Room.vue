@@ -120,7 +120,6 @@ import traveler from './Traveler.vue';
 
     methods: {
         updateRoom() {
-            // console.log('updateRoom fired: ' + this.rateTier.price)
             this.$emit('update-room', {
                 index: this.index,
                 rate: this.rateTier,
@@ -143,10 +142,14 @@ import traveler from './Traveler.vue';
                     birthdate: null,
                     gender: '',
                     adult: adult,
-                    ffp: '327709212',
+                    insurance: false,
                     seat_preference: 'Window Seat',
                     country: 'US',
                     state: 'HI',
+                    email: 'ammonkc@gmail.com',
+                    ffp: '327709212',
+                    passport: '',
+                    ktn: '',
                 });
             }
         },

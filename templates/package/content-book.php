@@ -55,10 +55,10 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                     <dl class="dl-horizontal px-3">
                                         <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
                                         <dd class="blue-grey--text darken-4 text-xs-right">{{ sub_total | currency }}</dd>
-                                        <dt v-if="form.insurance" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
-                                        <dd v-if="form.insurance" class="blue-grey--text darken-4 text-xs-right">{{ premium | currency }}</dd>
-                                        <dt v-if="form.discount" class="blue-grey--text darken-4 text-xs-left">Discount ({{ package.discount.name }})</dt>
-                                        <dd v-if="form.discount" class="blue-grey--text darken-4 text-xs-right">-{{ discount | currency }}</dd>
+                                        <dt v-if="premium != 0" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>
+                                        <dd v-if="premium != 0" class="blue-grey--text darken-4 text-xs-right">{{ premium | currency }}</dd>
+                                        <dt v-if="form.discounted" class="blue-grey--text darken-4 text-xs-left">Discount ({{ package.discount.name }})</dt>
+                                        <dd v-if="form.discounted" class="blue-grey--text darken-4 text-xs-right">-{{ discount | currency }}</dd>
                                         <v-divider class="mt-1 mb-3"></v-divider>
                                         <dt class="title primary--text text-xs-left">Total Price</dt>
                                         <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
@@ -96,29 +96,6 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                             <!-- room component -->
                                             <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
-
-                                            <v-layout row>
-                                                <v-flex xs12>
-                                                    <v-card class="card--flex-toolbar mx-1 my-1">
-                                                        <v-toolbar card light dense>
-                                                            <v-toolbar-title class="body-2 grey--text">Travel Insurance - <span class="primary--text">{{ package.insurance.name }}</span></v-toolbar-title>
-                                                            <v-spacer></v-spacer>
-                                                        </v-toolbar>
-                                                        <v-divider class="mt-0"></v-divider>
-                                                        <v-card-text>
-                                                            <div v-html="package.insurance.description"></div>
-                                                            <p>This plan is available for your itinerary at a cost of {{ premium_price | currency }} per traveler.</p>
-                                                            <v-checkbox
-                                                                  v-model="form.insurance"
-                                                                  :value="true"
-                                                                  :true-value="true"
-                                                                  :false-value="false"
-                                                                  label="Purchase Insurance"
-                                                                  type="checkbox"></v-checkbox>
-                                                        </v-card-text>
-                                                    </v-card>
-                                                </v-flex>
-                                            </v-layout>
 
                                         </v-container>
 
@@ -419,7 +396,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ sub_total | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
-                                                            <v-list-tile v-if="form.insurance">
+                                                            <v-list-tile v-if="premium != 0">
                                                                 <v-list-tile-content>
                                                                     <v-list-tile-title>Travel Insurance</v-list-tile-title>
                                                                 </v-list-tile-content>
@@ -427,7 +404,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ premium | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
-                                                            <v-list-tile v-if="form.discount">
+                                                            <v-list-tile v-if="form.discounted">
                                                                 <v-list-tile-content>
                                                                     <v-list-tile-title>Discount ({{ package.discount.name }})</v-list-tile-title>
                                                                 </v-list-tile-content>
@@ -474,11 +451,53 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                             <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
                                                         </v-card-text>
                                                     </v-card>
+
+                                                    <v-card class="package-details-card mt-4" flat outline>
+                                                        <div class="card-header">
+                                                            <h4 class="primary--text">Travel Insurance</h4>
+                                                        </div>
+                                                        <v-card-text v-html="package.insurance.cta"></v-card-text>
+                                                        <v-divider class="mt-0"></v-divider>
+                                                        <v-list class="my-0" dense>
+                                                            <div v-for="(room, roomIndex) in form.rooms">
+                                                            <div v-for="(traveler, travelerIndex) in room.travelers">
+                                                            <v-list-tile>
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title>
+                                                                        <v-checkbox
+                                                                            v-model="traveler.insurance"
+                                                                            :label="traveler.last_name + ', ' + traveler.first_name + ' ' + traveler.middle_name"></v-checkbox>
+                                                                    </v-list-tile-title>
+                                                                </v-list-tile-content>
+                                                            </v-list-tile>
+                                                            <v-divider></v-divider>
+                                                            </div>
+                                                            </div>
+                                                        </v-list>
+                                                        <v-card-text class=pt-0>
+                                                            <p class="caption blue-grey--text text--lighten-2 mb-0">* Premium is based on itinerary price</p>
+                                                        </v-card-text>
+                                                    </v-card>
                                                 </v-flex>
 
                                             </v-layout>
 
                                             <v-divider></v-divider>
+
+                                            <v-layout row>
+                                                <v-flex xs12>
+                                                    <v-card class="card--flex-toolbar mx-1 my-1">
+                                                        <v-toolbar card light dense>
+                                                            <v-toolbar-title class="body-2 grey--text">Travel Insurance - <span class="primary--text">{{ package.insurance.name }}</span></v-toolbar-title>
+                                                            <v-spacer></v-spacer>
+                                                        </v-toolbar>
+                                                        <v-divider class="mt-0"></v-divider>
+                                                        <v-card-text>
+                                                            <div v-html="package.insurance.description"></div>
+                                                        </v-card-text>
+                                                    </v-card>
+                                                </v-flex>
+                                            </v-layout>
 
                                             <v-layout row>
                                                 <v-flex sm12>
@@ -575,7 +594,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                             <v-list-tile-title>{{ traveler.first_name }} {{ traveler.middle_name }} {{ traveler.last_name }}</v-list-tile-title>
                                                                         </v-list-tile-content>
                                                                         <v-list-tile-action>
-                                                                            <v-list-tile-action-text>(<span v-if="traveler.adult">Adult</span><span v-else>Child</span> {{ traveler.birthdate | age }} yrs) &nbsp; {{ traveler.birthdate | dateFormat }}</v-list-tile-action-text>
+                                                                            <v-list-tile-action-text><v-chip v-if="traveler.insurance" color="green" outline small><v-icon>check</v-icon>Insured</v-chip> (<span v-if="traveler.adult">Adult</span><span v-else>Child</span> {{ traveler.birthdate | age }} yrs) &nbsp; {{ traveler.birthdate | dateFormat }}</v-list-tile-action-text>
                                                                         </v-list-tile-action>
                                                                     </v-list-tile>
 
@@ -600,7 +619,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ sub_total | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
-                                                            <v-list-tile v-if="form.insurance">
+                                                            <v-list-tile v-if="premium != 0">
                                                                 <v-list-tile-content>
                                                                     <v-list-tile-title>Travel Insurance</v-list-tile-title>
                                                                 </v-list-tile-content>
@@ -608,7 +627,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile-title class="text-xs-right">{{ premium | currency }}</v-list-tile-title>
                                                                 </v-list-tile-content>
                                                             </v-list-tile>
-                                                            <v-list-tile v-if="form.discount">
+                                                            <v-list-tile v-if="form.discounted">
                                                                 <v-list-tile-content>
                                                                     <v-list-tile-title>Discount ({{ package.discount.name }})</v-list-tile-title>
                                                                 </v-list-tile-content>

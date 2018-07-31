@@ -16,9 +16,9 @@ import OrderInfo from '../components/OrderInfo.vue';
 // Fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDinersClub } from '@fortawesome/free-brands-svg-icons'
-import { faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDinersClub, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk)
+library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDinersClub, faAddressCard, faCreditCard, faPhone, faFax, faEnvelope, faMapMarkerAlt, faAsterisk, faCheck)
 
 
 const touchMap = new WeakMap()
@@ -76,7 +76,6 @@ Vue.component('booking-form', {
                 email_confirm: 'ammonkc@gmail.com',
                 requests: '',
                 status: false,
-                insurance: false,
                 discounted: false,
                 subscribe: true,
                 agree_terms: true,
@@ -271,8 +270,8 @@ Vue.component('booking-form', {
         this.form.code = this.package.code
         this.form.description = this.package.name
         this.form.method = 'credit card'
-        this.form.discount = !this.package.discount ? false : true
-        if (this.form.discount) {
+        this.form.discounted = !this.package.discount ? false : true
+        if (this.form.discounted) {
             this.form.discount_id = this.package.discount.id
         }
         this.room_max = this.package.room_max
@@ -307,21 +306,15 @@ Vue.component('booking-form', {
         amount() {
             let amount = this.sub_total
 
-            if (this.isDeposit && this.package.allow_deposit) {
+            if (this.isDeposit  && this.package.allow_deposit) {
                 amount = this.deposit
-                this.form.status = false
             } else {
-                if (this.form.discount) {
+                if (this.form.discounted) {
                     amount -= this.discount
                 }
-                this.form.status = true
             }
 
-            if (this.form.insurance) {
-                amount += this.premium
-            }
-
-            this.form.amount = amount
+            amount += this.premium
 
             return amount
         },
@@ -330,11 +323,9 @@ Vue.component('booking-form', {
         },
         total() {
             let total = this.sub_total
-            if (this.form.discount) {
+            total += this.premium
+            if (this.form.discounted) {
                 total -= this.discount
-            }
-            if (this.form.insurance) {
-                total += this.premium
             }
             return total
         },
@@ -348,15 +339,11 @@ Vue.component('booking-form', {
             return Number(this.package.deposit * this.totalTravelers)
         },
         premium() {
-            let premium =this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium.price * room.travelers.length), 0)
-             if (this.form.insurance) {
-                this.form.premium = premium
-             }
-            return premium
+            return Number(this.form.rooms.reduce((price, room) => Number(price) + Number(room.premium.price * room.travelers.filter(traveler => traveler.insurance == true).length), 0))
         },
         deposit_total() {
             let deposit = this.deposit
-            if (this.form.insurance) {
+            if (this.premium != 0) {
                 deposit += this.premium
             }
             return deposit
@@ -410,6 +397,14 @@ Vue.component('booking-form', {
     },
 
     watch: {
+        amount(val) {
+            if (this.isDeposit  && this.package.allow_deposit) {
+                this.form.status = false
+            } else {
+                this.form.status = true
+            }
+            this.form.amount = val
+        },
         rateId(val) {
             this.form.rate_id = val
         },
@@ -480,10 +475,14 @@ Vue.component('booking-form', {
                     birthdate: '1979-05-31',
                     gender: 'Male',
                     adult: adult,
-                    ffp: '327709212',
+                    insurance: false,
                     seat_preference: 'Window Seat',
                     country: 'US',
                     state: 'HI',
+                    email: 'ammonkc@gmail.com',
+                    ffp: '327709212',
+                    passport: '',
+                    ktn: '',
                 });
             }
         },
