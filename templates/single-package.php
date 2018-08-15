@@ -48,11 +48,12 @@ get_header(); ?>
 
         <v-app>
 
+            <corner-ribbon color="danger"></corner-ribbon>
             <v-jumbotron src="<?php echo $packageBannerUrl; ?>" height="333px" class="package-banner mb-3">
                 <v-container fill-height py-5>
                     <v-layout row wrap pt-5>
                         <v-flex sm4 offset-sm4 class="package-cta-book">
-                            <v-btn large block round color="primary" href="<?php echo get_post_permalink($currentID) ?>" class="mx-0"  title="Start Booking This Package Now">Book Now</v-btn>
+                            <action-button :id="<?php echo $currentID ?>" url="<?php echo get_post_permalink($currentID) ?>" color="primary" large block round load-status></action-button>
                         </v-flex>
                         <v-flex sm9 offset-sm3 text-sm-left>
                             <h2 class="package-title white--text"><?php the_title(); ?></h2>

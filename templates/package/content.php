@@ -60,7 +60,7 @@ $category = get_the_category();
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-btn large block color="primary" href="<?php echo get_post_permalink($currentID) ?>" title="Start Booking This Package Now">Book Now</v-btn>
+                    <action-button label="Start Booking Now!" :id="<?php echo $currentID ?>" url="<?php echo get_post_permalink($currentID) ?>" color="primary" large block></action-button>
                 </v-card-actions>
             </v-card>
 
@@ -121,7 +121,7 @@ $category = get_the_category();
 
     </v-layout>
 
-    <v-layout row>
+    <v-layout row pt-4>
         <v-flex sm3>
             <?php echo $packageSEOAd; ?>
         </v-flex>

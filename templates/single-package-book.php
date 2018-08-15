@@ -29,6 +29,8 @@ get_header(); ?>
         <notifications group="package" position="bottom right" :duration="4000"></notifications>
 
         <v-app>
+
+            <corner-ribbon color="danger"></corner-ribbon>
             <v-jumbotron src="<?php echo $packageBannerUrl; ?>" height="333px" class="package-banner mb-3">
                 <v-container fill-height py-5>
                     <v-layout row pt-5>
@@ -54,6 +56,7 @@ get_header(); ?>
                     ?>
                 </v-container>
             </v-content>
+
         </v-app>
 
     </div><!-- #app -->
