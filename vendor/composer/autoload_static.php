@@ -55,10 +55,6 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             'Doctrine\\Common\\Inflector\\' => 26,
         ),
-        'C' => 
-        array (
-            'Carbon\\' => 7,
-        ),
         'A' => 
         array (
             'Assert\\' => 7,
@@ -123,10 +119,6 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
-        'Carbon\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
-        ),
         'Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/beberlei/assert/lib/Assert',
@@ -135,6 +127,10 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             0 => __DIR__ . '/..' . '/ammonkc/ptpkg-api/src',
         ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/nesbot/carbon/src',
     );
 
     public static $classMap = array (
@@ -146,6 +142,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$fallbackDirsPsr4;
             $loader->classMap = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$classMap;
 
         }, null, ClassLoader::class);

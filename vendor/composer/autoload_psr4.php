@@ -20,7 +20,7 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
-    'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
     'Ammonkc\\Ptpkg\\' => array($vendorDir . '/ammonkc/ptpkg-api/src'),
+    '' => array($vendorDir . '/nesbot/carbon/src'),
 );
