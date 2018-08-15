@@ -47,6 +47,12 @@ Vue.component('booking-form', {
             default: function() {
                 return 'packages';
             }
+        },
+        'id': {
+            type: Number,
+            default: function() {
+                return null;
+            }
         }
     },
 
@@ -100,7 +106,10 @@ Vue.component('booking-form', {
             success: false,
 
             order: {},
+            bookable: '',
             package: window._ptpkgAPIDataPreload.data,
+            wp_error: '',
+            shared: store.state,
         }
     },
 
@@ -266,17 +275,24 @@ Vue.component('booking-form', {
     },
 
     created() {
-        this.form.tour_id = this.package.id
-        this.form.code = this.package.code
-        this.form.description = this.package.name
-        this.form.method = 'credit card'
-        this.form.discounted = !this.package.discount ? false : true
-        if (this.form.discounted) {
-            this.form.discount_id = this.package.discount.id
-        }
-        this.room_max = this.package.room_max
+        if (this.package) {
+            this.bookable = this.package.is_bookable
+            this.form.tour_id = this.package.id
+            this.form.code = this.package.code
+            this.form.description = this.package.name
+            this.form.method = 'credit card'
+            this.form.discounted = !this.package.discount ? false : true
+            if (this.form.discounted) {
+                this.form.discount_id = this.package.discount.id
+            }
+            this.room_max = this.package.room_max
 
-        this.addRoom()
+            this.addRoom()
+        } else {
+            this.bookable = false
+            this.getStatus()
+            this.wp_error = window._ptpkgAPIDataPreload.error
+        }
     },
 
     computed: {
@@ -374,6 +390,26 @@ Vue.component('booking-form', {
             let travelStart = moment(this.package.travel_start_at, 'MM/DD/YYYY')
             return travelStart.diff(balanceDue, 'days')
         },
+        statusMessage() {
+            let message = ''
+            if (! this.bookable) {
+                if (this.wp_error.data.status == 404) {
+                    message = 'This tour could not be found'
+                }
+                if (this.shared.status) {
+                    if (this.shared.status.is_sold_out) {
+                        message = 'This Tour is Sold Out'
+                    } else if (this.shared.status.is_cancelled) {
+                        message = 'This Tour has been Cancelled'
+                    } else if (moment().isAfter(moment(this.shared.status.booking_end_at, 'MM/DD/YYYY'))) {
+                        message = 'This Tour is Expired'
+                    } else if (! this.shared.status.active) {
+                        message = 'This Tour is Not Available'
+                    }
+                }
+            }
+            return message
+        },
         cardIcon() {
             let number = valid.number(this.form.card_number)
             if (number.card) {
@@ -438,6 +474,18 @@ Vue.component('booking-form', {
                             console.log(errors)
                         });
             }
+        },
+        getStatus() {
+            this.loading = true
+            let endpoint = 'tours/' + this.id + '/status'
+            axios.get(endpoint)
+                .then(response => {
+                    store.setStatus(response.data.data)
+                    this.bookable = this.shared.status.is_bookable
+                    this.loading = false
+                }, error => {
+                    // TODO handle error
+                });
         },
         clear () {
             this.$v.$reset()

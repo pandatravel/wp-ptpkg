@@ -3,6 +3,8 @@ import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill';
 import VueCurrencyFilter from 'vue-currency-filter'
 import Notifications from 'vue-notification';
+import ActionButton from './components/ActionButton.vue';
+import CornerRibbon from './components/CornerRibbon.vue';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -29,7 +31,8 @@ Vue.use(VueCurrencyFilter, {
   symbolSpacing: false
 });
 
-// import BookingForm from './forms/BookingForm.vue';
+Vue.component('action-button', ActionButton);
+Vue.component('corner-ribbon', CornerRibbon);
 
 const app = new Vue({
     el: '#app'
