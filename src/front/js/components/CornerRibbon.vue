@@ -12,16 +12,17 @@
                     return 'primary';
                 }
             },
-            'position': {
+            'corner': {
                 type: String,
                 default: function() {
-                    return 'ribbon-top-left';
+                    return 'top-left';
                 }
             },
         },
 
         data() {
             return {
+                position: 'ribbon-' + this.corner,
                 shared: store.state,
             }
         },

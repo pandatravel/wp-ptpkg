@@ -957,7 +957,7 @@ dd {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
   text-align: center;
-  z-index: 1000;
+  z-index: 2;
 }
 
 .ribbon.primary::before,
