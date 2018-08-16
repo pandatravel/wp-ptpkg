@@ -66406,7 +66406,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            loading: false,
             endpoint: 'tours/' + this.id + '/status',
 
             shared: store.state
@@ -66459,13 +66458,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getStatus: function getStatus() {
-            var _this = this;
-
-            this.loading = true;
+            store.setLoading(true);
 
             axios.get(this.endpoint).then(function (response) {
                 store.setStatus(response.data.data);
-                _this.loading = false;
+                store.setLoading(false);
             }, function (error) {
                 // TODO handle error
             });
@@ -66492,7 +66489,7 @@ var render = function() {
         color: _vm.btnColor,
         outline: _vm.outline,
         title: _vm.title,
-        loading: _vm.loading
+        loading: _vm.shared.loading
       }
     },
     [_vm._v(_vm._s(_vm.btnLabel))]
@@ -85279,18 +85276,27 @@ var Event = new (function () {
 
 "use strict";
 var store = {
-  debug: true,
-  state: {
-    status: ''
-  },
-  setStatus: function setStatus(newValue) {
-    if (this.debug) console.log('setStatus triggered with', newValue);
-    this.state.status = newValue;
-  },
-  clearStatus: function clearStatus() {
-    if (this.debug) console.log('clearStatus triggered');
-    this.state.status = '';
-  }
+    debug: true,
+    state: {
+        status: '',
+        loading: ''
+    },
+    setStatus: function setStatus(newValue) {
+        if (this.debug) console.log('setStatus triggered with', newValue);
+        this.state.status = newValue;
+    },
+    clearStatus: function clearStatus() {
+        if (this.debug) console.log('clearStatus triggered');
+        this.state.status = '';
+    },
+    setLoading: function setLoading(newValue) {
+        if (this.debug) console.log('setLoading triggered with', newValue);
+        this.state.loading = newValue;
+    },
+    clearLoading: function clearLoading() {
+        if (this.debug) console.log('clearLoading triggered');
+        this.state.loading = '';
+    }
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (store);

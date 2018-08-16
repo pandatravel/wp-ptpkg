@@ -7,7 +7,7 @@
         :color="btnColor"
         :outline="outline"
         :title="title"
-        :loading="loading">{{ btnLabel }}</v-btn>
+        :loading="shared.loading">{{ btnLabel }}</v-btn>
 </template>
 
 <script>
@@ -92,7 +92,6 @@
 
         data() {
             return {
-                loading: false,
                 endpoint: 'tours/' + this.id + '/status',
 
                 shared: store.state,
@@ -145,12 +144,12 @@
 
         methods: {
             getStatus() {
-                this.loading = true
+                store.setLoading(true)
 
                 axios.get(this.endpoint)
                     .then(response => {
                         store.setStatus(response.data.data)
-                        this.loading = false
+                        store.setLoading(false)
                     }, error => {
                         // TODO handle error
                     });
