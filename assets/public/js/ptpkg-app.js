@@ -48363,7 +48363,6 @@ __webpack_require__.r(__webpack_exports__);
             if (this.disabled) return;
             this.hasInput = true;
             this.internalValue = value;
-            this.$emit('change', value);
             this.setActiveRadio();
             this.$nextTick(this.validate);
         },
@@ -53674,7 +53673,7 @@ var Vuetify = {
             });
         }
     },
-    version: '1.1.12'
+    version: '1.1.13'
 };
 function checkVueVersion(Vue, requiredVue) {
     var vueDep = requiredVue || '^2.5.10';
@@ -55092,7 +55091,7 @@ var Vuetify = {
         Vue.use(VuetifyComponent, __assign({ components: _components__WEBPACK_IMPORTED_MODULE_1__,
             directives: _directives__WEBPACK_IMPORTED_MODULE_2__ }, args));
     },
-    version: '1.1.12'
+    version: '1.1.13'
 };
 if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(Vuetify);
@@ -57429,8 +57428,7 @@ __webpack_require__.r(__webpack_exports__);
                 input = !input;
             }
             this.validate(true, input);
-            this.lazyValue = input;
-            this.$emit('change', input);
+            this.internalValue = input;
         },
         onFocus: function onFocus() {
             this.isFocused = true;
