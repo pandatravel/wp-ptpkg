@@ -66598,7 +66598,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         label: function label() {
             var label = '';
             if (!this.bookable) {
-                if (this.shared.status.is_sold_out) {
+                if (this.shared.status.message) {
+                    if (this.shared.status.message == 'Tour is cancelled') {
+                        label = 'cancelled';
+                    } else if (this.shared.status.message == 'Tour is sold out') {
+                        label = 'Sold Out';
+                    } else if (this.shared.status.message == 'Tour booking period has expired') {
+                        label = 'expired';
+                    } else {
+                        label = 'not available';
+                    }
+                } else if (this.shared.status.is_sold_out) {
                     label = 'Sold Out';
                 } else if (this.shared.status.is_cancelled) {
                     label = 'Cancelled';
@@ -85627,8 +85637,7 @@ Vue.component('booking-form', {
             this.addRoom();
         } else {
             this.bookable = false;
-            this.getStatus();
-            this.wp_error = window._ptpkgAPIDataPreload.error;
+            store.setStatus(window._ptpkgAPIDataPreload.error);
         }
     },
 
@@ -85737,19 +85746,8 @@ Vue.component('booking-form', {
         statusMessage: function statusMessage() {
             var message = '';
             if (!this.bookable) {
-                if (this.wp_error.data.status == 404) {
-                    message = 'This tour could not be found';
-                }
                 if (this.shared.status) {
-                    if (this.shared.status.is_sold_out) {
-                        message = 'This Tour is Sold Out';
-                    } else if (this.shared.status.is_cancelled) {
-                        message = 'This Tour has been Cancelled';
-                    } else if (moment().isAfter(moment(this.shared.status.booking_end_at, 'MM/DD/YYYY'))) {
-                        message = 'This Tour is Expired';
-                    } else if (!this.shared.status.active) {
-                        message = 'This Tour is Not Available';
-                    }
+                    message = this.shared.status.message;
                 }
             }
             return message;
