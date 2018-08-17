@@ -39,12 +39,12 @@ $category = get_the_category();
                         <?php
                         $prev_post = get_previous_post($category[0]->term_id);
                         if (!empty($prev_post)): ?>
-                        <v-btn flat small outline absolute left href="<?php echo esc_url(get_permalink($prev_post->ID)); ?>" color="orange"><v-icon dark left>arrow_back</v-icon>Previous</v-btn>
+                        <v-btn flat small outline absolute left href="<?php echo esc_url(rtrim(get_permalink($prev_post->ID), "book/")); ?>" color="orange"><v-icon dark left>arrow_back</v-icon>Previous</v-btn>
                         <?php endif; ?>
                         <?php
                         $next_post = get_next_post($category[0]->term_id);
                         if (!empty($next_post)): ?>
-                        <v-btn flat small outline absolute right href="<?php echo esc_url(get_permalink($next_post->ID)); ?>" color="orange">Next<v-icon dark right>arrow_forward</v-icon></v-btn>
+                        <v-btn flat small outline absolute right href="<?php echo esc_url(rtrim(get_permalink($next_post->ID), "book/")); ?>" color="orange">Next<v-icon dark right>arrow_forward</v-icon></v-btn>
                         <?php endif; ?>
                     </v-card-actions>
                 </v-card-text>
