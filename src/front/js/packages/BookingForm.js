@@ -459,7 +459,6 @@ Vue.component('booking-form', {
                          .catch(errors => {
                             this.submiting = false
                             this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors});
-                            console.log(errors)
                         });
             }
         },
