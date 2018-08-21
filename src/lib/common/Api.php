@@ -105,7 +105,10 @@ class Api
         $this->client_secret = get_option($this->plugin_name . '_client_secret');
         $this->token = get_option($this->plugin_name . '_token');
         if (WP_DEBUG) {
-            $this->api_options = ['verify' => false];
+            $this->api_options = [
+                'base_uri' => 'https://ptpkg.dev/',
+                'verify' => false,
+            ];
         }
         $this->client = new Client($this->api_options);
 
