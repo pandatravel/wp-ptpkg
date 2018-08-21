@@ -85415,20 +85415,20 @@ Vue.component('booking-form', {
                 deposit: '',
                 balance: '',
                 amount: '',
-                name: 'Ammon Casey',
-                card_number: '378282246310005',
-                card_expiration: '2020-08',
-                card_cvv: '1234',
-                address: '1017 Kapahulu Ave.',
+                name: '',
+                card_number: '',
+                card_expiration: '',
+                card_cvv: '',
+                address: '',
                 address2: '',
-                city: 'Honolulu',
-                country: 'US',
-                state: 'HI',
-                zip: '96816',
-                phone: '8082033908',
-                fax: '8087383805',
-                email: 'ammonkc@gmail.com',
-                email_confirm: 'ammonkc@gmail.com',
+                city: '',
+                country: '',
+                state: '',
+                zip: '',
+                phone: '',
+                fax: '',
+                email: '',
+                email_confirm: '',
                 requests: '',
                 status: false,
                 discounted: false,
@@ -85816,7 +85816,6 @@ Vue.component('booking-form', {
                 }).catch(function (errors) {
                     _this2.submiting = false;
                     _this2.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors });
-                    console.log(errors);
                 });
             }
         },
@@ -85865,18 +85864,18 @@ Vue.component('booking-form', {
 
             if (this.hasVacancy(roomIndex)) {
                 this.form.rooms[roomIndex].travelers.push({
-                    first_name: 'Ammon',
-                    middle_name: 'Kaohiai',
-                    last_name: 'Casey',
-                    birthdate: '1979-05-31',
-                    gender: 'Male',
+                    first_name: '',
+                    middle_name: '',
+                    last_name: '',
+                    birthdate: '',
+                    gender: '',
                     adult: adult,
                     insurance: false,
-                    seat_preference: 'Window Seat',
-                    country: 'US',
-                    state: 'HI',
-                    email: 'ammonkc@gmail.com',
-                    ffp: '327709212',
+                    seat_preference: '',
+                    country: '',
+                    state: '',
+                    email: '',
+                    ffp: '',
                     passport: '',
                     ktn: ''
                 });
@@ -88223,11 +88222,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     gender: '',
                     adult: adult,
                     insurance: false,
-                    seat_preference: 'Window Seat',
-                    country: 'US',
-                    state: 'HI',
-                    email: 'ammonkc@gmail.com',
-                    ffp: '327709212',
+                    seat_preference: '',
+                    country: '',
+                    state: '',
+                    email: '',
+                    ffp: '',
                     passport: '',
                     ktn: ''
                 });
@@ -89223,7 +89222,7 @@ var render = function() {
                       label: "Seat Preference",
                       name: "seat_preference" + _vm.indexId,
                       id: "seat_preference" + _vm.indexId,
-                      items: ["Any Seat", "Aisle Seat", "Window Seat"]
+                      items: ["Any Seat", "Aisle", "Window"]
                     },
                     on: {
                       traveler: function($event) {

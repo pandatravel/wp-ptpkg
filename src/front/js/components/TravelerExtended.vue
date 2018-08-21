@@ -22,7 +22,7 @@
                     label="Seat Preference"
                     :name="'seat_preference' + indexId"
                     :id="'seat_preference' + indexId"
-                    :items="['Any Seat', 'Aisle Seat', 'Window Seat']"
+                    :items="['Any Seat', 'Aisle', 'Window']"
                     @traveler="updateTraveler()"></v-select>
             </v-flex>
             <v-flex xs3>
