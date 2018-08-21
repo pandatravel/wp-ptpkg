@@ -1,0 +1,25 @@
+/*!
+ * Ptpkg v0.1.0 (https://www.pandaonline.com)
+ * Copyright 2011-2018 The Ptpkg Authors
+ */
+
+// Body
+//
+// 1. Remove the margin in all browsers.
+// 2. As a best practice, apply a default `background-color`.
+// 3. Set an explicit initial text-align value so that we can later use the
+//    the `inherit` value on things like `<th>` elements.
+
+body {
+  line-height: $body-line-height-base;
+}
+
+#ptpkg-api-settings {
+    .card {
+        padding: 0 !important;
+        max-width: none !important;
+        .card-header {
+            padding: 1.25rem;
+        }
+    }
+}

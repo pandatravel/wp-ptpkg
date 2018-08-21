@@ -1,0 +1,62 @@
+/*!
+ * Ptpkg v0.1.0 (https://www.pandaonline.com)
+ * Copyright 2011-2018 The Ptpkg Authors
+ */
+
+// Body
+//
+// 1. Remove the margin in all browsers.
+// 2. As a best practice, apply a default `background-color`.
+// 3. Set an explicit initial text-align value so that we can later use the
+//    the `inherit` value on things like `<th>` elements.
+
+input[type=checkbox]{
+    &.input-switch {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+        &:checked + label {
+            background: #15a0f5;
+        }
+        &:checked + label:after {
+            left: calc(100% - 2px);
+            transform: translateX(-100%);
+        }
+    }
+}
+
+label.input-switch-label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 60px;
+    height: 32px;
+    background: grey;
+    display: block;
+    border-radius: 32px;
+    position: relative;
+    margin-right: 5px;
+    &:after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 28px;
+        height: 28px;
+        background: #fff;
+        border-radius: 28px;
+        transition: 0.3s;
+    }
+    &:active:after {
+        width: 39px;
+    }
+}
+
+.form-switch {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+    .form-check-label {
+        margin-bottom: 0.6rem;
+    }
+}
