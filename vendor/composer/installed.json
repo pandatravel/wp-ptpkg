@@ -1,13 +1,12 @@
 [
     {
         "name": "ammonkc/ptpkg-api",
-        "version": "0.1.0-dev",
-        "version_normalized": "0.1.0.0-dev",
-        "dist": {
-            "type": "path",
-            "url": "/Users/ammonkc/Develop/src/ptpkg-api",
-            "reference": "9a0337f8d7f3be2d7a21d27602ba6335c74c7e23",
-            "shasum": null
+        "version": "0.2.0",
+        "version_normalized": "0.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "git@gitlab.pandatravel.internal:panda/ptpkg-api.git",
+            "reference": "b12008fc985f6ede77bfa93447c2c967d074cd26"
         },
         "require": {
             "ext-curl": "*",
@@ -22,8 +21,9 @@
             "phpunit/phpunit": "^6.2",
             "symfony/var-dumper": "^3.4"
         },
+        "time": "2018-08-21T21:20:45+00:00",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "Ammonkc\\Ptpkg\\": "src"
@@ -40,7 +40,7 @@
         "authors": [
             {
                 "name": "Ammon Casey",
-                "email": "ammon@caseyohana.com",
+                "email": "acasey@panda-group.com",
                 "role": "Lead Developer"
             }
         ],
@@ -50,10 +50,7 @@
             "api",
             "panda",
             "ptpkg"
-        ],
-        "transport-options": {
-            "symlink": false
-        }
+        ]
     },
     {
         "name": "beberlei/assert",
