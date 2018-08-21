@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are **done by the Panda dev team**. We accept contributions via Pull Requests on [Github](http://gitlab.pandatravel.internal/panda/wp-ptpkg.git).
+Contributions are **done by the Panda dev team**. We accept contributions via Pull Requests on [Github](http://github.com/ammonkc/wp-ptpkg.git).
 
 ## Pull Requests
 
