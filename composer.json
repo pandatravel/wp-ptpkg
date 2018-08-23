@@ -4,7 +4,7 @@
     "version": "0.2.0",
     "type" : "wordpress-plugin",
     "keywords" : ["ptpkg-api"],
-    "license" : "MIT",
+    "license" : "UNLICENSED",
     "homepage" : "http://github.com/ammonkc/wp-ptpkg",
     "authors" : [
         {
