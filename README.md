@@ -1,12 +1,11 @@
 # wp-ptpkg
-Contributors: ammonkc
-Donate link: https://www.pandaonline.com
-Tags: ptpkg, pandatravel
-Requires at least: 4.9.8
-Tested up to: 4.9.8
-Stable tag: 1.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+- Contributors: ammonkc
+- link: https://www.pandaonline.com
+- Tags: ptpkg, pandatravel
+- Requires at least: 4.9.8
+- Tested up to: 4.9.8
+- Stable tag: 1.0
+- License: UNLICENSED
 
 This plugin is a client to connect to Panda Travel's ptpkg api.
 
