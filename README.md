@@ -29,10 +29,6 @@ e.g.
 = 1.0 =
 * Initial Stable release
 
-## Upgrade Notice
+### License
 
-= 1.0 =
-Install to connect to ptpkg api
-
-## Arbitrary section
-
+The PTPkg project is closed-sourced software and is UNLICENSED.
