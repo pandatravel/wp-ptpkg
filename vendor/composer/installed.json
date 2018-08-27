@@ -1,12 +1,12 @@
 [
     {
         "name": "ammonkc/ptpkg-api",
-        "version": "0.2.0",
-        "version_normalized": "0.2.0.0",
+        "version": "0.2.2",
+        "version_normalized": "0.2.2.0",
         "source": {
             "type": "git",
             "url": "git@gitlab.pandatravel.internal:panda/ptpkg-api.git",
-            "reference": "b12008fc985f6ede77bfa93447c2c967d074cd26"
+            "reference": "c4fbf1bbedfb94753fd2f16f7be85ebba6182a76"
         },
         "require": {
             "ext-curl": "*",
@@ -21,7 +21,7 @@
             "phpunit/phpunit": "^6.2",
             "symfony/var-dumper": "^3.4"
         },
-        "time": "2018-08-21T21:20:45+00:00",
+        "time": "2018-08-27T20:45:20+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -35,7 +35,7 @@
             }
         },
         "license": [
-            "MIT"
+            "UNLICENSED"
         ],
         "authors": [
             {
