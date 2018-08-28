@@ -286,7 +286,7 @@ class Settings
 
         $template = new ExopiteTemplate;
         $template::$variables_array = $placeholders;
-        $template::$filename = PTPKG_TPL_DIR . 'settings/textarea-field.html';
+        $template::$filename = PTPKG_TPL_DIR . 'settings/static-field.html';
         echo $template::get_template();
     }
 
