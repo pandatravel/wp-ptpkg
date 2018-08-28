@@ -132,13 +132,13 @@
             btnLabel() {
                 let label = this.label
                 if (! this.bookable) {
-                    if (this.shared.status.is_sold_out) {
-                        label = 'Sold Out'
-                    } else if (this.shared.status.is_cancelled) {
+                    if (this.shared.status.is_cancelled) {
                         label = 'Tour Cancelled'
+                    } else {
+                        label = this.shared.status.status
                     }
                 }
-                return label
+                return label.replace(/_/g, ' ')
             }
         },
 
