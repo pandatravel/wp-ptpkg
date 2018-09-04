@@ -151,7 +151,13 @@
                         store.setStatus(response.data.data)
                         store.setLoading(false)
                     }, error => {
-                        // TODO handle error
+                        let status = {
+                            is_bookable: false,
+                            message: 'Not Available',
+                            status: 'not_available',
+                        }
+                        store.setStatus(status)
+                        store.setLoading(false)
                     });
             },
         },

@@ -66602,7 +66602,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 store.setStatus(response.data.data);
                 store.setLoading(false);
             }, function (error) {
-                // TODO handle error
+                var status = {
+                    is_bookable: false,
+                    message: 'Not Available',
+                    status: 'not_available'
+                };
+                store.setStatus(status);
+                store.setLoading(false);
             });
         }
     }
