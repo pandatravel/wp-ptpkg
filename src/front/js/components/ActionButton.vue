@@ -132,13 +132,13 @@
             btnLabel() {
                 let label = this.label
                 if (! this.bookable) {
-                    if (this.shared.status.is_sold_out) {
-                        label = 'Sold Out'
-                    } else if (this.shared.status.is_cancelled) {
+                    if (this.shared.status.is_cancelled) {
                         label = 'Tour Cancelled'
+                    } else {
+                        label = this.shared.status.status
                     }
                 }
-                return label
+                return label.replace(/_/g, ' ')
             }
         },
 
@@ -151,7 +151,13 @@
                         store.setStatus(response.data.data)
                         store.setLoading(false)
                     }, error => {
-                        // TODO handle error
+                        let status = {
+                            is_bookable: false,
+                            message: 'Not Available',
+                            status: 'not_available',
+                        }
+                        store.setStatus(status)
+                        store.setLoading(false)
                     });
             },
         },
