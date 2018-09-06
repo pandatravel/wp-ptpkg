@@ -120,7 +120,7 @@ class Controller
 
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             if ($this->cpt->is_api()) {
-                wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
+                // wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
                 wp_enqueue_script($this->plugin_name . '-app', plugins_url('assets/public/js/ptpkg-app.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
             }
         }
