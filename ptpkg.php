@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       PT Packages
- * Plugin URI:        https://github.com/ammonkc/ptpkg
+ * Plugin URI:        https://github.com/pandatravel/wp-ptpkg
  * Description:       This plugin connects to panda's tour packages api
  * Version:           1.0.0
  * Author:            Ammon Casey
