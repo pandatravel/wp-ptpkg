@@ -3,18 +3,18 @@
         <v-flex xs12>
             <v-card class="card--flex-toolbar mx-1 my-1">
                 <v-toolbar card light dense>
-                    <v-toolbar-title class="body-2 grey--text">Room {{ index + 1 }}</v-toolbar-title>
+                    <v-toolbar-title class="body-2 grey--text hidden-sm-and-down">Room {{ index + 1 }}</v-toolbar-title>
                     <v-toolbar-items>
                         <v-btn @click="removeRoom" flat dark color="red"><v-icon dark>close</v-icon> remove</v-btn>
                     </v-toolbar-items>
-                    <v-spacer></v-spacer>
-                    <span class="caption grey--text text--darken-1">Price: {{ perPersonRate | currency }} per person</span>
-                    <v-spacer></v-spacer>
-                    <span class="caption grey--text text--darken-1">Insurance: {{ premium | currency }} per person</span>
-                    <v-spacer></v-spacer>
+                    <v-spacer class="hidden-sm-and-down"></v-spacer>
+                    <span class="caption grey--text text--darken-1 hidden-sm-and-down">Price: {{ perPersonRate | currency }} per person</span>
+                    <v-spacer class="hidden-sm-and-down"></v-spacer>
+                    <span class="caption grey--text text--darken-1 hidden-sm-and-down">Insurance: {{ premium | currency }} per person</span>
+                    <v-spacer class="hidden-sm-and-down"></v-spacer>
                     <v-toolbar-items>
-                        <v-btn @click="addAdult" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small>(19+)</small></v-btn>
-                        <v-btn @click="addChild" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small>(2-18)</small></v-btn>
+                        <v-btn @click="addAdult" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small class="hidden-sm-and-down">(19+)</small></v-btn>
+                        <v-btn @click="addChild" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small class="hidden-sm-and-down">(2-18)</small></v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-divider class="mt-0"></v-divider>

@@ -1,10 +1,10 @@
 <template>
     <div>
         <v-layout v-if="step == 2" wrap>
-            <v-flex xs2>
+            <v-flex sm2 xs12>
                 {{ fullName }} {{ (value.adult ? '(Adult)': '(Child ' + age + 'yrs)') }}
             </v-flex>
-            <v-flex xs2>
+            <v-flex sm2 xs12>
                 <v-text-field
                     v-model="value.ffp"
                     :value="value.ffp"
@@ -14,7 +14,7 @@
                     :id="'ffp' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
             </v-flex>
-            <v-flex xs2>
+            <v-flex sm2 xs12>
                 <v-select
                     v-model="value.seat_preference"
                     :value="value.seat_preference"
@@ -25,7 +25,7 @@
                     :items="['Any Seat', 'Aisle', 'Window']"
                     @traveler="updateTraveler()"></v-select>
             </v-flex>
-            <v-flex xs3>
+            <v-flex sm3 xs12>
                 <v-select
                     v-model="value.country"
                     :value="value.country"
@@ -44,7 +44,7 @@
                     autocomplete
                     required></v-select>
             </v-flex>
-            <v-flex xs3>
+            <v-flex sm3 xs12>
                 <v-select
                     v-model="value.state"
                     :value="value.state"
@@ -63,9 +63,9 @@
                     autocomplete
                     required></v-select>
             </v-flex>
-            <v-flex xs2>
+            <v-flex sm2 xs12>
             </v-flex>
-            <v-flex xs3>
+            <v-flex sm3 xs12>
                 <v-text-field
                     v-model="value.passport"
                     :value="value.passport"
@@ -75,7 +75,7 @@
                     :id="'passport' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
             </v-flex>
-            <v-flex xs3>
+            <v-flex sm3 xs12>
                 <v-text-field
                     v-model="value.ktn"
                     :value="value.ktn"

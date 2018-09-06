@@ -1,6 +1,6 @@
 <template>
     <v-layout wrap>
-        <v-flex xs3>
+        <v-flex sm3>
             <v-text-field
                 v-model="value.first_name"
                 :value="value.first_name"
@@ -16,7 +16,7 @@
                 @traveler="updateTraveler()"
                 required></v-text-field>
         </v-flex>
-        <v-flex xs2>
+        <v-flex sm2>
             <v-text-field
                 v-model="value.middle_name"
                 :value="value.middle_name"
@@ -27,7 +27,7 @@
                 @traveler="updateTraveler()"
                 required></v-text-field>
         </v-flex>
-        <v-flex xs2>
+        <v-flex sm2>
             <v-text-field
                 v-model="value.last_name"
                 :value="value.last_name"
@@ -41,7 +41,7 @@
                 @traveler="updateTraveler()"
                 required></v-text-field>
         </v-flex>
-        <v-flex xs2>
+        <v-flex sm2>
             <v-menu
                 ref="menu"
                 lazy
@@ -73,7 +73,7 @@
                   :max="new Date().toISOString().substr(0, 10)"></v-date-picker>
               </v-menu>
         </v-flex>
-        <v-flex xs2>
+        <v-flex sm2>
             <v-select
                 v-model="value.gender"
                 :value="value.gender"
@@ -88,7 +88,7 @@
                 @traveler="updateTraveler()"
                 required></v-select>
         </v-flex>
-        <v-flex xs1 class="px-0">
+        <v-flex sm1 class="px-0">
             <v-btn @click="removeTraveler" color="red" small outline flat dark fab><v-icon>delete_forever</v-icon></v-btn>
         </v-flex>
     </v-layout>
