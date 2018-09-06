@@ -188,7 +188,7 @@ class CustomPostTypes
             return $permalink;
         }
 
-        return user_trailingslashit($permalink) . DIRECTORY_SEPARATOR . $this->endpoint . DIRECTORY_SEPARATOR;
+        return rtrim($permalink, "/") . DIRECTORY_SEPARATOR . $this->endpoint . DIRECTORY_SEPARATOR;
     }
 
     /**
