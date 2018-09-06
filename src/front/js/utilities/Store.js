@@ -1,5 +1,5 @@
 const store = {
-    debug: true,
+    debug: process.env.NODE_ENV === 'development' ? true : false,
     state: {
         status: '',
         loading: '',
