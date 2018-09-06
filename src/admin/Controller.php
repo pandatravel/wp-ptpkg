@@ -95,6 +95,7 @@ class Controller
         $metafields .= $this->metabox_textarea_field('teaser', get_post_meta($post->ID, 'package-teaser', true));
         $metafields .= $this->metabox_input_field('price', get_post_meta($post->ID, 'package-price', true));
         $metafields .= $this->metabox_input_field('location', get_post_meta($post->ID, 'package-location', true));
+        $metafields .= $this->metabox_input_field('booking-link', get_post_meta($post->ID, 'package-booking-link', true));
         $metafields .= '</div>';
 
         echo $metafields;
@@ -107,6 +108,12 @@ class Controller
      */
     public function package_build_api_checkbox($post)
     {
+        global $current_screen;
+
+        if ($current_screen->post_type != 'package') {
+            return;
+        }
+
         // Nonce field to validate form request came from current site
         wp_nonce_field(basename(__FILE__), 'package_meta_box_nonce');
 
@@ -182,6 +189,9 @@ class Controller
         if (isset($_REQUEST['location'])) {
             update_post_meta($post_id, "package-location", sanitize_text_field($_POST["location"]));
         }
+        if (isset($_REQUEST['booking-link'])) {
+            update_post_meta($post_id, "package-booking-link", sanitize_text_field($_POST["booking-link"]));
+        }
         if (isset($_REQUEST['seo_ad'])) {
             update_post_meta($post_id, "package-seo-ad", $_POST["seo_ad"]);
         }
@@ -217,6 +227,7 @@ class Controller
         register_rest_field('package', 'package-teaser', $register_rest_field_args);
         register_rest_field('package', 'package-price', $register_rest_field_args);
         register_rest_field('package', 'package-location', $register_rest_field_args);
+        register_rest_field('package', 'package-booking-link', $register_rest_field_args);
         register_rest_field('package', 'package-seo-ad', $register_rest_field_args);
         register_rest_field('package', 'package-seo-content', $register_rest_field_args);
     }

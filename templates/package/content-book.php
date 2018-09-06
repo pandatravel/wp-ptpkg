@@ -39,16 +39,16 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                         <div v-if="bookable">
                             <div v-if="success == false" :class="{'loading': loading}">
                                 <v-form @submit.prevent="onSubmit" method="post"  id="booking-form">
-                                    <v-layout row v-cloak>
-                                        <v-flex xs6>
+                                    <v-layout v-cloak>
+                                        <v-flex md6 sm12>
                                             <v-card-text class="">
                                                 <v-alert v-if="form.discount" color="info" icon="info" :value="true">
                                                     <strong>{{ package.discount.name }}</strong> - {{ package.discount.description }}
                                                 </v-alert>
                                             </v-card-text>
                                         </v-flex>
-                                        <v-flex xs6>
-                                            <dl class="dl-horizontal px-3">
+                                        <v-flex md6 sm12>
+                                            <dl class="dl-horizontal px-4 pt-2">
                                                 <dt class="blue-grey--text darken-4 text-xs-left">Itinerary Price</dt>
                                                 <dd class="blue-grey--text darken-4 text-xs-right">{{ sub_total | currency }}</dd>
                                                 <dt v-if="premium != 0" class="blue-grey--text darken-4 text-xs-left">Travel Insurance</dt>

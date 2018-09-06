@@ -83,8 +83,8 @@ Vue.component('booking-form', {
                 requests: '',
                 status: false,
                 discounted: false,
-                subscribe: true,
-                agree_terms: true,
+                subscribe: false,
+                agree_terms: false,
 
                 rooms: [],
 

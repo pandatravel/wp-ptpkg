@@ -28,10 +28,12 @@ if ($primary_cat_id) {
 $category = get_the_category();
 
 ?>
+
+<v-container>
 <article id="post-<?php the_ID(); ?>" <?php post_class('package-details'); ?>>
 
-    <v-layout row>
-        <v-flex sm8>
+    <v-layout wrap>
+        <v-flex md8 sm12>
 
             <v-card>
                 <v-card-text>
@@ -66,7 +68,7 @@ $category = get_the_category();
 
         </v-flex>
 
-        <v-flex sm4>
+        <v-flex md4 sm12>
 
             <?php
                 $args = [
@@ -108,7 +110,7 @@ $category = get_the_category();
                             </v-container>
                             <v-card-actions>
                                 <v-btn flat block color="primary" href="<?php echo rtrim(get_permalink(), '/book'); ?>">Details</v-btn>
-                                <v-btn flat block color="primary" href="<?php echo get_permalink(); ?>">Book Now</v-btn>
+                                <!-- <v-btn flat block color="primary" href="<?php echo get_permalink(); ?>">Book Now</v-btn> -->
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -121,7 +123,7 @@ $category = get_the_category();
 
     </v-layout>
 
-    <v-layout row pt-4>
+    <v-layout pt-4>
         <v-flex sm3>
             <?php echo $packageSEOAd; ?>
         </v-flex>
@@ -131,3 +133,4 @@ $category = get_the_category();
     </v-layout>
 
 </article><!-- #post-## -->
+</v-container>
