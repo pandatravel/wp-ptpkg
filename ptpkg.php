@@ -19,8 +19,8 @@
  * Version:           1.0.0
  * Author:            Ammon Casey
  * Author URI:        https://github.com/ammonkc
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           UNLICENSED
+ * License URI:       https://raw.githubusercontent.com/pandatravel/wp-ptpkg/master/LICENSE
  * Text Domain:       ptpkg
  * Domain Path:       /languages
  */

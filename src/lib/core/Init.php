@@ -13,7 +13,7 @@
  * @subpackage Ptpkg/src
  */
 
-namespace Ptpkg\Lib\core;
+namespace Ptpkg\lib\core;
 
 use Ptpkg\admin\Controller as AdminController;
 use Ptpkg\admin\Settings;
