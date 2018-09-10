@@ -1,14 +1,16 @@
 ## OAuth2 client middleware for league/oauth2-client
 
 [![Build Status](https://travis-ci.org/gsomoza/oauth2-middleware.svg?branch=master)](https://travis-ci.org/gsomoza/oauth2-middleware)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gsomoza/oauth2-middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gsomoza/oauth2-middleware/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/gsomoza/oauth2-middleware/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gsomoza/oauth2-middleware/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gabrielsomoza/oauth2-middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gabrielsomoza/oauth2-middleware/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/gabrielsomoza/oauth2-middleware/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gabrielsomoza/oauth2-middleware/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/somoza/oauth2-client-middleware/v/stable)](https://packagist.org/packages/somoza/oauth2-client-middleware)
 
-[![Author](https://img.shields.io/badge/author-%40gabriel__somoza-blue.svg)](https://img.shields.io/badge/author-%40gabriel__somoza-blue.svg)
 [![License](https://poser.pugx.org/somoza/oauth2-client-middleware/license)](https://packagist.org/packages/somoza/oauth2-client-middleware)
+[![Author](https://img.shields.io/badge/author-%40gabriel__somoza-blue.svg)](https://img.shields.io/badge/author-%40gabriel__somoza-blue.svg)
 
 PSR7 middleware that uses league/oauth2-client to authenticate requests with an OAuth2 server.
+
+NOTE: the current version of this middleware only supports the "client_credentials" grant type.
 
 ## Installation
 
@@ -18,13 +20,12 @@ composer require somoza/oauth2-client-middleware
 
 ## Usage
 
-The current implementation indirectly depends on Guzzle 6 because it's a direct dependency of `league/oauth2-client`.
+The current implementation is tied to Guzzle 6, because its a direct dependency of `league/oauth2-client`.
 
 Using Guzzle:
 
 ```php
-use Somoza\OAuth2Middleware\OAuth2Middleware;
-use Somoza\OAuth2Middleware\TokenService\Bearer;
+use Somoza\Psr7\OAuth2Middleware;
 
 $stack = new \GuzzleHttp\HandlerStack();
 $stack->setHandler(new CurlHandler());
@@ -43,14 +44,8 @@ $provider = new GenericProvider(
 );
 
 // attach our oauth2 middleware
-$bearerMiddleware = new OAuth2Middleware(
-    new Bearer($provider), // use the Bearer token type
-    [ // ignore (do not attempt to authorize) the following URLs
-        $provider->getBaseAuthorizationUrl(),
-        $provider->getBaseAccessTokenUrl(),
-    ]
-);
-$stack->push($bearerMiddleware);
+$oauth2 = new OAuth2Middleware\Bearer($provider);
+$stack->push($oauth2);
 
 // if you want to debug, it might be useful to attach a PSR7 logger here
 ```
@@ -63,8 +58,7 @@ the security implications of storing an access token (do it at your own risk).
 Example:
 
 ```php
-use Somoza\OAuth2Middleware\OAuth2Middleware;
-use Somoza\OAuth2Middleware\TokenService\Bearer;
+use Somoza\Psr7\OAuth2Middleware;
 use League\OAuth2\Client\Token\AccessToken;
 
 // see previous example for initialization
@@ -75,19 +69,16 @@ if ($tokenStore->contains($userId)) {
     $token = new AccessToken($tokenData);
 }
 
-$bearerMiddleware = new OAuth2Middleware(
-    new Bearer(
-        $provider, // defined as in the "Usage" example
-        $token, 
-        function (AccessToken $newToken, AccessToken $oldToken) 
-          use ($tokenStore, $userId) {
-            // called whenever a new AccessToken is fetched
-            $tokenStore->save($userId, $newToken->jsonSerialize());
-        }
-    ), 
+$oauth2 = new OAuth2Middleware\Bearer(
+    $provider, 
+    $token, // null if nothing was stored - an instance of AccessToken otherwise 
+    function(AccessToken $newToken) use ($tokenStore, $userId) {
+        // called whenever a new AccessToken is fetched
+        $tokenStore->save($userId, $newToken->jsonSerialize());
+    }
 );
 
-$stack->push($bearerMiddleware);
+$stack->push($oauth2);
 ```
 
 ## License

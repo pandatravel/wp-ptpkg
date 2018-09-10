@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
-    'Somoza\\OAuth2Middleware\\' => array($vendorDir . '/somoza/oauth2-client-middleware/src'),
+    'Somoza\\Psr7\\OAuth2Middleware\\' => array($vendorDir . '/somoza/oauth2-client-middleware/src'),
     'Ptpkg\\' => array($baseDir . '/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'League\\OAuth2\\Client\\' => array($vendorDir . '/league/oauth2-client/src'),
@@ -16,8 +16,6 @@ return array(
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
-    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
-    'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
     'Ammonkc\\Ptpkg\\' => array($vendorDir . '/ammonkc/ptpkg-api/src'),
     '' => array($vendorDir . '/nesbot/carbon/src'),
 );

@@ -11,7 +11,6 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
@@ -20,7 +19,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Translation\\' => 30,
-            'Somoza\\OAuth2Middleware\\' => 24,
+            'Somoza\\Psr7\\OAuth2Middleware\\' => 29,
         ),
         'P' => 
         array (
@@ -41,13 +40,8 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             'Firebase\\JWT\\' => 13,
         ),
-        'D' => 
-        array (
-            'Doctrine\\Common\\Inflector\\' => 26,
-        ),
         'A' => 
         array (
-            'Assert\\' => 7,
             'Ammonkc\\Ptpkg\\' => 14,
         ),
     );
@@ -61,7 +55,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
         ),
-        'Somoza\\OAuth2Middleware\\' => 
+        'Somoza\\Psr7\\OAuth2Middleware\\' => 
         array (
             0 => __DIR__ . '/..' . '/somoza/oauth2-client-middleware/src',
         ),
@@ -93,14 +87,6 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
-        'Assert\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/beberlei/assert/lib/Assert',
-        ),
         'Ammonkc\\Ptpkg\\' => 
         array (
             0 => __DIR__ . '/..' . '/ammonkc/ptpkg-api/src',
@@ -109,6 +95,16 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
 
     public static $fallbackDirsPsr4 = array (
         0 => __DIR__ . '/..' . '/nesbot/carbon/src',
+    );
+
+    public static $prefixesPsr0 = array (
+        'D' => 
+        array (
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -121,6 +117,7 @@ class ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b
             $loader->prefixLengthsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit3b4b3c29fb0017f68120a7c9072b781b::$classMap;
 
         }, null, ClassLoader::class);
