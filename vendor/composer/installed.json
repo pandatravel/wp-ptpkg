@@ -1,17 +1,17 @@
 [
     {
         "name": "ammonkc/ptpkg-api",
-        "version": "1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/pandatravel/ptpk-api.git",
-            "reference": "4a1171a2bb592692581b1df95ff62c11e940bcd4"
+            "reference": "ff3c4b02fb0e9405d3c66eaf7567947521a553e7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/pandatravel/ptpk-api/zipball/4a1171a2bb592692581b1df95ff62c11e940bcd4",
-            "reference": "4a1171a2bb592692581b1df95ff62c11e940bcd4",
+            "url": "https://api.github.com/repos/pandatravel/ptpk-api/zipball/ff3c4b02fb0e9405d3c66eaf7567947521a553e7",
+            "reference": "ff3c4b02fb0e9405d3c66eaf7567947521a553e7",
             "shasum": ""
         },
         "require": {
@@ -26,7 +26,7 @@
             "phpunit/phpunit": "^5.7",
             "symfony/var-dumper": "^3.4"
         },
-        "time": "2018-09-10T21:39:28+00:00",
+        "time": "2018-09-11T22:39:17+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -57,7 +57,7 @@
             "ptpkg"
         ],
         "support": {
-            "source": "https://github.com/pandatravel/ptpk-api/tree/1.0.3",
+            "source": "https://github.com/pandatravel/ptpk-api/tree/1.0.4",
             "issues": "https://github.com/pandatravel/ptpk-api/issues"
         }
     },
