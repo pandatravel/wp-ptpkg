@@ -77,9 +77,9 @@ $category = get_the_category();
                     'cat' => $category[0]->term_id,
                     'orderby' => 'date',
                     'order' => 'ASC',
-                    'posts_per_page' => -1,
                     'post__not_in' => [$currentID],
-                    'post_status' => 'publish'
+                    'post_status' => 'publish',
+                    'posts_per_page' => 5
                 ];
                 $list_of_posts = new WP_Query($args);
                 wp_reset_postdata();
