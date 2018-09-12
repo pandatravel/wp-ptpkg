@@ -15,7 +15,7 @@ window.Event = Event;
 window.store = store;
 
 let api = {
-    url: 'http://pandaonline.allencazar.com/wp-json/',
+    url: 'https://pandaonline.dev/wp-json/',
     namespace: 'ptpkg/v1/',
 }
 
