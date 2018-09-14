@@ -368,16 +368,18 @@ class BookingForm
          */
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             $package = $this->get_tour($post->ID);
-            if (is_wp_error($package)) {
-                $package = [
-                    'error' => [
-                        'code' => $package->get_error_code(),
-                        'message' => $package->get_error_message(),
-                        'data' => $package->get_error_data($package->get_error_code()),
-                    ]
-                ];
+            if ($this->cpt->is_api()) {
+                if (is_wp_error($package)) {
+                    $package = [
+                        'error' => [
+                            'code' => $package->get_error_code(),
+                            'message' => $package->get_error_message(),
+                            'data' => $package->get_error_data($package->get_error_code()),
+                        ]
+                    ];
+                }
+                wp_add_inline_script($this->plugin_name . '-app', sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package)), 'before');
             }
-            wp_add_inline_script($this->plugin_name . '-app', sprintf('window._ptpkgAPIDataPreload = %s', wp_json_encode($package)), 'before');
         }
     }
 }
