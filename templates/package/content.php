@@ -109,8 +109,7 @@ $category = get_the_category();
                                 </v-layout>
                             </v-container>
                             <v-card-actions>
-                                <v-btn flat block color="primary" href="<?php echo rtrim(get_permalink(), '/book'); ?>">Details</v-btn>
-                                <!-- <v-btn flat block color="primary" href="<?php echo get_permalink(); ?>">Book Now</v-btn> -->
+                                <v-btn flat block color="primary" href="<?php echo get_permalink(); ?>">Details</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
