@@ -187,6 +187,9 @@ class CustomPostTypes
         if ($post->post_type != $this->cpt && ! is_single()) {
             return $permalink;
         }
+        if (! get_post_meta($post->ID, 'package-api', true)) {
+            return $permalink;
+        }
 
         return rtrim($permalink, "/") . DIRECTORY_SEPARATOR . $this->endpoint . DIRECTORY_SEPARATOR;
     }
