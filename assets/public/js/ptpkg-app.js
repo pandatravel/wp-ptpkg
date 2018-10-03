@@ -67913,7 +67913,7 @@ window.Event = __WEBPACK_IMPORTED_MODULE_5__utilities_EventBus__["a" /* default 
 window.store = __WEBPACK_IMPORTED_MODULE_6__utilities_Store__["a" /* default */];
 
 var api = {
-    url: 'https://pandaonline.dev/wp-json/',
+    url: 'https://www.pandaonline.com/wp-json/',
     namespace: 'ptpkg/v1/'
 };
 
