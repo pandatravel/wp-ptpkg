@@ -76,12 +76,11 @@
         <v-flex sm2>
             <v-select
                 v-model="value.gender"
-                :value="value.gender"
                 ref="gender"
                 label="Gender"
                 :name="'gender' + indexId"
                 :id="'gender' + indexId"
-                :items="['Male', 'Female']"
+                :items="gender_items"
                 :error-messages="genderErrors({room:index.room, traveler:index.traveler})"
                 @input="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
                 @blur="$v.form.rooms.$each[index.room].travelers.$each[index.traveler].gender.$touch()"
@@ -116,6 +115,7 @@ export default {
     data() {
         return {
             traveler: this.value,
+            gender_items: ['Male', 'Female'],
             date: null,
             menu: false,
         }
