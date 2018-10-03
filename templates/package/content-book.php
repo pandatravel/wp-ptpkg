@@ -433,11 +433,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile>
                                                                         <v-list-tile-content>
                                                                             <v-list-tile-title class="title primary--text">Deposit Price</v-list-tile-title>
-                                                                            <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
+                                                                            <v-list-tile-sub-title class="primary--text text--lighten-3">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                                                         </v-list-tile-content>
                                                                         <v-list-tile-content>
                                                                             <v-list-tile-title class="title primary--text text-xs-right">{{ deposit_total | currency }}</v-list-tile-title>
-                                                                            <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
+                                                                            <v-list-tile-sub-title class="primary--text text--lighten-3 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
                                                                         </v-list-tile-content>
                                                                     </v-list-tile>
                                                                 </v-list>
@@ -648,11 +648,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-list-tile>
                                                                         <v-list-tile-content>
                                                                             <v-list-tile-title class="title primary--text">Deposit Price</v-list-tile-title>
-                                                                            <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
+                                                                            <v-list-tile-sub-title class="primary--text text--lighten-3">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                                                         </v-list-tile-content>
                                                                         <v-list-tile-content>
                                                                             <v-list-tile-title class="title primary--text text-xs-right">{{ deposit_total | currency }}</v-list-tile-title>
-                                                                            <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
+                                                                            <v-list-tile-sub-title class="primary--text text--lighten-3 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
                                                                         </v-list-tile-content>
                                                                     </v-list-tile>
                                                                 </v-list>
@@ -815,11 +815,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-list-tile>
                                                     <v-list-tile-content>
                                                         <v-list-tile-title class="title primary--text">Deposit Price</v-list-tile-title>
-                                                        <v-list-tile-sub-title class="info--text text--lighten-4">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
+                                                        <v-list-tile-sub-title class="primary--text text--lighten-3">Balance Due on {{ package.balance_at }}</v-list-tile-sub-title>
                                                     </v-list-tile-content>
                                                     <v-list-tile-content>
                                                         <v-list-tile-title class="title primary--text text-xs-right">{{ deposit_total | currency }}</v-list-tile-title>
-                                                        <v-list-tile-sub-title class="info--text text--lighten-4 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
+                                                        <v-list-tile-sub-title class="primary--text text--lighten-3 text-sm-right">{{ balance | currency }}</v-list-tile-sub-title>
                                                     </v-list-tile-content>
                                                 </v-list-tile>
                                             </v-list>

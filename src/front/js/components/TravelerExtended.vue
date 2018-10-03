@@ -17,7 +17,6 @@
             <v-flex sm2 xs12>
                 <v-select
                     v-model="value.seat_preference"
-                    :value="value.seat_preference"
                     ref="seat_preference"
                     label="Seat Preference"
                     :name="'seat_preference' + indexId"
@@ -28,7 +27,6 @@
             <v-flex sm3 xs12>
                 <v-select
                     v-model="value.country"
-                    :value="value.country"
                     ref="country"
                     label="Country of Residence"
                     :name="'country' + indexId"
@@ -47,7 +45,6 @@
             <v-flex sm3 xs12>
                 <v-select
                     v-model="value.state"
-                    :value="value.state"
                     ref="state"
                     label="State of Residence"
                     :name="'state' + indexId"

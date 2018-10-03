@@ -23,6 +23,7 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
+*.todo
 node_modules
 package-lock.json
 npm-debug.log
