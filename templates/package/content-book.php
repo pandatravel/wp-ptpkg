@@ -59,7 +59,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <dt class="title primary--text text-xs-left">Total Price</dt>
                                                 <dd class="title primary--text text-xs-right">{{ total | currency }}</dd>
                                                 <p class="caption blue-grey--text lighten-5 mb-0">* Taxes are included</p>
-                                                <p class="caption blue-grey--text lighten-3 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                                <p class="caption blue-grey--text lighten-3 mb-0">* Additional fees may apply. See our <a :href="'https://ptpkg.com/terms/' + package.term.id" title="terms and conditions" target="_blank">terms and conditions</a> for details.</p>
                                             </dl>
                                         </v-flex>
                                     </v-layout>
@@ -444,7 +444,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-divider class="mt-0"></v-divider>
                                                                 <v-card-text class="pt-0">
                                                                     <p class="caption blue-grey--text text--lighten-2 mb-0">* Taxes are included</p>
-                                                                    <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                                                    <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a :href="'https://ptpkg.com/terms/' + package.term.id" title="terms and conditions" target="_blank">terms and conditions</a> for details.</p>
                                                                 </v-card-text>
                                                             </v-card>
 
@@ -659,7 +659,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-divider class="mt-0"></v-divider>
                                                                 <v-card-text class="pt-0">
                                                                     <p class="caption blue-grey--text text--lighten-2 mb-0">* Taxes are included</p>
-                                                                    <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                                                    <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a :href="'https://ptpkg.com/terms/' + package.term.id" title="terms and conditions" target="_blank">terms and conditions</a> for details.</p>
                                                                 </v-card-text>
                                                             </v-card>
                                                             <v-layout row wrap>
@@ -826,7 +826,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                             <v-divider class="mt-0"></v-divider>
                                             <v-card-text class="pt-0">
                                                 <p class="caption blue-grey--text text--lighten-2 mb-0">* Taxes are included</p>
-                                                <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a href="#" title="terms and conditions">terms and conditions</a> for details.</p>
+                                                <p class="caption blue-grey--text text--lighten-2 mb-0">* Additional fees may apply. See our <a :href="'https://ptpkg.com/terms/' + package.term.id" title="terms and conditions" target="_blank">terms and conditions</a> for details.</p>
                                             </v-card-text>
                                         </v-card>
                                     </v-flex>
