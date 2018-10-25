@@ -106,7 +106,7 @@ class Api
         $this->token = get_option($this->plugin_name . '_token');
         if (WP_DEBUG) {
             $this->api_options = [
-                'base_uri' => 'https://ptpkg.dev/',
+                'base_uri' => 'https://ptpkg.test/',
                 'verify' => false,
             ];
         }
