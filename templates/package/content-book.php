@@ -152,7 +152,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.address"
-                                                                        label="Address"
+                                                                        label="Address *"
                                                                         :name="'address'"
                                                                         :id="'address'"
                                                                         ref="address"
@@ -174,7 +174,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm4>
                                                                     <v-text-field
                                                                         v-model="form.city"
-                                                                        label="City"
+                                                                        label="City *"
                                                                         :name="'city'"
                                                                         :id="'city'"
                                                                         ref="city"
@@ -187,7 +187,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-select
                                                                         v-model="form.state"
                                                                         ref="state"
-                                                                        label="State/Province"
+                                                                        label="State/Province *"
                                                                         name="state"
                                                                         id="state"
                                                                         :items="states"
@@ -203,7 +203,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm4>
                                                                     <v-text-field
                                                                         v-model="form.zip"
-                                                                        label="Zip/Postal Code"
+                                                                        label="Zip/Postal Code *"
                                                                         name="zip"
                                                                         id="zip"
                                                                         ref="zip"
@@ -218,7 +218,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-select
                                                                         v-model="form.country"
                                                                         ref="country"
-                                                                        label="Country"
+                                                                        label="Country *"
                                                                         name="country"
                                                                         id="country"
                                                                         :items="countries"
@@ -236,7 +236,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.phone"
-                                                                        label="Phone"
+                                                                        label="Phone *"
                                                                         name="phone"
                                                                         id="phone"
                                                                         ref="phone"
@@ -262,7 +262,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.email"
-                                                                        label="Email"
+                                                                        label="Email *"
                                                                         name="email"
                                                                         id="email"
                                                                         ref="email"
@@ -274,7 +274,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.email_confirm"
-                                                                        label="Confirm Email"
+                                                                        label="Confirm Email *"
                                                                         name="email_confirm"
                                                                         id="email_confirm"
                                                                         :error-messages="emailConfirmErrors()"
@@ -303,7 +303,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.name"
-                                                                        label="Cardholder Name"
+                                                                        label="Cardholder Name *"
                                                                         name="card_name"
                                                                         id="card_name"
                                                                         ref="card_name"
@@ -318,7 +318,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.card_number"
-                                                                        label="Card Number"
+                                                                        label="Card Number *"
                                                                         name="'card_number'"
                                                                         id="'card_number'"
                                                                         ref="card_number"
@@ -343,7 +343,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                           v-model="form.card_expiration"
                                                                           slot="activator"
                                                                           name="card_expiration"
-                                                                          label="Expires"
+                                                                          label="Expires *"
                                                                           hint="mm-yyyy"
                                                                           :error-messages="cardExpirationErrors()"
                                                                           @input="delayTouch($v.form.card_expiration)"
@@ -366,7 +366,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm2>
                                                                     <v-text-field
                                                                         v-model="form.card_cvv"
-                                                                        label="CVV"
+                                                                        label="CVV *"
                                                                         name="'card_cvv'"
                                                                         id="'card_cvv'"
                                                                         ref="card_cvv"

@@ -28,7 +28,7 @@
                 <v-select
                     v-model="value.country"
                     ref="country"
-                    label="Country of Residence"
+                    label="Country of Residence *"
                     :name="'country' + indexId"
                     :id="'country' + indexId"
                     :items="countries"
@@ -46,7 +46,7 @@
                 <v-select
                     v-model="value.state"
                     ref="state"
-                    label="State of Residence"
+                    label="State of Residence *"
                     :name="'state' + indexId"
                     :id="'state' + indexId"
                     :items="states"
