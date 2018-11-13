@@ -63,7 +63,7 @@ $category = get_the_category();
                 </v-card-text>
 
                 <v-card-actions>
-                    <action-button label="More Information" :id="<?php echo $currentID ?>" url="<?php echo $packageItinerary ?>" color="success" target="_blank" large block></action-button>
+                    <v-btn href="<?php echo $packageItinerary ?>" color="success" target="_blank" large block>More Information...</v-btn>
                     <action-button label="Start Booking Now!" :id="<?php echo $currentID ?>" url="<?php echo get_post_permalink($currentID) ?>" color="primary" large block></action-button>
                 </v-card-actions>
             </v-card>
