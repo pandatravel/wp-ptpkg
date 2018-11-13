@@ -95,6 +95,7 @@ class Controller
         $metafields .= $this->metabox_textarea_field('teaser', get_post_meta($post->ID, 'package-teaser', true));
         $metafields .= $this->metabox_input_field('price', get_post_meta($post->ID, 'package-price', true));
         $metafields .= $this->metabox_input_field('location', get_post_meta($post->ID, 'package-location', true));
+        $metafields .= $this->metabox_input_field('itinerary-link', get_post_meta($post->ID, 'package-itinerary-link', true));
         $metafields .= $this->metabox_input_field('booking-link', get_post_meta($post->ID, 'package-booking-link', true));
         $metafields .= '</div>';
 
@@ -189,6 +190,9 @@ class Controller
         if (isset($_REQUEST['location'])) {
             update_post_meta($post_id, "package-location", sanitize_text_field($_POST["location"]));
         }
+        if (isset($_REQUEST['itinerary-link'])) {
+            update_post_meta($post_id, "package-itinerary-link", sanitize_text_field($_POST["itinerary-link"]));
+        }
         if (isset($_REQUEST['booking-link'])) {
             update_post_meta($post_id, "package-booking-link", sanitize_text_field($_POST["booking-link"]));
         }
@@ -227,6 +231,7 @@ class Controller
         register_rest_field('package', 'package-teaser', $register_rest_field_args);
         register_rest_field('package', 'package-price', $register_rest_field_args);
         register_rest_field('package', 'package-location', $register_rest_field_args);
+        register_rest_field('package', 'package-itinerary-link', $register_rest_field_args);
         register_rest_field('package', 'package-booking-link', $register_rest_field_args);
         register_rest_field('package', 'package-seo-ad', $register_rest_field_args);
         register_rest_field('package', 'package-seo-content', $register_rest_field_args);

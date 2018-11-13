@@ -18,6 +18,7 @@ $packageBannerUrl = wp_get_attachment_image_url(get_post_meta($currentID, 'packa
 $packageTeaser = get_post_meta($currentID, 'package-teaser', true);
 $packagePrice = get_post_meta($currentID, 'package-price', true);
 $packageLocation = get_post_meta($currentID, 'package-location', true);
+$packageItinerary = get_post_meta($currentID, 'package-itinerary-link', true);
 $packageSEOAd = get_post_meta($currentID, 'package-seo-ad', true);
 $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
@@ -62,6 +63,7 @@ $category = get_the_category();
                 </v-card-text>
 
                 <v-card-actions>
+                    <action-button label="More Information" :id="<?php echo $currentID ?>" url="<?php echo $packageItinerary ?>" color="success" target="_blank" large block></action-button>
                     <action-button label="Start Booking Now!" :id="<?php echo $currentID ?>" url="<?php echo get_post_permalink($currentID) ?>" color="primary" large block></action-button>
                 </v-card-actions>
             </v-card>
