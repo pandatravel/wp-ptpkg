@@ -85,7 +85,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                                     <v-layout row>
                                                         <v-flex xs12>
-                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" small flat color="info"><v-icon>add</v-icon> Add Room</v-btn>
+                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" color="info"><v-icon>add</v-icon> Add Room</v-btn>
                                                             <span class="grey--text lighten-1"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
                                                         </v-flex>
                                                     </v-layout>
