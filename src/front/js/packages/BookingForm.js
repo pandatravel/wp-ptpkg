@@ -529,6 +529,30 @@ Vue.component('booking-form', {
         getRoomCount(roomIndex) {
             return this.form.rooms[roomIndex].travelers.length;
         },
+        occupancy_rate(count) {
+            let rate = this.package.rates.filter(rate => rate.adult == count && rate.child == 0)
+            let perPerson = rate[0].price / count
+
+            return perPerson
+        },
+        occupancy_count(count) {
+            switch (count) {
+                case 1:
+                    return 'Single'
+                    break;
+                case 2:
+                    return 'Double'
+                    break;
+                case 3:
+                    return 'Triple'
+                    break;
+                case 4:
+                    return 'Quad'
+                    break;
+                default:
+                    return count
+            }
+        },
         nextStep(step) {
             this.$v.$touch()
             if (! this.$v.$invalid) {

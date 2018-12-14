@@ -45,6 +45,22 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-alert v-if="form.discount" color="info" icon="info" :value="true">
                                                     <strong>{{ package.discount.name }}</strong> - {{ package.discount.description }}
                                                 </v-alert>
+                                                <v-layout justify-start>
+                                                    <v-card class="occupancy-rates" flat>
+                                                        <v-card-text>
+                                                            <v-layout>
+                                                                <v-flex class="occupancy-rates-label" sm6 justify-center pr-4>
+                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">Occupancy</div>
+                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
+                                                                </v-flex>
+                                                                <v-flex sm6 justify-center pl-4>
+                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">Per Person</div>
+                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
+                                                                </v-flex>
+                                                            </v-layout>
+                                                        </v-card-text>
+                                                    </v-card>
+                                                </v-layout>
                                             </v-card-text>
                                         </v-flex>
                                         <v-flex md6 sm12>
@@ -81,12 +97,12 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                                     <h2 class="headline primary--text text-uppercase">Build your Tour Package</h2>
                                                     <p class="mx-3">Add all the travelers in your party</p>
-                                                    <p class="grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</p>
 
                                                     <v-layout row>
-                                                        <v-flex xs12>
+                                                        <v-flex xs12 d-flex justify-space-between align-center>
                                                             <v-btn @click="addRoom" :disabled="roomsAvailable === 0" color="info"><v-icon>add</v-icon> Add Room</v-btn>
-                                                            <span class="grey--text lighten-1"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
+                                                            <span class="blue-grey--text"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
+                                                            <span class="blue-grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</span>
                                                         </v-flex>
                                                     </v-layout>
 

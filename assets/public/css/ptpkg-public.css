@@ -17,6 +17,10 @@
   font-weight: 300;
 }
 
+.occupancy-rates .occupancy-rates-label {
+  border-right: 1px solid #15a0f5 !important;
+}
+
 [v-cloak] > * {
   display: none;
 }
