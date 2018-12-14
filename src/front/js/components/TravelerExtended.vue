@@ -9,7 +9,7 @@
                     v-model="value.ffp"
                     :value="value.ffp"
                     ref="ffp"
-                    label="Frequent Flyer Number"
+                    label="Frequent Flyer #"
                     :name="'ffp' + indexId"
                     :id="'ffp' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
