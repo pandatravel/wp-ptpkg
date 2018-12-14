@@ -68259,8 +68259,10 @@ window.Form = __WEBPACK_IMPORTED_MODULE_4__utilities_Form__["a" /* default */];
 window.Event = __WEBPACK_IMPORTED_MODULE_5__utilities_EventBus__["a" /* default */];
 window.store = __WEBPACK_IMPORTED_MODULE_6__utilities_Store__["a" /* default */];
 
+var tld =  true ? 'test' : 'com';
+
 var api = {
-    url: 'https://www.pandaonline.com/wp-json/',
+    url: 'https://www.pandaonline.' + tld + '/wp-json/',
     namespace: 'ptpkg/v1/'
 };
 
