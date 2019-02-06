@@ -1164,6 +1164,15 @@ dd {
   }
 }
 
+@media (min-width: 1200px) {
+  #masthead .container {
+    width: 1140px;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
 #page-body .page-content {
   background-color: #508cfa;
 }
