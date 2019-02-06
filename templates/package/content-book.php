@@ -214,6 +214,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                         @blur="$v.form.state.$touch()"
                                                                         dense
                                                                         autocomplete
+                                                                        browser-autocomplete="new-password"
                                                                         required></v-select>
                                                                 </v-flex>
                                                                 <v-flex sm4>
@@ -245,6 +246,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                         @blur="$v.form.country.$touch()"
                                                                         dense
                                                                         autocomplete
+                                                                        browser-autocomplete="new-password"
                                                                         required></v-select>
                                                                 </v-flex>
                                                             </v-layout>
@@ -429,7 +431,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-layout v-if="package.allow_deposit" row wrap>
                                                                     <v-flex class="info--text" sm12>
                                                                         <v-alert color="info" :value="true" class="mx-3" outline>
-                                                                            <v-switch label="Reserve with a Deposit" v-model="isDeposit" color="info"></v-switch>
+                                                                            <v-checkbox label="Reserve with a Deposit" v-model="isDeposit" color="info"></v-checkbox>
                                                                             You can reserve this tour by making a deposit of {{ deposit | currency }} in total. The balance is due <strong>{{ balanceDuePeriod }}</strong> day(s) prior to your departure date. Deposits are non-refundable.
                                                                         </v-alert>
                                                                     </v-flex>

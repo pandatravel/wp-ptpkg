@@ -40,6 +40,7 @@
                     @traveler="updateTraveler()"
                     dense
                     autocomplete
+                    browser-autocomplete="new-password"
                     required></v-select>
             </v-flex>
             <v-flex sm3 xs12>
@@ -58,6 +59,7 @@
                     @traveler="updateTraveler()"
                     dense
                     autocomplete
+                    browser-autocomplete="new-password"
                     required></v-select>
             </v-flex>
             <v-flex sm2 xs12>
