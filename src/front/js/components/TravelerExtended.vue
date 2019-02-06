@@ -9,7 +9,7 @@
                     v-model="value.ffp"
                     :value="value.ffp"
                     ref="ffp"
-                    label="Frequent Flyer Number"
+                    label="Frequent Flyer #"
                     :name="'ffp' + indexId"
                     :id="'ffp' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
@@ -28,7 +28,7 @@
                 <v-select
                     v-model="value.country"
                     ref="country"
-                    label="Country of Residence"
+                    label="Country of Residence *"
                     :name="'country' + indexId"
                     :id="'country' + indexId"
                     :items="countries"
@@ -40,13 +40,14 @@
                     @traveler="updateTraveler()"
                     dense
                     autocomplete
+                    browser-autocomplete="new-password"
                     required></v-select>
             </v-flex>
             <v-flex sm3 xs12>
                 <v-select
                     v-model="value.state"
                     ref="state"
-                    label="State of Residence"
+                    label="State of Residence *"
                     :name="'state' + indexId"
                     :id="'state' + indexId"
                     :items="states"
@@ -58,6 +59,7 @@
                     @traveler="updateTraveler()"
                     dense
                     autocomplete
+                    browser-autocomplete="new-password"
                     required></v-select>
             </v-flex>
             <v-flex sm2 xs12>

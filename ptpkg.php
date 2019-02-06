@@ -16,7 +16,7 @@
  * Plugin Name:       PT Packages
  * Plugin URI:        https://github.com/pandatravel/wp-ptpkg
  * Description:       This plugin connects to panda's tour packages api
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            Ammon Casey
  * Author URI:        https://github.com/ammonkc
  * License:           UNLICENSED
@@ -37,10 +37,10 @@ if (! defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('PTPKG_VERSION', '1.0.1');
+define('PTPKG_VERSION', '1.0.2');
 define('PTPKG_TEXTDOMAIN', 'ptpkg');
 define('PTPKG_NAME', 'ptpkg');
-define('PTPKG_URL', 'https://ptpkg.com');
+define('PTPKG_URL', (WP_DEBUG ? 'https://ptpkg.test' : 'https://ptpkg.com'));
 define('PTPKG_PLUGIN_ROOT', plugin_dir_path(__FILE__));
 define('PTPKG_BASE_DIR', plugin_dir_path(__FILE__));
 define('PTPKG_TPL_DIR', PTPKG_BASE_DIR . 'templates/');

@@ -45,6 +45,22 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-alert v-if="form.discount" color="info" icon="info" :value="true">
                                                     <strong>{{ package.discount.name }}</strong> - {{ package.discount.description }}
                                                 </v-alert>
+                                                <v-layout justify-start>
+                                                    <v-card class="occupancy-rates" flat>
+                                                        <v-card-text>
+                                                            <v-layout>
+                                                                <v-flex class="occupancy-rates-label" sm6 justify-center pr-4>
+                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">Occupancy</div>
+                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
+                                                                </v-flex>
+                                                                <v-flex sm6 justify-center pl-4>
+                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">Per Person</div>
+                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
+                                                                </v-flex>
+                                                            </v-layout>
+                                                        </v-card-text>
+                                                    </v-card>
+                                                </v-layout>
                                             </v-card-text>
                                         </v-flex>
                                         <v-flex md6 sm12>
@@ -81,12 +97,12 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                                     <h2 class="headline primary--text text-uppercase">Build your Tour Package</h2>
                                                     <p class="mx-3">Add all the travelers in your party</p>
-                                                    <p class="grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</p>
 
                                                     <v-layout row>
-                                                        <v-flex xs12>
-                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" small flat color="info"><v-icon>add</v-icon> Add Room</v-btn>
-                                                            <span class="grey--text lighten-1"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
+                                                        <v-flex xs12 d-flex justify-space-between align-center>
+                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" color="info"><v-icon>add</v-icon> Add Room</v-btn>
+                                                            <span class="blue-grey--text"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
+                                                            <span class="blue-grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</span>
                                                         </v-flex>
                                                     </v-layout>
 
@@ -152,7 +168,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.address"
-                                                                        label="Address"
+                                                                        label="Address *"
                                                                         :name="'address'"
                                                                         :id="'address'"
                                                                         ref="address"
@@ -174,7 +190,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm4>
                                                                     <v-text-field
                                                                         v-model="form.city"
-                                                                        label="City"
+                                                                        label="City *"
                                                                         :name="'city'"
                                                                         :id="'city'"
                                                                         ref="city"
@@ -187,7 +203,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-select
                                                                         v-model="form.state"
                                                                         ref="state"
-                                                                        label="State/Province"
+                                                                        label="State/Province *"
                                                                         name="state"
                                                                         id="state"
                                                                         :items="states"
@@ -198,12 +214,13 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                         @blur="$v.form.state.$touch()"
                                                                         dense
                                                                         autocomplete
+                                                                        browser-autocomplete="new-password"
                                                                         required></v-select>
                                                                 </v-flex>
                                                                 <v-flex sm4>
                                                                     <v-text-field
                                                                         v-model="form.zip"
-                                                                        label="Zip/Postal Code"
+                                                                        label="Zip/Postal Code *"
                                                                         name="zip"
                                                                         id="zip"
                                                                         ref="zip"
@@ -218,7 +235,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <v-select
                                                                         v-model="form.country"
                                                                         ref="country"
-                                                                        label="Country"
+                                                                        label="Country *"
                                                                         name="country"
                                                                         id="country"
                                                                         :items="countries"
@@ -229,6 +246,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                         @blur="$v.form.country.$touch()"
                                                                         dense
                                                                         autocomplete
+                                                                        browser-autocomplete="new-password"
                                                                         required></v-select>
                                                                 </v-flex>
                                                             </v-layout>
@@ -236,7 +254,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.phone"
-                                                                        label="Phone"
+                                                                        label="Phone *"
                                                                         name="phone"
                                                                         id="phone"
                                                                         ref="phone"
@@ -262,7 +280,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.email"
-                                                                        label="Email"
+                                                                        label="Email *"
                                                                         name="email"
                                                                         id="email"
                                                                         ref="email"
@@ -274,7 +292,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.email_confirm"
-                                                                        label="Confirm Email"
+                                                                        label="Confirm Email *"
                                                                         name="email_confirm"
                                                                         id="email_confirm"
                                                                         :error-messages="emailConfirmErrors()"
@@ -303,7 +321,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.name"
-                                                                        label="Cardholder Name"
+                                                                        label="Cardholder Name *"
                                                                         name="card_name"
                                                                         id="card_name"
                                                                         ref="card_name"
@@ -318,7 +336,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm6>
                                                                     <v-text-field
                                                                         v-model="form.card_number"
-                                                                        label="Card Number"
+                                                                        label="Card Number *"
                                                                         name="'card_number'"
                                                                         id="'card_number'"
                                                                         ref="card_number"
@@ -343,7 +361,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                           v-model="form.card_expiration"
                                                                           slot="activator"
                                                                           name="card_expiration"
-                                                                          label="Expires"
+                                                                          label="Expires *"
                                                                           hint="mm-yyyy"
                                                                           :error-messages="cardExpirationErrors()"
                                                                           @input="delayTouch($v.form.card_expiration)"
@@ -366,7 +384,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-flex sm2>
                                                                     <v-text-field
                                                                         v-model="form.card_cvv"
-                                                                        label="CVV"
+                                                                        label="CVV *"
                                                                         name="'card_cvv'"
                                                                         id="'card_cvv'"
                                                                         ref="card_cvv"
@@ -413,7 +431,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 <v-layout v-if="package.allow_deposit" row wrap>
                                                                     <v-flex class="info--text" sm12>
                                                                         <v-alert color="info" :value="true" class="mx-3" outline>
-                                                                            <v-switch label="Reserve with a Deposit" v-model="isDeposit" color="info"></v-switch>
+                                                                            <v-checkbox label="Reserve with a Deposit" v-model="isDeposit" color="info"></v-checkbox>
                                                                             You can reserve this tour by making a deposit of {{ deposit | currency }} in total. The balance is due <strong>{{ balanceDuePeriod }}</strong> day(s) prior to your departure date. Deposits are non-refundable.
                                                                         </v-alert>
                                                                     </v-flex>

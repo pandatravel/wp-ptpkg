@@ -287,7 +287,7 @@ Vue.component('booking-form', {
             }
             this.room_max = this.package.room_max
 
-            this.addRoom()
+            this.addRoom(null, 2)
         } else {
             this.bookable = false
             store.setStatus(window._ptpkgAPIDataPreload.error)
@@ -478,13 +478,15 @@ Vue.component('booking-form', {
             this.$v.$reset()
             this.form.reset()
         },
-        addRoom() {
+        addRoom(event, travelerCount = 1) {
             if (this.roomsAvailable === 0) {
                 this.$notify({ group: 'package', type: 'warn', title: 'Tour Is Full!', text: 'All rooms on this tour are full.'});
                 return false
             }
             var newRoom = this.form.rooms.push({travelers:[], rate:[], premium:''}) -1;
-            this.addAdult(newRoom);
+            for(let i = 0, length1 = travelerCount; i < length1; i++){
+                this.addAdult(newRoom);
+            }
         },
         updateRoom(room) {
             this.form.rooms[room.index].rate = room.rate
@@ -526,6 +528,30 @@ Vue.component('booking-form', {
         },
         getRoomCount(roomIndex) {
             return this.form.rooms[roomIndex].travelers.length;
+        },
+        occupancy_rate(count) {
+            let rate = this.package.rates.filter(rate => rate.adult == count && rate.child == 0)
+            let perPerson = rate[0].price / count
+
+            return perPerson
+        },
+        occupancy_count(count) {
+            switch (count) {
+                case 1:
+                    return 'Single'
+                    break;
+                case 2:
+                    return 'Double'
+                    break;
+                case 3:
+                    return 'Triple'
+                    break;
+                case 4:
+                    return 'Quad'
+                    break;
+                default:
+                    return count
+            }
         },
         nextStep(step) {
             this.$v.$touch()

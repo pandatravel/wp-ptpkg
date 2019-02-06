@@ -14,8 +14,10 @@ window.Form = Form;
 window.Event = Event;
 window.store = store;
 
+let tld = (process.env.NODE_ENV === 'development' ? 'test' : 'com');
+
 let api = {
-    url: 'https://www.pandaonline.com/wp-json/',
+    url: 'https://www.pandaonline.' + tld + '/wp-json/',
     namespace: 'ptpkg/v1/',
 }
 
