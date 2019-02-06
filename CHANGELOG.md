@@ -1,3 +1,5 @@
+## 1.0.2
+- Bug Fixes
 ## 1.0.0
 - Production release
 ## 0.2.5
