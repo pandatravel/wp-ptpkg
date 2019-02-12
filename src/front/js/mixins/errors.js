@@ -115,23 +115,23 @@ export default {
         },
         cardNumberErrors () {
             const errors = []
-            if (!this.$v.form.card_number.$dirty) return errors
-            !this.$v.form.card_number.required && errors.push('Card Number is required.')
-            !this.$v.form.card_number.creditCard && errors.push('Credit Card Number is invalid.')
+            if (!this.$v.secureData.cardData.cardNumber.$dirty) return errors
+            !this.$v.secureData.cardData.cardNumber.required && errors.push('Card Number is required.')
+            !this.$v.secureData.cardData.cardNumber.creditCard && errors.push('Credit Card Number is invalid.')
             return errors
         },
         cardExpirationErrors () {
             const errors = []
-            if (!this.$v.form.card_expiration.$dirty) return errors
-            !this.$v.form.card_expiration.required && errors.push('Card Expiration is required.')
-            !this.$v.form.card_expiration.creditCardExpiration && errors.push('Card Expiration is invalid.')
+            if (!this.$v.secureData.cardData.cardExpiration.$dirty) return errors
+            !this.$v.secureData.cardData.cardExpiration.required && errors.push('Card Expiration is required.')
+            !this.$v.secureData.cardData.cardExpiration.creditCardExpiration && errors.push('Card Expiration is invalid.')
             return errors
         },
         cardCvvErrors () {
             const errors = []
-            if (!this.$v.form.card_cvv.$dirty) return errors
-            !this.$v.form.card_cvv.required && errors.push('Card CVV is required.')
-            !this.$v.form.card_cvv.creditCardCvv && errors.push('Card CVV is invalid.')
+            if (!this.$v.secureData.cardData.cardCode.$dirty) return errors
+            !this.$v.secureData.cardData.cardCode.required && errors.push('Card CVV is required.')
+            !this.$v.secureData.cardData.cardCode.creditCardCvv && errors.push('Card CVV is invalid.')
             return errors
         },
     }

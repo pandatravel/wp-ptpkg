@@ -5,6 +5,7 @@ import { required, minLength, maxLength, email, sameAs, between } from 'vuelidat
 import { ageRange, creditCard, creditCardExpiration, creditCardCvv } from '../validators'
 import errors from '../mixins/errors'
 import form from '../mixins/form'
+import payment from '../mixins/payment'
 import countries from '../mixins/countries'
 import states from '../mixins/states'
 import creditCards from '../mixins/creditCards'
@@ -28,6 +29,7 @@ Vue.component('booking-form', {
         validationMixin,
         errors,
         form,
+        payment,
         countries,
         states,
         creditCards,
@@ -67,9 +69,6 @@ Vue.component('booking-form', {
                 balance: '',
                 amount: '',
                 name: '',
-                card_number: '',
-                card_expiration: '',
-                card_cvv: '',
                 address: '',
                 address2: '',
                 city: '',
@@ -91,6 +90,8 @@ Vue.component('booking-form', {
                 method: '',
                 code: '',
                 description: '',
+
+                opaqueData: '',
 
             }),
 
@@ -182,18 +183,6 @@ Vue.component('booking-form', {
                             sameAs: sameAs('email'),
                         },
                         name: {required},
-                        card_number: {
-                            required,
-                            creditCard,
-                        },
-                        card_expiration: {
-                            required,
-                            creditCardExpiration,
-                        },
-                        card_cvv: {
-                            required,
-                            creditCardCvv,
-                        },
                         agree_terms: {required},
                         rooms: {
                             required,
@@ -213,6 +202,22 @@ Vue.component('booking-form', {
                                     }
                                 }
                             }
+                        }
+                    },
+                    secureData: {
+                        cardData: {
+                            cardNumber: {
+                                required,
+                                creditCard,
+                            },
+                            cardExpiration: {
+                                required,
+                                creditCardExpiration,
+                            },
+                            cardCode: {
+                                required,
+                                creditCardCvv,
+                            },
                         }
                     }
                 }
@@ -237,18 +242,6 @@ Vue.component('booking-form', {
                             sameAs: sameAs('email'),
                         },
                         name: {required},
-                        card_number: {
-                            required,
-                            creditCard,
-                        },
-                        card_expiration: {
-                            required,
-                            creditCardExpiration,
-                        },
-                        card_cvv: {
-                            required,
-                            creditCardCvv,
-                        },
                         agree_terms: {required},
                         rooms: {
                             required,
@@ -450,17 +443,25 @@ Vue.component('booking-form', {
             } else {
                 this.submiting = true
 
-                this.form.post(this.endpoint)
+                this.form.authnet(this.secureData)
                          .then(response => {
-                            this.submiting = false
-                            this.success = true
-                            this.order = response.data
+                            this.form.post(this.endpoint)
+                                     .then(response => {
+                                        this.submiting = false
+                                        this.success = true
+                                        this.order = response.data
+                                     })
+                                     .catch(errors => {
+                                        this.submiting = false
+                                        this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors});
+                                    });
                          })
-                         .catch(errors => {
-                            this.submiting = false
-                            this.$notify({ group: 'package', type: 'error', title: 'Error!', text: 'There was a problem submiting your order.', data: errors});
-                        });
+                         .catch(errors => this.onFail(errors))
             }
+        },
+        onFail(response) {
+            this.submiting = false;
+            this.$notify({type: 'error', title: 'Error!', text: response.message, duration: -3000, data: response.errors});
         },
         getStatus() {
             this.loading = true

@@ -335,15 +335,15 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                             <v-layout row wrap>
                                                                 <v-flex sm6>
                                                                     <v-text-field
-                                                                        v-model="form.card_number"
+                                                                        v-model="secureData.cardData.cardNumber"
                                                                         label="Card Number *"
                                                                         name="'card_number'"
                                                                         id="'card_number'"
                                                                         ref="card_number"
                                                                         mask="credit-card"
                                                                         :error-messages="cardNumberErrors()"
-                                                                        @input="delayTouch($v.form.card_number)"
-                                                                        @blur="delayTouch($v.form.card_number)"
+                                                                        @input="delayTouch($v.secureData.cardData.cardNumber)"
+                                                                        @blur="delayTouch($v.secureData.cardData.cardNumber)"
                                                                         required></v-text-field>
                                                                 </v-flex>
                                                                 <v-flex sm3>
@@ -358,19 +358,19 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                         :nudge-right="40"
                                                                         min-width="290px">
                                                                         <v-text-field
-                                                                          v-model="form.card_expiration"
+                                                                          v-model="secureData.cardData.cardExpiration"
                                                                           slot="activator"
                                                                           name="card_expiration"
                                                                           label="Expires *"
                                                                           hint="mm-yyyy"
                                                                           :error-messages="cardExpirationErrors()"
-                                                                          @input="delayTouch($v.form.card_expiration)"
-                                                                          @blur="delayTouch($v.form.card_expiration)"
+                                                                          @input="delayTouch($v.secureData.cardData.cardExpiration)"
+                                                                          @blur="delayTouch($v.secureData.cardData.cardExpiration)"
                                                                           readonly
                                                                           required></v-text-field>
                                                                         <v-date-picker
                                                                           type="month"
-                                                                          v-model="form.card_expiration"
+                                                                          v-model="secureData.cardData.cardExpiration"
                                                                           ref="exp_picker"
                                                                           @change="exp_save"
                                                                           :min="exp_min"
@@ -383,14 +383,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                 </v-flex>
                                                                 <v-flex sm2>
                                                                     <v-text-field
-                                                                        v-model="form.card_cvv"
+                                                                        v-model="secureData.cardData.cardCode"
                                                                         label="CVV *"
                                                                         name="'card_cvv'"
                                                                         id="'card_cvv'"
                                                                         ref="card_cvv"
                                                                         :error-messages="cardCvvErrors()"
-                                                                        @input="delayTouch($v.form.card_cvv)"
-                                                                        @blur="delayTouch($v.form.card_cvv)"
+                                                                        @input="delayTouch($v.secureData.cardData.cardCode)"
+                                                                        @blur="delayTouch($v.secureData.cardData.cardCode)"
                                                                         required></v-text-field>
                                                                 </v-flex>
                                                             </v-layout>
@@ -476,11 +476,12 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                                     <div v-for="(room, roomIndex) in form.rooms">
                                                                     <div v-for="(traveler, travelerIndex) in room.travelers">
                                                                     <v-list-tile>
+                                                                        <v-list-tile-action>
+                                                                            <v-checkbox v-model="traveler.insurance"></v-checkbox>
+                                                                        </v-list-tile-action>
                                                                         <v-list-tile-content>
                                                                             <v-list-tile-title>
-                                                                                <v-checkbox
-                                                                                    v-model="traveler.insurance"
-                                                                                    :label="traveler.last_name + ', ' + traveler.first_name + ' ' + traveler.middle_name"></v-checkbox>
+                                                                                {{ traveler.last_name }}, {{  traveler.first_name }}  {{ traveler.middle_name }}
                                                                             </v-list-tile-title>
                                                                         </v-list-tile-content>
                                                                     </v-list-tile>
@@ -582,7 +583,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                     <v-layout row wrap>
                                                         <v-flex sm12>
                                                             <!-- order-info component -->
-                                                            <order-info :order="form"></order-info>
+                                                            <order-info :order="form" :card-data="secureData.cardData"></order-info>
 
                                                         </v-flex>
                                                     </v-layout>
@@ -741,7 +742,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                         <p>
                                                             <v-chip>
                                                                 <font-awesome-icon :icon="[cardIcon.fa, cardIcon.card]" size="2x"></font-awesome-icon> &nbsp;
-                                                                 {{ form.card_number | creditCardMask }}
+                                                                 {{ secureData.cardData.cardNumber | creditCardMask }}
                                                             </v-chip>
                                                         </p>
                                                     </v-flex>

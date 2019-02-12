@@ -29,7 +29,7 @@
                     <p>
                         <v-chip>
                             <font-awesome-icon :icon="[cardIcon.fa, cardIcon.card]" size="2x"></font-awesome-icon> &nbsp;
-                             {{ order.card_number | creditCardMask }}
+                             {{ cardData.cardNumber | creditCardMask }}
                         </v-chip>
                     </p>
                 </v-flex>
@@ -61,7 +61,10 @@ library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDiner
         FontAwesomeIcon
     },
 
-    props: ['order'],
+    props: [
+        'order',
+        'cardData',
+    ],
 
     data() {
       return {
@@ -71,7 +74,7 @@ library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDiner
 
     computed: {
         cardIcon() {
-            let number = valid.number(this.order.card_number)
+            let number = valid.number(this.cardData.cardNumber)
             if (number.card) {
                 let type = number.card.type
                 let card = this.creditCards.filter(function(item) {
@@ -85,7 +88,7 @@ library.add(faCcAmex, faCcVisa, faCcMastercard, faCcDiscover, faCcJcb, faCcDiner
             return {'card':'credit-card', 'fa': 'fas'}
         },
         cardNiceType() {
-            let number = valid.number(this.order.card_number)
+            let number = valid.number(this.cardData.cardNumber)
             if (number.card) {
                 return number.card.niceType
             }
