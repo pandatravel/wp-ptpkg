@@ -392,7 +392,7 @@ Vue.component('booking-form', {
             return message
         },
         cardIcon() {
-            let number = valid.number(this.form.card_number)
+            let number = valid.number(this.secureData.cardData.cardNumber)
             if (number.card) {
                 let type = number.card.type
                 let card = this.creditCards.filter(function(item) {
@@ -406,7 +406,7 @@ Vue.component('booking-form', {
             return {'card':'credit-card', 'fa': 'fas'}
         },
         cardNiceType() {
-            let number = valid.number(this.form.card_number)
+            let number = valid.number(this.secureData.cardData.cardNumber)
             if (number.card) {
                 return number.card.niceType
             }
