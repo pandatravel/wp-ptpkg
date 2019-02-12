@@ -132,6 +132,17 @@ class BookingForm
     }
 
     /**
+     * Add the authnet public authData
+     */
+    public function add_authnet_key()
+    {
+        if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
+            echo '<meta name="apiLoginID" content="' . $token = get_option(PTPKG_NAME . '_apiLoginID') . '">';
+            echo '<meta name="clientKey" content="' . $token = get_option(PTPKG_NAME . '_clientKey') . '">';
+        }
+    }
+
+    /**
      * Api post a new package request to store
      *
      * @param $request
