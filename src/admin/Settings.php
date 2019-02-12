@@ -116,10 +116,10 @@ class Settings
          */
         $settings_page = add_submenu_page(
             'edit.php?post_type=package',
-            __('PT Packages Settings', $this->plugin_name),
-            __('API Settings', $this->plugin_name),
+            __('API Credentials', $this->plugin_name),
+            __('Settings', $this->plugin_name),
             'manage_options',
-            $this->plugin_name,
+            $this->plugin_name . '-settings',
             [$this, 'display_settings_page']
         );
     }
@@ -162,6 +162,8 @@ class Settings
         register_setting($this->plugin_name, $this->option_name . '_client_secret', [$this, 'validate']);
         register_setting($this->plugin_name, $this->option_name . '_token', [$this, 'validate']);
         register_setting($this->plugin_name, $this->option_name . '_auth_state');
+        register_setting($this->plugin_name . '_authnet_settings', $this->option_name . '_apiLoginID', [$this, 'validate']);
+        register_setting($this->plugin_name . '_authnet_settings', $this->option_name . '_clientKey', [$this, 'validate']);
 
         if (empty(get_option($this->option_name . '_token'))) {
             update_option($this->plugin_name . '_auth_state', false, true);
@@ -172,7 +174,15 @@ class Settings
             $this->option_name . '_api_settings',
             __('PTPkg Api Authentication', $this->plugin_name),
             [$this, $this->option_name . '_api_settings_cb'],
-            $this->plugin_name
+            $this->plugin_name . '-settings'
+        );
+
+        // add_settings_section( $id, $title, $callback, $menu_slug );
+        add_settings_section(
+            $this->option_name . '_authnet_settings',
+            __('PTPkg Authnet Authentication', $this->plugin_name),
+            [$this, $this->option_name . '_authnet_settings_cb'],
+            $this->plugin_name . '-settings'
         );
 
         // add_settings_field( $id, $title, $callback, $menu_slug, $section, $args );
@@ -180,7 +190,7 @@ class Settings
             $this->option_name . '_client_id',
             __('Api Client ID', $this->plugin_name),
             [$this, $this->option_name . '_client_id_render'],
-            $this->plugin_name,
+            $this->plugin_name . '-settings',
             $this->option_name . '_api_settings',
             [
                 'label_for' => $this->option_name . '_client_id',
@@ -193,7 +203,7 @@ class Settings
             $this->option_name . '_client_secret',
             __('Api Client Secret', $this->plugin_name),
             [$this, $this->option_name . '_client_secret_render'],
-            $this->plugin_name,
+            $this->plugin_name . '-settings',
             $this->option_name . '_api_settings',
             ['label_for' => $this->option_name . '_client_secret']
         );
@@ -203,9 +213,32 @@ class Settings
             $this->option_name . '_token',
             __('Api Token', $this->plugin_name),
             [$this, $this->option_name . '_token_render'],
-            $this->plugin_name,
+            $this->plugin_name . '-settings',
             $this->option_name . '_api_settings',
             ['label_for' => $this->option_name . '_token']
+        );
+
+        // add_settings_field( $id, $title, $callback, $menu_slug, $section, $args );
+        add_settings_field(
+            $this->option_name . '_apiLoginID',
+            __('Api Login ID', $this->plugin_name),
+            [$this, $this->option_name . '_apiLoginID_render'],
+            $this->plugin_name . '-settings',
+            $this->option_name . '_authnet_settings',
+            [
+                'label_for' => $this->option_name . '_apiLoginID',
+                'class' => 'form-control',
+            ]
+        );
+
+        // add_settings_field( $id, $title, $callback, $menu_slug, $section, $args );
+        add_settings_field(
+            $this->option_name . '_clientKey',
+            __('Client Key', $this->plugin_name),
+            [$this, $this->option_name . '_clientKey_render'],
+            $this->plugin_name . '-settings',
+            $this->option_name . '_authnet_settings',
+            ['label_for' => $this->option_name . '_clientKey']
         );
     }
 
@@ -218,6 +251,17 @@ class Settings
     public function ptpkg_api_settings_cb()
     {
         echo '<p>' . __('Please enter your api credentials from <a href="' . PTPKG_URL . '/settings/tokens">ptpgk.com</a>', 'ptpkg') . '</p>';
+    }
+
+    /**
+     * Render the general section
+     *
+     * @since  1.0.0
+     * @access   public
+     */
+    public function ptpkg_authnet_settings_cb()
+    {
+        echo '<p>' . __('Please enter your authnet credentials</p>');
     }
 
     /**
@@ -291,6 +335,52 @@ class Settings
     }
 
     /**
+     * Render the text input field for client_id option
+     *
+     * @since  1.0.0
+     * @access   public
+     */
+    public function ptpkg_apiLoginID_render()
+    {
+        $field = $this->option_name . '_apiLoginID';
+        $placeholders = [
+            'id'    => $field,
+            'name'  => $field,
+            'type'  => 'text',
+            'class' => 'form-control regular-text',
+            'value' => get_option($field),
+        ];
+
+        $template = new ExopiteTemplate;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
+        echo $template::get_template();
+    }
+
+    /**
+     * Render the text input field for client_id option
+     *
+     * @since  1.0.0
+     * @access   public
+     */
+    public function ptpkg_clientKey_render()
+    {
+        $field = $this->option_name . '_clientKey';
+        $placeholders = [
+            'id'    => $field,
+            'name'  => $field,
+            'type'  => 'text',
+            'class' => 'form-control regular-text',
+            'value' => get_option($field),
+        ];
+
+        $template = new ExopiteTemplate;
+        $template::$variables_array = $placeholders;
+        $template::$filename = PTPKG_TPL_DIR . 'settings/input-field.html';
+        echo $template::get_template();
+    }
+
+    /**
      * Settings - Validates saved options
      *
      * @since       1.0.0
@@ -360,7 +450,7 @@ class Settings
         update_option($this->option_name . '_auth_state', true, true);
 
         #redirect back to page
-        $redirect_url = get_bloginfo('url') . "/wp-admin/edit.php?post_type=package&page=ptpkg&status=success";
+        $redirect_url = get_bloginfo('url') . "/wp-admin/edit.php?post_type=package&page=ptpkg-settings&status=success";
         header("Location: ".$redirect_url);
         exit;
     }

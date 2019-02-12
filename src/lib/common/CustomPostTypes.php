@@ -123,7 +123,7 @@ class CustomPostTypes
             'hierarchical'       => $hierarchical,
             'supports'           => $supports,
             'menu_position'      => 5,
-            'menu_icon'          => 'dashicons-tickets',
+            'menu_icon'          => 'dashicons-tickets-alt',
             'taxonomies'         => $taxonomies,
             /* Add $this->plugin_name as translatable in the permalink structure,
                to avoid conflicts with other plugins which may use package as well. */

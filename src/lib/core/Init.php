@@ -123,11 +123,11 @@ class Init
         $plugin_post_types = new CustomPostTypes($this->get_plugin_name(), 'package', 'book');
 
         /**
-         * register our ptpkg_settings_init to the admin_init action hook
+         * register our ptpkg_api_settings_init to the admin_init action hook
          */
         // $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_options_page');
-        $this->loader->add_action('admin_menu', $plugin_settings, 'ptpkg_settings_page');
-        $this->loader->add_action('admin_init', $plugin_settings, 'ptpkg_settings_init');
+        $this->loader->add_action('admin_menu', $plugin_settings, $this->plugin_name . '_settings_page');
+        $this->loader->add_action('admin_init', $plugin_settings, $this->plugin_name . '_settings_init');
         $this->loader->add_action('admin_post_ptpkg_authorize_client', $plugin_settings, 'ptpkg_handle_authorize_client');
 
         /**
@@ -200,6 +200,7 @@ class Init
         // $this->loader->add_action('wp_ajax_ptpkg_booking_form', $plugin_booking_form, 'handle_booking_form');
         $this->loader->add_action('rest_api_init', $plugin_booking_form, 'add_api_routes');
         $this->loader->add_action('wp_head', $plugin_booking_form, 'add_csrf_token');
+        $this->loader->add_action('wp_head', $plugin_booking_form, 'add_authnet_key');
 
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
