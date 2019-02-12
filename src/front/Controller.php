@@ -120,8 +120,12 @@ class Controller
 
         if ($this->cpt->is_single_template('single-package.php') || $this->cpt->is_single_template('single-package-book.php')) {
             if ($this->cpt->is_api()) {
+                $acceptjs = WP_DEBUG ? 'https://jstest.authorize.net/v1/Accept.js' : 'https://js.authorize.net/v1/Accept.js';
+
                 // wp_enqueue_script($this->plugin_name . '-public', plugins_url('assets/public/js/ptpkg-public.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
                 wp_enqueue_script($this->plugin_name . '-app', plugins_url('assets/public/js/ptpkg-app.js', PTPKG_ASSET_DIR), ['jquery'], $this->version, true);
+                wp_register_script('AcceptJS', $acceptjs, null, null, true);
+                wp_enqueue_script('AcceptJS');
             }
         }
     }
