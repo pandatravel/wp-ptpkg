@@ -42,3 +42,20 @@ if (token) {
 } else {
     console.error('CSRF token not found');
 }
+
+/**
+ * Set the authData object. The content of this object is used to tie the
+ * payment nonce to your individual Authorize.Net account.
+ */
+
+let clientKey = document.head.querySelector('meta[name="clientKey"]');
+let apiLoginID = document.head.querySelector('meta[name="apiLoginID"]');
+window.authData = {};
+
+if (clientKey) {
+    window.authData.clientKey = clientKey.content;
+}
+
+if (apiLoginID) {
+    window.authData.apiLoginID = apiLoginID.content;
+}

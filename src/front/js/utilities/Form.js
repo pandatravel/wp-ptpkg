@@ -82,6 +82,34 @@ class Form {
         return this.submit('delete', url);
     }
 
+    /**
+     * Send a payment data to authorize.net to get a secure token
+     *
+     * @param {object} secureData
+     */
+    authnet(secureData) {
+        return new Promise((resolve, reject) => {
+            let expDate = moment(secureData.cardData.cardExpiration, 'YYYY-MM')
+            secureData.cardData.month = expDate.format('MM')
+            secureData.cardData.year = expDate.format('YYYY')
+            secureData.cardData.zip = this.zip
+            secureData.cardData.fullName = this.name
+            delete secureData.cardData.cardExpiration
+            Accept.dispatchData(secureData, response => {
+                 if (response.messages.resultCode === "Ok") {
+                    this.opaqueData = response.opaqueData;
+
+                    resolve(response);
+                } else {
+                    response.messages.message.forEach(msg => console.log(msg.code + ": " + msg.text))
+                    this.onFail(response.messages.message)
+
+                    reject(response);
+                }
+            });
+        })
+    }
+
 
     /**
      * Submit the form.
