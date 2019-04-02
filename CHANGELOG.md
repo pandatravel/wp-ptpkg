@@ -1,3 +1,5 @@
+## 1.0.4
+- Fix bug with occupancy_rate() method
 ## 1.0.3
 - Update to use Accept.js for opaqueData tokens
 ## 1.0.2
