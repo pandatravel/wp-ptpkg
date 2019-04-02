@@ -51,11 +51,11 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                             <v-layout>
                                                                 <v-flex class="occupancy-rates-label" sm6 justify-center pr-4>
                                                                     <div class="font-weight-medium text-no-wrap text-uppercase">Occupancy</div>
-                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
+                                                                    <div v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
                                                                 </v-flex>
                                                                 <v-flex sm6 justify-center pl-4>
                                                                     <div class="font-weight-medium text-no-wrap text-uppercase">Per Person</div>
-                                                                    <div v-for="count in room_max" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
+                                                                    <div v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
