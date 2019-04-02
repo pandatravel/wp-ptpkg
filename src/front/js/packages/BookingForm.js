@@ -531,10 +531,11 @@ Vue.component('booking-form', {
             return this.form.rooms[roomIndex].travelers.length;
         },
         occupancy_rate(count) {
-            let rate = this.package.rates.filter(rate => rate.adult == count && rate.child == 0)
-            let perPerson = rate[0].price / count
-
-            return perPerson
+            let rate = this.package.rates.filter(rate => rate.adult == count && rate.child == 0).pop()
+            if (rate) {
+                return rate.price / count
+            }
+            return
         },
         occupancy_count(count) {
             switch (count) {
