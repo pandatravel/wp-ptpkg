@@ -50,12 +50,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                         <v-card-text>
                                                             <v-layout>
                                                                 <v-flex class="occupancy-rates-label" sm6 justify-center pr-4>
-                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">Occupancy</div>
-                                                                    <div v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
+                                                                    <div class="font-weight-medium text-no-wrap text-uppercase">{{ package.tiered ? 'Occupancy' : 'Traveler' }}</div>
+                                                                    <div v-if="package.tiered" v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-left">{{ occupancy_count(count) }}</div>
+                                                                    <div v-else v-for="(count, index) in 2" class="blue-grey--text darken-4 text-xs-left">{{ package.rates[index].adult ? 'Adult' : 'Child' }}</div>
                                                                 </v-flex>
                                                                 <v-flex sm6 justify-center pl-4>
                                                                     <div class="font-weight-medium text-no-wrap text-uppercase">Per Person</div>
-                                                                    <div v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
+                                                                    <div v-if="package.tiered" v-for="count in roomMax" class="blue-grey--text darken-4 text-xs-right">{{ occupancy_rate(count) | currency }}</div>
+                                                                    <div v-else v-for="(count, index) in 2" class="blue-grey--text darken-4 text-xs-right">{{ package.rates[index].price | currency }}</div>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
