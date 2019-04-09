@@ -327,6 +327,17 @@ Vue.component('booking-form', {
             return amount
         },
         sub_total() {
+            if (! this.package.tiered) {
+                return this.package.rates.reduce((price, rate) => {
+                    let flatPrice = rate.price
+                    if (rate.adult) {
+                        flatPrice *= this.adults
+                    } else {
+                        flatPrice *= this.children
+                    }
+                    return Number(price) + flatPrice
+                }, 0)
+            }
             return this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
         },
         total() {

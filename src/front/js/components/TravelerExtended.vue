@@ -4,7 +4,7 @@
             <v-flex sm2 xs12>
                 {{ fullName }} {{ (value.adult ? '(Adult)': '(Child ' + age + 'yrs)') }}
             </v-flex>
-            <v-flex sm2 xs12>
+            <v-flex v-if="includeAir" sm2 xs12>
                 <v-text-field
                     v-model="value.ffp"
                     :value="value.ffp"
@@ -14,7 +14,7 @@
                     :id="'ffp' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
             </v-flex>
-            <v-flex sm2 xs12>
+            <v-flex v-if="includeAir" sm2 xs12>
                 <v-select
                     v-model="value.seat_preference"
                     ref="seat_preference"
@@ -62,8 +62,6 @@
                     browser-autocomplete="new-password"
                     required></v-select>
             </v-flex>
-            <v-flex sm2 xs12>
-            </v-flex>
             <v-flex sm3 xs12>
                 <v-text-field
                     v-model="value.passport"
@@ -74,7 +72,7 @@
                     :id="'passport' + indexId"
                     @traveler="updateTraveler()"></v-text-field>
             </v-flex>
-            <v-flex sm3 xs12>
+            <v-flex v-if="includeAir" sm3 xs12>
                 <v-text-field
                     v-model="value.ktn"
                     :value="value.ktn"
@@ -108,7 +106,8 @@ export default {
         'value',
         'index',
         '$v',
-        'step'
+        'step',
+        'includeAir',
     ],
 
     data() {

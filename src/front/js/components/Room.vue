@@ -39,6 +39,7 @@ import traveler from './Traveler.vue';
         'rates',
         'premiums',
         'room_max',
+        'tiered',
         '$v',
     ],
 
@@ -70,6 +71,9 @@ import traveler from './Traveler.vue';
             }, 0);
         },
         roomMax() {
+            if (this.room_max) {
+                return this.room_max
+            }
             return this.rates.reduce(function(max, rate) {
                 var total = rate.adult + rate.child;
                 return (total > max ? total : max);
@@ -79,6 +83,9 @@ import traveler from './Traveler.vue';
             if (this.count == 0) {
                 return []
             }
+            if (! this.tiered) {
+                return this.rates[0]
+            }
             var rate = this.rates.filter(this.rateFilter(this.adults, this.children))
             return rate[0]
         },
@@ -86,7 +93,21 @@ import traveler from './Traveler.vue';
             return this.rateTier.id
         },
         roomTotal() {
-            return Number(this.rates.reduce(this.rateReducer, 0))
+            return Number(this.rates.reduce((price, rate) => {
+                if (! this.tiered) {
+                    let flatPrice = rate.price
+                    if (rate.adult) {
+                        flatPrice *= this.adults
+                    } else {
+                        flatPrice *= this.children
+                    }
+                    return price + flatPrice
+                }
+                if (rate.adult == this.adults && rate.child == this.children) {
+                    price = rate.price;
+                }
+                return price;
+            }, 0))
         },
         perPersonRate() {
             if (this.count == 0) {

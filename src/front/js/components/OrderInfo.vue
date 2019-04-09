@@ -10,7 +10,7 @@
                     <p v-if="order.fax" class="mb-0"><font-awesome-icon icon="fax"></font-awesome-icon> {{ order.fax }}</p>
                     <p class="mb-0"><font-awesome-icon icon="envelope"></font-awesome-icon> {{ order.email }}</p>
                 </v-flex>
-                <v-flex class="pl-5" sm6>
+                <v-flex class="pl-5" sm5>
                     <h4 class="small-title primary--text text-thin my-2">Billing Address</h4>
                     <v-divider></v-divider>
                     <p class="mb-2"><strong>{{ order.name }}</strong></p>
