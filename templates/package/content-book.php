@@ -102,14 +102,14 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                                     <v-layout row>
                                                         <v-flex xs12 d-flex justify-space-between align-center>
-                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" color="info"><v-icon>add</v-icon> Add Room</v-btn>
+                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0 || ! travelerAvailability" color="info"><v-icon>add</v-icon> Add Room</v-btn>
                                                             <span class="blue-grey--text"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
                                                             <span class="blue-grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</span>
                                                         </v-flex>
                                                     </v-layout>
 
                                                     <!-- room component -->
-                                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" :tiered="package.tiered" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+                                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" :traveler-availability="travelerAvailability" :tiered="package.tiered" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
 
                                                 </v-container>
 

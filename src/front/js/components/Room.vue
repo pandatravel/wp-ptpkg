@@ -13,8 +13,8 @@
                     <span class="caption grey--text text--darken-1 hidden-sm-and-down">Insurance: {{ premium | currency }} per person</span>
                     <v-spacer class="hidden-sm-and-down"></v-spacer>
                     <v-toolbar-items>
-                        <v-btn @click="addAdult" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small class="hidden-sm-and-down">(19+)</small></v-btn>
-                        <v-btn @click="addChild" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small class="hidden-sm-and-down">(2-18)</small></v-btn>
+                        <v-btn @click="addAdult" :disabled="hasVacancy == false || travelerAvailability == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small class="hidden-sm-and-down">(19+)</small></v-btn>
+                        <v-btn @click="addChild" :disabled="hasVacancy == false || travelerAvailability == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small class="hidden-sm-and-down">(2-18)</small></v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-divider class="mt-0"></v-divider>
@@ -39,6 +39,7 @@ import traveler from './Traveler.vue';
         'rates',
         'premiums',
         'room_max',
+        'travelerAvailability',
         'tiered',
         '$v',
     ],
@@ -155,7 +156,7 @@ import traveler from './Traveler.vue';
             this.addTraveler(false);
         },
         addTraveler(adult = true) {
-            if (this.hasVacancy) {
+            if (this.hasVacancy && this.travelerAvailability) {
                 this.room.travelers.push({
                     first_name:'',
                     middle_name:'',

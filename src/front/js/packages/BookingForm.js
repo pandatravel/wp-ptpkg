@@ -388,6 +388,12 @@ Vue.component('booking-form', {
         packagesAvailable() {
             return this.package.package_block - this.package.packages_count
         },
+        travelersAvailable() {
+            return this.package.package_block - this.package.travelers_count
+        },
+        travelerAvailability() {
+            return this.totalTravelers < this.travelersAvailable
+        },
         balanceDuePeriod() {
             let balanceDue = moment(this.package.balance_at, 'MM/DD/YYYY')
             let travelStart = moment(this.package.travel_start_at, 'MM/DD/YYYY')
@@ -516,7 +522,7 @@ Vue.component('booking-form', {
             this.addTraveler(roomIndex, false);
         },
         addTraveler(roomIndex, adult = true) {
-            if (this.hasVacancy(roomIndex)) {
+            if (this.hasVacancy(roomIndex) && this.travelerAvailability) {
                 this.form.rooms[roomIndex].travelers.push({
                     first_name:'',
                     middle_name:'',
