@@ -1,3 +1,5 @@
+## 1.0.5
+- Adds checks for per tour traveler limits
 ## 1.0.4
 - Fix bug with occupancy_rate() method
 ## 1.0.3

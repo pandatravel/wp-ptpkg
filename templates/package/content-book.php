@@ -109,7 +109,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                     </v-layout>
 
                                                     <!-- room component -->
-                                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" :traveler-availability="travelerAvailability" :tiered="package.tiered" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+                                                    <room v-if="package.room_block - package.rooms_count > 0" v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" :traveler-availability="travelerAvailability" :tiered="package.tiered" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
 
                                                 </v-container>
 
