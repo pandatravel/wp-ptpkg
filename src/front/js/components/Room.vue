@@ -13,8 +13,8 @@
                     <span class="caption grey--text text--darken-1 hidden-sm-and-down">Insurance: {{ premium | currency }} per person</span>
                     <v-spacer class="hidden-sm-and-down"></v-spacer>
                     <v-toolbar-items>
-                        <v-btn @click="addAdult" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small class="hidden-sm-and-down">(19+)</small></v-btn>
-                        <v-btn @click="addChild" :disabled="hasVacancy == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small class="hidden-sm-and-down">(2-18)</small></v-btn>
+                        <v-btn @click="addAdult" :disabled="hasVacancy == false || travelerAvailability == false" color="info" flat><v-icon dark>add</v-icon> Adult &nbsp;<small class="hidden-sm-and-down">(19+)</small></v-btn>
+                        <v-btn @click="addChild" :disabled="hasVacancy == false || travelerAvailability == false" color="info" flat><v-icon dark>add</v-icon> Child &nbsp;<small class="hidden-sm-and-down">(2-18)</small></v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-divider class="mt-0"></v-divider>
@@ -39,6 +39,8 @@ import traveler from './Traveler.vue';
         'rates',
         'premiums',
         'room_max',
+        'travelerAvailability',
+        'tiered',
         '$v',
     ],
 
@@ -70,6 +72,9 @@ import traveler from './Traveler.vue';
             }, 0);
         },
         roomMax() {
+            if (this.room_max) {
+                return this.room_max
+            }
             return this.rates.reduce(function(max, rate) {
                 var total = rate.adult + rate.child;
                 return (total > max ? total : max);
@@ -79,6 +84,9 @@ import traveler from './Traveler.vue';
             if (this.count == 0) {
                 return []
             }
+            if (! this.tiered) {
+                return this.rates[0]
+            }
             var rate = this.rates.filter(this.rateFilter(this.adults, this.children))
             return rate[0]
         },
@@ -86,7 +94,21 @@ import traveler from './Traveler.vue';
             return this.rateTier.id
         },
         roomTotal() {
-            return Number(this.rates.reduce(this.rateReducer, 0))
+            return Number(this.rates.reduce((price, rate) => {
+                if (! this.tiered) {
+                    let flatPrice = rate.price
+                    if (rate.adult) {
+                        flatPrice *= this.adults
+                    } else {
+                        flatPrice *= this.children
+                    }
+                    return price + flatPrice
+                }
+                if (rate.adult == this.adults && rate.child == this.children) {
+                    price = rate.price;
+                }
+                return price;
+            }, 0))
         },
         perPersonRate() {
             if (this.count == 0) {
@@ -134,7 +156,7 @@ import traveler from './Traveler.vue';
             this.addTraveler(false);
         },
         addTraveler(adult = true) {
-            if (this.hasVacancy) {
+            if (this.hasVacancy && this.travelerAvailability) {
                 this.room.travelers.push({
                     first_name:'',
                     middle_name:'',

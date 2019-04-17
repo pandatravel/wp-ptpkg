@@ -93,23 +93,23 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                         </v-stepper-header>
                                         <v-stepper-items>
 
-                                            <v-stepper-content step="1">
+                                            <v-stepper-content step="1" class="px-2">
 
-                                                <v-container v-if="step === 1" grid-list-md fluid>
+                                                <v-container v-if="step === 1" grid-list-md fluid class="px-0">
 
                                                     <h2 class="headline primary--text text-uppercase">Build your Tour Package</h2>
                                                     <p class="mx-3">Add all the travelers in your party</p>
 
                                                     <v-layout row>
                                                         <v-flex xs12 d-flex justify-space-between align-center>
-                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0" color="info"><v-icon>add</v-icon> Add Room</v-btn>
+                                                            <v-btn @click="addRoom" :disabled="roomsAvailable === 0 || ! travelerAvailability" color="info"><v-icon>add</v-icon> Add Room</v-btn>
                                                             <span class="blue-grey--text"><strong>Note:</strong> The maximum occupants per room is <span class="primary--text">{{ room_max }}</span></span>
                                                             <span class="blue-grey--text mx-3 my-0  text-sm-right">Fields marked with an <font-awesome-icon icon="asterisk" size="xs"></font-awesome-icon> are required</span>
                                                         </v-flex>
                                                     </v-layout>
 
                                                     <!-- room component -->
-                                                    <room v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
+                                                    <room v-if="package.room_block - package.rooms_count > 0" v-for="(room, roomIndex) in form.rooms" :room="form.rooms[roomIndex]" :index="roomIndex" :$v="$v" :rates="package.rates" :premiums="package.insurance.premiums" :room_max="room_max" :traveler-availability="travelerAvailability" :tiered="package.tiered" @update-room="updateRoom" @remove-room="removeRoom" @remove-traveler="removeTraveler"></room>
 
                                                 </v-container>
 
@@ -117,7 +117,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                             </v-stepper-content>
 
-                                            <v-stepper-content step="2">
+                                            <v-stepper-content step="2" class="px-2">
 
                                                 <v-container v-if="step === 2" grid-list-md fluid class="px-3 py-1">
 
@@ -127,7 +127,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                     <v-divider></v-divider>
 
                                                     <div v-for="(room, roomIndex) in form.rooms">
-                                                        <traveler-extended v-for="(traveler, travelerIndex) in room.travelers" :key="'traveler-' + travelerIndex" v-model="room.travelers[travelerIndex]" :index="{traveler:travelerIndex, room:roomIndex}" :$v="$v" :step="step" @remove-traveler="removeTraveler"></traveler>
+                                                        <traveler-extended v-for="(traveler, travelerIndex) in room.travelers" :key="'traveler-' + travelerIndex" v-model="room.travelers[travelerIndex]" :index="{traveler:travelerIndex, room:roomIndex}" :$v="$v" :step="step" :include-air="package.include_air" @remove-traveler="removeTraveler"></traveler>
                                                     </div>
                                                     <p class="caption blue-grey--text"><strong>note:</strong> Seat selections are requested from the airline, but cannot be guaranteed. </p>
 
@@ -150,7 +150,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
 
                                             </v-stepper-content>
 
-                                            <v-stepper-content step="3">
+                                            <v-stepper-content step="3" class="px-2">
 
                                                 <v-container v-if="step === 3" grid-list-md fluid>
 
@@ -564,7 +564,7 @@ $packageSEOContent = get_post_meta($currentID, 'package-seo-content', true);
                                                 <v-btn flat @click.native="step = 2">Previous</v-btn>
                                                 <v-btn color="primary" @click.native="nextStep(4)">Continue</v-btn>
                                             </v-stepper-content>
-                                            <v-stepper-content step="4">
+                                            <v-stepper-content step="4" class="px-2">
 
                                                 <v-container v-if="step === 4" grid-list-md fluid>
 

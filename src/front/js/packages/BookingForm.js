@@ -327,6 +327,17 @@ Vue.component('booking-form', {
             return amount
         },
         sub_total() {
+            if (! this.package.tiered) {
+                return this.package.rates.reduce((price, rate) => {
+                    let flatPrice = rate.price
+                    if (rate.adult) {
+                        flatPrice *= this.adults
+                    } else {
+                        flatPrice *= this.children
+                    }
+                    return Number(price) + flatPrice
+                }, 0)
+            }
             return this.form.rooms.reduce((price, room) => Number(price) + Number(room.rate.price), 0)
         },
         total() {
@@ -376,6 +387,12 @@ Vue.component('booking-form', {
         },
         packagesAvailable() {
             return this.package.package_block - this.package.packages_count
+        },
+        travelersAvailable() {
+            return this.package.package_block - this.package.travelers_count
+        },
+        travelerAvailability() {
+            return this.totalTravelers < this.travelersAvailable
         },
         balanceDuePeriod() {
             let balanceDue = moment(this.package.balance_at, 'MM/DD/YYYY')
@@ -505,7 +522,7 @@ Vue.component('booking-form', {
             this.addTraveler(roomIndex, false);
         },
         addTraveler(roomIndex, adult = true) {
-            if (this.hasVacancy(roomIndex)) {
+            if (this.hasVacancy(roomIndex) && this.travelerAvailability) {
                 this.form.rooms[roomIndex].travelers.push({
                     first_name:'',
                     middle_name:'',
